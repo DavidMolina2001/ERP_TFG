@@ -18,6 +18,7 @@ Public Class frmMain
 #Region "Atributos"
 
     Dim oPreferencias As clsEmpresa
+
     Dim bExistenAvisos As Boolean
 #End Region
 
