@@ -1,0 +1,144 @@
+﻿Imports AppTransportesTFG.clsEnvios
+Imports Microsoft.Data.SqlClient
+
+Public Class clsEnvios_Historico
+    Inherits BDRecord
+
+#Region "Atributos y Constantes"
+
+    Public Shared Shadows ReadOnly NOM_TAULA As String = "Envios_Historico"
+    Public Shared Shadows ReadOnly NOM_PK As String = "IdEnvios_Historico"
+
+    Public Shared NOM_CLASSE_CAT = "Enviaments Històric"
+    Public Shared NOM_CLASSE_ES = "Envios Histórico"
+
+    Private iIdEnvio As Integer
+    Private cEstado As Byte
+    Private dtFechaEstado As DateTime
+    Private sObservaciones As String
+
+#End Region
+
+#Region "Constructores"
+
+    Public Sub New()
+        MyBase.New(NOM_TAULA, NOM_PK)
+
+
+        Me.iIdEnvio = 0
+        Me.cEstado = 0
+        Me.dtFechaEstado = DateTime.MinValue
+        Me.sObservaciones = String.Empty
+    End Sub
+
+#End Region
+
+#Region "Propiedades"
+
+    Public Property IdEnvio As Integer
+        Get
+            Return iIdEnvio
+        End Get
+        Set(value As Integer)
+            iIdEnvio = value
+        End Set
+    End Property
+
+    Public Property Estado As Byte
+        Get
+            Return cEstado
+        End Get
+        Set(value As Byte)
+            cEstado = value
+        End Set
+    End Property
+
+    Public Property FechaEstado As DateTime
+        Get
+            Return dtFechaEstado
+        End Get
+        Set(value As DateTime)
+            dtFechaEstado = value
+        End Set
+    End Property
+
+    Public Property Observaciones As String
+        Get
+            Return sObservaciones
+        End Get
+        Set(value As String)
+            sObservaciones = value
+        End Set
+    End Property
+
+#End Region
+
+#Region "Metodos"
+
+    Public Overrides Sub CopiarDatosDesdeDataReader(reader As SqlDataReader)
+        Me.iIdEnvio = Convert.ToInt32(reader("IdEnvio"))
+        Me.cEstado = Convert.ToByte(reader("IdEstado"))
+        Me.dtFechaEstado = Convert.ToDateTime(reader("FechaEstado"))
+        Me.sObservaciones = Convert.ToString(reader("Observaciones"))
+    End Sub
+
+    Public Overrides Sub CopiarDatosADataRow(drw As DataRow)
+        drw("IdEnvio") = Me.iIdEnvio
+        drw("IdEstado") = Me.cEstado
+        drw("FechaEstado") = Me.dtFechaEstado
+        drw("Observaciones") = Me.sObservaciones
+    End Sub
+
+    Public Overrides Function FormulariManteniment() As Type
+        ' No se ha proporcionado una clase para el formulario de mantenimiento.
+        Return Nothing
+    End Function
+
+#End Region
+
+#Region "Consultas"
+
+
+    Public Overrides Function Seleccionar_Consulta(IdConsulta As Integer, Optional oParams As Object() = Nothing) As String
+        Dim sRes As String = String.Empty
+        Return sRes
+    End Function
+
+    Public Shared Function ConsultaSelectTots() As String
+        Return "SELECT * FROM " & NOM_TAULA
+    End Function
+
+    Public Shared Function ConsultaSegonsEnvio(IdEnvio As Integer)
+        Dim sRes As String = String.Empty
+        sRes = "SELECT * FROM " & NOM_TAULA & " WHERE IdEnvio ='" & IdEnvio & "' ORDER BY FechaEstado DESC"
+        Return sRes
+    End Function
+
+
+
+
+    Public Overrides Function NomCampMostrar(nombreAtributo As String) As String
+        Dim nombreColumna As String = ""
+
+        Select Case nombreAtributo
+            Case "IdEnvio"
+                nombreColumna = fnTraductor.RetornaIdiomaSeleccionat("Id Envío", "Id Enviament")
+            Case "IdEstado"
+                nombreColumna = fnTraductor.RetornaIdiomaSeleccionat("Estado", "Estat")
+            Case "FechaEstado"
+                nombreColumna = fnTraductor.RetornaIdiomaSeleccionat("Fecha Estado", "Data Estat")
+            Case "Observaciones"
+                nombreColumna = fnTraductor.RetornaIdiomaSeleccionat("Observaciones", "Observacions")
+            Case Else
+                nombreColumna = nombreAtributo
+        End Select
+
+        Return nombreColumna
+    End Function
+
+
+
+
+#End Region
+
+End Class

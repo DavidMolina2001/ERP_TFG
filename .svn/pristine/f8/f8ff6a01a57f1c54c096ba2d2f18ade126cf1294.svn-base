@@ -1,0 +1,90 @@
+﻿Public Class frmPreferencies
+    Public oPreferencias As clsPreferencies
+
+    Public Sub New(ByRef oPreferencias As clsPreferencies)
+        InitializeComponent()
+
+        Me.oPreferencias = oPreferencias
+    End Sub
+
+    Private Sub frmPreferencies_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
+        ActualitzarIdiomaControls(Me, clsConstants.Idioma)
+
+
+        Me.Text = clsTraductor.RetornaIdiomaSeleccionat("Preferencias", "Preferències")
+
+        cmbxIdioma.Items.Add("Español")
+        cmbxIdioma.Items.Add("Català")
+
+
+        cmbxLDAP.Items.Add("Si")
+        cmbxLDAP.Items.Add("No")
+
+        If oPreferencias.LDAP Then
+            cmbxLDAP.SelectedIndex = 0
+        Else
+            cmbxLDAP.SelectedIndex = 1
+
+        End If
+
+
+        If oPreferencias.Idioma = "E" Then
+            cmbxIdioma.SelectedIndex = 0
+        Else
+            cmbxIdioma.SelectedIndex = 1
+        End If
+
+        tbxRutaEtiquetas.Text = oPreferencias.PathEtiquetas
+
+    End Sub
+    Private Sub ActualitzarIdiomaControls(ByVal frm As Control, ByVal sIdioma As String)
+        For Each ctrl As Control In frm.Controls
+            If TypeOf ctrl Is LabelMultiIdioma Then
+                DirectCast(ctrl, LabelMultiIdioma).CambiarIdioma(sIdioma)
+
+            ElseIf TypeOf ctrl Is ButtonMultiIdioma Then
+                DirectCast(ctrl, ButtonMultiIdioma).CambiarIdioma(sIdioma)
+
+
+            ElseIf ctrl.HasChildren Then
+                ActualitzarIdiomaControls(ctrl, sIdioma)
+            End If
+        Next
+
+
+    End Sub
+
+    Private Sub btnAcceptar_Click(sender As Object, e As EventArgs) Handles btnAcceptar.Click
+
+        Dim cIdioma As Char = cmbxIdioma.SelectedItem.ToString(0) 'Primera letra del idioma E o C
+
+
+
+        oPreferencias.Idioma = cIdioma
+        oPreferencias.LDAP = cmbxLDAP.SelectedIndex = 0
+        Me.Close()
+
+    End Sub
+
+    Private Sub btnSelectPathEtiquetes_Click(sender As Object, e As EventArgs) Handles btnSelectPathEtiquetes.Click
+        Dim folderBrowser As New FolderBrowserDialog()
+
+        folderBrowser.Description = clsTraductor.RetornaIdiomaSeleccionat("Selecciona una carpeta para guardar las etiquetas",
+                                                                          "Selecciona una carpeta per guardar les etiquetes")
+        folderBrowser.RootFolder = Environment.SpecialFolder.Desktop
+        folderBrowser.ShowNewFolderButton = True
+
+        If folderBrowser.ShowDialog() = DialogResult.OK Then
+
+            oPreferencias.PathEtiquetas = folderBrowser.SelectedPath
+
+            frmMissatge.MostrarAvis(clsTraductor.RetornaIdiomaSeleccionat("Ruta guardada correctamente",
+                                                                          "Ruta guardada correctament"))
+
+            tbxRutaEtiquetas.Text = oPreferencias.PathEtiquetas
+
+
+        End If
+    End Sub
+End Class

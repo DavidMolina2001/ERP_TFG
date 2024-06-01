@@ -1,0 +1,80 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <StartupObject>Sub Main</StartupObject>
+    <UseWindowsForms>true</UseWindowsForms>
+    <MyType>WindowsForms</MyType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Import Include="System.Data" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Windows.Forms" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BarcodeLib" Version="3.0.3" />
+    <PackageReference Include="Independentsoft.Office" Version="2.0.770" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.5" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Syncfusion.Core.WinForms" Version="25.1.41" />
+    <PackageReference Include="Syncfusion.Grid.Windows" Version="25.1.41" />
+    <PackageReference Include="Syncfusion.Licensing" Version="25.1.41" />
+    <PackageReference Include="Syncfusion.SfDataGrid.WinForms" Version="25.1.41" />
+    <PackageReference Include="Syncfusion.Shared.Base" Version="25.1.41" />
+    <PackageReference Include="Syncfusion.Tools.Windows" Version="25.1.41" />
+    <PackageReference Include="System.DirectoryServices.AccountManagement" Version="8.0.0" />
+    <PackageReference Include="System.DirectoryServices.Protocols" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="ButtonMultiIdioma.vb" />
+    <Compile Update="FormsAuxiliars\frmGeneric.vb" />
+    <Compile Update="FormsBBDD\frmFurgoneta_Ruta.vb" />
+    <Compile Update="FormsBBDD\frmRutas.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="FormsBBDD\frmTrabajadores.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="FormsBBDD\frmMantenimiento.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="FormsBBDD\frmEnvios_Historicos.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="FormsBBDD\frmFurgonetas.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="FormsBBDD\frmTarifas.vb" />
+    <Compile Update="Lupa.vb" />
+    <Compile Update="My Project\Application.Designer.vb">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Update="My Project\Resources.Designer.vb">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="My Project\Resources.resx">
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+</Project>

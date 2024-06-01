@@ -1,0 +1,9 @@
+﻿Imports Microsoft.Data
+Public Class clsConstants
+    Public Shared Property Idioma As String
+    Public Shared Property ConnGlobal As SqlClient.SqlConnection
+    Public Shared Property PathEtiquetas As String
+
+    Public Shared Property LDAP As Boolean
+
+End Class

@@ -1,0 +1,226 @@
+﻿Imports Microsoft.Data.SqlClient
+
+Public Class clsFacturas
+    Inherits BDRecord
+
+#Region "Atributos y Constantes"
+    Public Shared Shadows ReadOnly NOM_TAULA As String = "Factura"
+    Public Shared Shadows ReadOnly NOM_PK As String = "IdFactura"
+
+    Public Shared NOM_CLASSE_CAT = "Factures"
+    Public Shared NOM_CLASSE_ES = "Facturas"
+
+    Private sNumFactura As String
+    Private iIdClient As Integer
+    Private bCobrado As Boolean
+    Private dFechaEmision As DateTime
+    Private dFechaVencimiento As DateTime
+    Private sObservaciones As String
+    Private decTotalBruto As Decimal
+    Private decTotalLimpio As Decimal
+#End Region
+
+#Region "Constructores"
+    Public Sub New()
+        MyBase.New(NOM_TAULA, NOM_PK)
+
+        Me.sNumFactura = String.Empty
+        Me.iIdClient = 0
+        Me.bCobrado = False
+        Me.dFechaEmision = DateTime.Now
+        Me.dFechaVencimiento = DateTime.Now
+        Me.sObservaciones = String.Empty
+        Me.decTotalBruto = 0
+        Me.decTotalLimpio = 0
+    End Sub
+#End Region
+
+#Region "Propiedades"
+    Public Property NumFactura As String
+        Get
+            Return sNumFactura
+        End Get
+        Set(value As String)
+            sNumFactura = value
+        End Set
+    End Property
+
+    Public Property IdClient As Integer
+        Get
+            Return iIdClient
+        End Get
+        Set(value As Integer)
+            iIdClient = value
+        End Set
+    End Property
+
+    Public Property Cobrado As Boolean
+        Get
+            Return bCobrado
+        End Get
+        Set(value As Boolean)
+            bCobrado = value
+        End Set
+    End Property
+
+    Public Property FechaEmision As DateTime
+        Get
+            Return dFechaEmision
+        End Get
+        Set(value As DateTime)
+            dFechaEmision = value
+        End Set
+    End Property
+
+    Public Property FechaVencimiento As DateTime
+        Get
+            Return dFechaVencimiento
+        End Get
+        Set(value As DateTime)
+            dFechaVencimiento = value
+        End Set
+    End Property
+
+    Public Property Observaciones As String
+        Get
+            Return sObservaciones
+        End Get
+        Set(value As String)
+            sObservaciones = value
+        End Set
+    End Property
+
+    Public Property TotalBruto As Decimal
+        Get
+            Return decTotalBruto
+        End Get
+        Set(value As Decimal)
+            decTotalBruto = value
+        End Set
+    End Property
+
+    Public Property TotalLimpio As Decimal
+        Get
+            Return decTotalLimpio
+        End Get
+        Set(value As Decimal)
+            decTotalLimpio = value
+        End Set
+    End Property
+#End Region
+
+#Region "Metodos"
+    Public Overrides Sub CopiarDatosDesdeDataReader(reader As SqlDataReader)
+        Me.sNumFactura = Convert.ToString(reader("NumFactura"))
+        Me.iIdClient = Convert.ToInt32(reader("IdClient"))
+        Me.bCobrado = Convert.ToBoolean(reader("Cobrado"))
+        Me.dFechaEmision = Convert.ToDateTime(reader("FechaEmision"))
+        Me.dFechaVencimiento = Convert.ToDateTime(reader("FechaVencimiento"))
+        Me.sObservaciones = Convert.ToString(reader("Observaciones"))
+        Me.decTotalBruto = Convert.ToDecimal(reader("TotalBruto"))
+        Me.decTotalLimpio = Convert.ToDecimal(reader("TotalLimpio"))
+    End Sub
+
+    Public Overrides Sub CopiarDatosADataRow(drw As DataRow)
+        drw("NumFactura") = Me.sNumFactura
+        drw("IdClient") = Me.iIdClient
+        drw("Cobrado") = Me.bCobrado
+        drw("FechaEmision") = Me.dFechaEmision
+        drw("FechaVencimiento") = Me.dFechaVencimiento
+        drw("Observaciones") = Me.sObservaciones
+        drw("TotalBruto") = Me.decTotalBruto
+        drw("TotalLimpio") = Me.decTotalLimpio
+    End Sub
+
+    Public Overrides Function FormulariManteniment() As Type
+        Return GetType(frmFactura)
+    End Function
+#End Region
+
+#Region "Consultas"
+    Public Enum Consultas
+        Defecte = 0
+        PendientesPago = 1
+        Fecha = 2
+        PorCliente = 3
+
+    End Enum
+
+    Public Overrides Function Seleccionar_Consulta(IdConsulta As Integer, Optional oParams As Object() = Nothing) As String
+        Dim sRes As String = String.Empty
+        Select Case IdConsulta
+            Case Consultas.Defecte
+                sRes = ConsultaSelectTots()
+            Case Consultas.PendientesPago
+                sRes = ConsultaSelectPendientesPago()
+            Case Consultas.Fecha
+                sRes = ConsultaSelectFecha(oParams(0))
+            Case Consultas.PorCliente
+                sRes = ConsultaSelectPorCliente(oParams(0))
+        End Select
+        Return sRes
+    End Function
+
+    Public Shared Function ConsultaSelectTots()
+        Return "SELECT IdFactura, NumFactura, Clients.IdClient, NomClient ,Cobrado, FechaEmision, FechaVencimiento, Factura.Observaciones, TotalBruto, TotalLimpio" &
+          " FROM Factura  " &
+          "INNER JOIN Clients ON Factura.IdClient = Clients.IdClient"
+    End Function
+
+    Public Shared Function ConsultaSelectPendientesPago() As String
+        Return "SELECT f.IdFactura, f.NumFactura, f.IdClient, c.NomClient, f.Cobrado, f.FechaEmision, f.FechaVencimiento, f.Observaciones, f.TotalBruto, f.TotalLimpio " &
+           "FROM Factura f " &
+           "INNER JOIN Clients c ON f.IdClient = c.IdClient " &
+           "WHERE f.Cobrado = 0"
+    End Function
+
+    Public Shared Function ConsultaSelectFecha(ByVal fecha As Date) As String
+        Return "SELECT f.IdFactura, f.NumFactura, f.IdClient, c.NomClient, f.Cobrado, f.FechaEmision, f.FechaVencimiento, f.Observaciones, f.TotalBruto, f.TotalLimpio " &
+           "FROM Factura f " &
+           "INNER JOIN Clients c ON f.IdClient = c.IdClient " &
+           "WHERE CONVERT(date, f.FechaEmision) = '" & fecha.ToString("yyyy-MM-dd") & "'"
+    End Function
+
+    Public Shared Function ConsultaSelectPorCliente(ByVal idCliente As Integer) As String
+        Return "SELECT f.IdFactura, f.NumFactura, f.IdClient, c.NomClient, f.Cobrado, f.FechaEmision, f.FechaVencimiento, f.Observaciones, f.TotalBruto, f.TotalLimpio " &
+           "FROM Factura f " &
+           "INNER JOIN Clients c ON f.IdClient = c.IdClient " &
+           "WHERE f.IdClient = " & idCliente
+    End Function
+
+
+
+    Public Overrides Function NomCampMostrar(nombreAtributo As String) As String
+        Dim nombreColumna As String = ""
+
+        Select Case nombreAtributo
+            Case "IdFactura"
+                nombreColumna = clsTraductor.RetornaIdiomaSeleccionat("ID Factura", "ID Factura")
+            Case "NumFactura"
+                nombreColumna = clsTraductor.RetornaIdiomaSeleccionat("Número de Factura", "Número de Factura")
+            Case "IdClient"
+                nombreColumna = clsTraductor.RetornaIdiomaSeleccionat("ID Cliente", "ID Client")
+            Case "NomClient"
+                nombreColumna = clsTraductor.RetornaIdiomaSeleccionat("Nombre Cliente", "Nom Client")
+            Case "Cobrado"
+                nombreColumna = clsTraductor.RetornaIdiomaSeleccionat("Cobrado", "Cobrat")
+            Case "FechaEmision"
+                nombreColumna = clsTraductor.RetornaIdiomaSeleccionat("Fecha de Emisión", "Data d'Emisió")
+            Case "FechaVencimiento"
+                nombreColumna = clsTraductor.RetornaIdiomaSeleccionat("Fecha de Vencimiento", "Data de Venciment")
+            Case "Observaciones"
+                nombreColumna = clsTraductor.RetornaIdiomaSeleccionat("Observaciones", "Observacions")
+            Case "TotalBruto"
+                nombreColumna = clsTraductor.RetornaIdiomaSeleccionat("Total Bruto", "Total Brut")
+            Case "TotalLimpio"
+                nombreColumna = clsTraductor.RetornaIdiomaSeleccionat("Total Limpio", "Total Net")
+            Case Else
+                nombreColumna = nombreAtributo
+        End Select
+
+        Return nombreColumna
+    End Function
+
+#End Region
+
+End Class

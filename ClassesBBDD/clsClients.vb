@@ -1,0 +1,226 @@
+﻿Imports Microsoft.Data.SqlClient
+
+Public Class clsClients
+    Inherits BDRecord
+
+#Region "Atributos i Constantes"
+    Public Shared Shadows ReadOnly NOM_TAULA As String = "Clients"
+    Public Shared Shadows ReadOnly NOM_PK As String = "IdClient"
+
+    Public Shared NOM_CLASSE_CAT = "Clients"
+    Public Shared NOM_CLASSE_ES = "Clientes"
+
+    'Public iIdPorte As Integer LA PK NO LA PONEMOS NO HACE FALTA
+    Private sNomClient As String
+    Private sMail As String
+    Private oIdTarifaPreferida As Object
+    Private bEsComercial As Boolean
+    Private sDireccionOrigenFavorita As String
+    Private sNIF As String
+    Private sIdioma As String
+    Private sObservaciones As String
+
+#End Region
+
+
+
+#Region "Constructores"
+    Public Sub New()
+        MyBase.New(NOM_TAULA, NOM_PK)
+
+        Me.sNomClient = String.Empty
+        Me.sMail = String.Empty
+    End Sub
+#End Region
+
+#Region "Propiedades"
+
+    Public Property NomClient As String
+        Get
+            Return sNomClient
+        End Get
+        Set(value As String)
+            sNomClient = value
+        End Set
+    End Property
+
+    Public Property Mail As String
+        Get
+            Return sMail
+        End Get
+        Set(value As String)
+            sMail = value
+        End Set
+    End Property
+
+    Public Property IdTarifaPreferida As Object
+        Get
+            Return oIdTarifaPreferida
+        End Get
+        Set(value As Object)
+            oIdTarifaPreferida = value
+        End Set
+    End Property
+
+    Public Property EsComercial As Boolean
+        Get
+            Return bEsComercial
+        End Get
+        Set(value As Boolean)
+            bEsComercial = value
+        End Set
+    End Property
+
+    Public Property DireccionOrigenFavorita As String
+        Get
+            Return sDireccionOrigenFavorita
+        End Get
+        Set(value As String)
+            sDireccionOrigenFavorita = value
+        End Set
+    End Property
+
+    Public Property NIF As String
+        Get
+            Return sNIF
+        End Get
+        Set(value As String)
+            sNIF = value
+        End Set
+    End Property
+
+    Public Property Idioma As String
+        Get
+            Return sIdioma
+        End Get
+        Set(value As String)
+            sIdioma = value
+        End Set
+    End Property
+
+    Public Property Observaciones As String
+        Get
+            Return sObservaciones
+        End Get
+        Set(value As String)
+            sObservaciones = value
+        End Set
+    End Property
+
+
+#End Region
+
+#Region "Metodos"
+    Public Overrides Sub CopiarDatosDesdeDataReader(reader As SqlDataReader)
+        Me.sNomClient = Convert.ToString(reader("NomClient"))
+        Me.sMail = Convert.ToString(reader("Mail"))
+        Me.oIdTarifaPreferida = reader("IdTarifaPreferida")
+        Me.bEsComercial = Convert.ToBoolean(reader("EsComercial"))
+        Me.sDireccionOrigenFavorita = Convert.ToString(reader("DireccionOrigenFavorita"))
+        Me.sNIF = Convert.ToString(reader("NIF"))
+        Me.sIdioma = Convert.ToString(reader("Idioma"))
+        Me.sObservaciones = Convert.ToString(reader("Observaciones"))
+
+    End Sub
+
+    Public Overrides Sub CopiarDatosADataRow(drw As DataRow)
+        drw("NomClient") = Me.sNomClient
+        drw("Mail") = Me.sMail
+        drw("IdTarifaPreferida") = Me.oIdTarifaPreferida
+        drw("EsComercial") = Me.bEsComercial
+        drw("DireccionOrigenFavorita") = Me.sDireccionOrigenFavorita
+        drw("NIF") = Me.sNIF
+        drw("Idioma") = Me.sIdioma
+        drw("Observaciones") = Me.sObservaciones
+    End Sub
+
+    Public Overrides Function FormulariManteniment() As Type
+        'Return Nothing
+
+        Return GetType(frmClients)
+    End Function
+#End Region
+
+#Region "Consultes"
+
+    Public Enum Consultas
+        Defecte = 0
+        VisualitzacioPersonal = 1
+        VisualitzacioComercial = 2
+
+    End Enum
+
+    Public Overrides Function Seleccionar_Consulta(IdConsulta As Integer, Optional oParams As Object() = Nothing) As String
+        Dim sRes As String = String.Empty
+        Select Case IdConsulta
+            Case Consultas.Defecte
+                sRes = ConsultaSelectTots()
+
+            Case Consultas.VisualitzacioPersonal
+                sRes = ConsultaSelectVisualitzacio() & " WHERE EsComercial = 0"
+
+            Case Consultas.VisualitzacioComercial
+                sRes = ConsultaSelectVisualitzacio() & " WHERE EsComercial = 1"
+
+
+        End Select
+        Return sRes
+    End Function
+
+    Public Shared Function ConsultaSelectTots()
+        Return "SELECT IdClient, NomClient, Mail, IdTarifaPreferida, EsComercial, DireccionOrigenFavorita, NIF, Idioma, Observaciones FROM Clients"
+
+    End Function
+
+    Public Shared Function ConsultaSelectVisualitzacio()
+        Return "SELECT dbo.Clients.IdClient, 
+                   dbo.Clients.NomClient, 
+                   dbo.Clients.Mail, 
+                   dbo.Clients.DireccionOrigenFavorita, 
+                   dbo.Clients.NIF, 
+                   CASE 
+                       WHEN dbo.Clients.Idioma = 'E' THEN 'Español' 
+                       WHEN dbo.Clients.Idioma = 'C' THEN 'Català' 
+                   END AS Idioma, 
+                   dbo.Clients.Observaciones
+            FROM dbo.Clients 
+            INNER JOIN dbo.Tarifas ON dbo.Clients.IdTarifaPreferida = dbo.Tarifas.IdTarifa
+            "
+
+    End Function
+
+
+    Public Overrides Function NomCampMostrar(nombreAtributo As String) As String
+        Dim nombreColumna As String = ""
+
+        Select Case nombreAtributo
+            Case "IdClient"
+                nombreColumna = fnTraductor.RetornaIdiomaSeleccionat("Id Cliente", "Id Client")
+            Case "NomClient"
+                nombreColumna = fnTraductor.RetornaIdiomaSeleccionat("Nom Cliente", "Nombre Client")
+            Case "Mail"
+                nombreColumna = fnTraductor.RetornaIdiomaSeleccionat("Mail Cliente", "Mail Client")
+            Case "IdTarifaPreferida"
+                nombreColumna = fnTraductor.RetornaIdiomaSeleccionat("Tarifa Preferida", "Tarifa Preferida")
+            Case "EsComercial"
+                nombreColumna = fnTraductor.RetornaIdiomaSeleccionat("Es Comercial", "És Comercial")
+            Case "DireccionOrigenFavorita"
+                nombreColumna = fnTraductor.RetornaIdiomaSeleccionat("Dirección Origen Favorita", "Direcció Origen Preferida")
+            Case "NIF"
+                nombreColumna = fnTraductor.RetornaIdiomaSeleccionat("NIF", "NIF")
+            Case "Idioma"
+                nombreColumna = fnTraductor.RetornaIdiomaSeleccionat("Idioma", "Idioma")
+            Case "Observaciones"
+                nombreColumna = fnTraductor.RetornaIdiomaSeleccionat("Observaciones", "Observacions")
+            Case Else
+                nombreColumna = nombreAtributo
+        End Select
+
+        Return nombreColumna
+    End Function
+
+
+#End Region
+
+
+End Class

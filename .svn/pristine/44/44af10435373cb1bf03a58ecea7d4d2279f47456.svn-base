@@ -1,0 +1,271 @@
+﻿Imports System.IO
+Imports DocumentFormat.OpenXml.Packaging
+Imports DocumentFormat.OpenXml.Wordprocessing
+Imports Independentsoft.Office.Word
+Imports Microsoft.Office.Interop.Word
+
+Public Class GenerarFactura
+
+    Public Shared Function GenerarFactura(ByRef dicDatos As Dictionary(Of String, String), ByRef dtLinias As System.Data.DataTable)
+
+        Try
+
+            'dicDatos.Add("IDFACTURA", oDades.Id)
+            'dicDatos.Add("NUMFACTURA", tbxNumFactura.Text)
+            'dicDatos.Add("DEMISION", dtpEmision.Value.ToString("dd-MM-yyyy"))
+            'dicDatos.Add("DVENCIMIENTO", dtpVencimiento.Value.ToString("dd-MM-yyyy"))
+            'dicDatos.Add("NCLIENTE", tbxNombreCliente.Text)
+            'dicDatos.Add("DIRCLIENTE", tbxDirCliente.Text)
+            'dicDatos.Add("NIFCLIENTE", tbxNifCliente.Text)
+            'dicDatos.Add("MAILCLIENTE", tbxMailCliente.Text)
+            'dicDatos.Add("OBS", tbxObservaciones.Text)
+
+
+            Dim templatePath As String = "C:\Users\david\Downloads\PLANTILLAFACTURA.docx"
+            Dim outputPath As String = "C:\temp\Factura-" & dicDatos("IDFACTURA") & "-" & DateTime.Now.ToString("dd-MM-yyyy--HH-mm") & ".docx"
+            Dim outputPdfPath As String = "C:\Users\david\Downloads\Factura-" & dicDatos("IDFACTURA") & "-" & DateTime.Now.ToString("dd-MM-yyyy--HH-mm") & ".pdf"
+
+            Dim fechaReemplazo As String = DateTime.Now.ToString("dd/MM/yyyy")
+
+            File.Copy(templatePath, outputPath, True)
+
+            Using wordDoc As WordprocessingDocument = WordprocessingDocument.Open(outputPath, True)
+                Dim docPart As MainDocumentPart = wordDoc.MainDocumentPart
+                Dim body As DocumentFormat.OpenXml.Wordprocessing.Body = docPart.Document.Body
+
+
+                For Each textElement As DocumentFormat.OpenXml.Wordprocessing.Text In body.Descendants(Of DocumentFormat.OpenXml.Wordprocessing.Text)()
+                    If textElement.Text.Contains("«DATA»") Then
+                        textElement.Text = dicDatos("DEMISION")
+
+                    End If
+
+                    If textElement.Text.Contains("«NFACTURA»") Then
+                        textElement.Text = dicDatos("NUMFACTURA")
+
+                    End If
+
+                    If textElement.Text.Contains("«NOMCLIENT»") Then
+                        textElement.Text = dicDatos("NCLIENTE")
+
+                    End If
+
+                    If textElement.Text.Contains("«DIRCLIENT»") Then
+                        textElement.Text = dicDatos("DIRCLIENTE")
+
+                    End If
+
+                    If textElement.Text.Contains("«NIFCLIENT»") Then
+                        textElement.Text = dicDatos("NIFCLIENTE")
+
+                    End If
+
+                    If textElement.Text.Contains("«MAILCLIENTE»") Then
+                        textElement.Text = dicDatos("MAILCLIENTE")
+
+                    End If
+
+                    If textElement.Text.Contains("«OBSERVACIONESCLIENTE»") Then
+                        textElement.Text = dicDatos("OBS")
+
+                    End If
+
+                    If textElement.Text.Contains("«FECHAVENCIMIENTO»") Then
+                        textElement.Text = dicDatos("DVENCIMIENTO")
+
+                    End If
+
+
+                Next
+
+
+                docPart.Document.Save()
+
+            End Using
+
+            Dim wordApp As New Application()
+            Dim doc As Microsoft.Office.Interop.Word.Document = wordApp.Documents.Open(outputPath)
+
+            doc.SaveAs2(outputPdfPath, WdSaveFormat.wdFormatPDF)
+            doc.Close()
+            wordApp.Quit()
+
+
+        Catch ex As Exception
+            Throw New Exception("Error: GenerarFactura", ex)
+        End Try
+
+
+    End Function
+
+    'Private Sub Rellenar()
+
+
+
+    '    Try
+    '        Dim templatePath As String = "C:\Users\david\Downloads\PLANTILLALIMPIA.docx"
+    '        Dim outputPath As String = "C:\Users\david\Downloads\MANIFIESTO-" & DateTime.Now.ToString("dd-MM-yyyy--HH-mm") & ".docx"
+
+    '        Dim fechaReemplazo As String = DateTime.Now.ToString("dd/MM/yyyy")
+
+    '        File.Copy(templatePath, outputPath, True)
+
+    '        Using wordDoc As WordprocessingDocument = WordprocessingDocument.Open(outputPath, True)
+    '            Dim docPart As MainDocumentPart = wordDoc.MainDocumentPart
+    '            Dim body As Body = docPart.Document.Body
+
+
+    '            For Each textElement As DocumentFormat.OpenXml.Wordprocessing.Text In body.Descendants(Of DocumentFormat.OpenXml.Wordprocessing.Text)()
+    '                If textElement.Text.Contains("<<NFACTURA>>") Then
+    '                    textElement.Text = textElement.Text.Replace("«nFranquicia»", oInfo.sFranquicia)
+    '                End If
+
+    '                If textElement.Text.Contains("«FechaMani»") Then
+    '                    textElement.Text = textElement.Text.Replace("«FechaMani»", fechaReemplazo)
+    '                End If
+
+    '                If textElement.Text.Contains("«nMensajero»") Then
+    '                    textElement.Text = textElement.Text.Replace("«nMensajero»", oInfo.sMensajero)
+    '                End If
+    '            Next
+
+    '            Dim headerIndex As Integer = body.Descendants(Of Table)().ToList().IndexOf(headerTable)
+    '            Dim hasEnvios As Boolean = lstEnvios.Any()
+
+    '            Dim enviosProcesados As Integer = 0
+
+
+    '            For Each oEnvio In lstEnvios
+    '                Dim clonedTable As New Table(referenceTable.OuterXml)
+
+    '                For Each textElement As DocumentFormat.OpenXml.Wordprocessing.Text In clonedTable.Descendants(Of DocumentFormat.OpenXml.Wordprocessing.Text)()
+    '                    If textElement.Text.Contains("«numEnvio»") Then
+    '                        textElement.Text = textElement.Text.Replace("«numEnvio»", oEnvio.numEnvio)
+    '                    End If
+
+
+
+    '                    If textElement.Text.Contains("«tCobro»") Then
+    '                        textElement.Text = textElement.Text.Replace("«tCobro»", oEnvio.tCobro)
+    '                    End If
+
+    '                    If textElement.Text.Contains("«nB»") Then
+    '                        textElement.Text = textElement.Text.Replace("«nB»", oEnvio.nB)
+    '                    End If
+
+    '                    If textElement.Text.Contains("«tpS»") Then
+    '                        textElement.Text = textElement.Text.Replace("«tpS»", oEnvio.tipoServicio)
+    '                    End If
+
+    '                    If textElement.Text.Contains("«nDestinatario»") Then
+    '                        textElement.Text = textElement.Text.Replace("«nDestinatario»", oEnvio.nDestinatario)
+    '                    End If
+
+    '                    If textElement.Text.Contains("«dirDes»") Then
+    '                        textElement.Text = textElement.Text.Replace("«dirDes»", oEnvio.dirDestinatario)
+    '                    End If
+
+
+    '                    If textElement.Text.Contains("«telDestinatario»") Then
+    '                        textElement.Text = textElement.Text.Replace("«telDestinatario»", oEnvio.telDestinatario)
+    '                    End If
+
+    '                    If textElement.Text.Contains("«HME»") Then
+    '                        textElement.Text = textElement.Text.Replace("«HME»", oEnvio.HME)
+    '                    End If
+
+    '                    If textElement.Text.Contains("«bCIRE»") Then
+    '                        textElement.Text = textElement.Text.Replace("«bCIRE»", oEnvio.bCIRE)
+    '                    End If
+
+    '                    If textElement.Text.Contains("«bSegOpcional»") Then
+    '                        textElement.Text = textElement.Text.Replace("«bSegOpcional»", oEnvio.bSegOpcional)
+    '                    End If
+
+    '                    If textElement.Text.Contains("«entSab»") Then
+    '                        textElement.Text = textElement.Text.Replace("«entSab»", oEnvio.entSab)
+    '                    End If
+
+    '                    If textElement.Text.Contains("«bRetorno»") Then
+    '                        textElement.Text = textElement.Text.Replace("«bRetorno»", oEnvio.bRetorno)
+    '                    End If
+
+    '                    If textElement.Text.Contains("«bGestion»") Then
+    '                        textElement.Text = textElement.Text.Replace("«bGestion»", oEnvio.bGestion)
+    '                    End If
+
+    '                    If textElement.Text.Contains("«AR»") Then
+    '                        textElement.Text = textElement.Text.Replace("«AR»", oEnvio.AR)
+    '                    End If
+
+    '                    If textElement.Text.Contains("«ltBultos»") Then
+    '                        textElement.Text = textElement.Text.Replace("«ltBultos»", oEnvio.ltBultos)
+    '                    End If
+
+
+    '                    If textElement.Text.Contains("«codBa»") Then
+    '                        Dim myBarcode = BarcodeWriter.CreateBarcode(oEnvio.numEnvio, BarcodeWriterEncoding.Code128)
+    '                        myBarcode.ResizeTo(300, 50)
+    '                        Dim sImage As String = "bcode.jpeg"
+
+    '                        myBarcode.SaveAsImage(sImage)
+
+    '                        Dim imagePart As ImagePart = docPart.AddImagePart(ImagePartType.Jpeg)
+    '                        Using stream As New FileStream(sImage, FileMode.Open)
+    '                            imagePart.FeedData(stream)
+    '                        End Using
+
+    '                        AddImageToBody(wordDoc, docPart.GetIdOfPart(imagePart), textElement)
+    '                    End If
+
+    '                    If oEnvio.bRetorno <> "???" Or oEnvio.AR <> "???" Then
+    '                        'la plataforma no puede entregal  en taxi paquetes a portes debidos, paquetes con reembolso ni paquetes con retorno
+
+    '                        If textElement.Text.Contains("«bAtencion»") Then
+    '                            textElement.Text = textElement.Text.Replace("«bAtencion»", "ATENCIÓN!!!")
+    '                        End If
+    '                    Else
+    '                        If textElement.Text.Contains("«bAtencion»") Then
+    '                            textElement.Text = textElement.Text.Replace("«bAtencion»", "")
+    '                        End If
+    '                    End If
+
+
+    '                Next
+
+    '                body.InsertAfter(clonedTable, body.Elements(Of Table)().ElementAt(headerIndex))
+
+    '                'enviosProcesados += 1
+
+    '                'If enviosProcesados = 8 Then
+    '                '    Dim pageBreak As New Paragraph(New DocumentFormat.OpenXml.Wordprocessing.Run(New DocumentFormat.OpenXml.Wordprocessing.Break() With {
+    '                '        .Type = DocumentFormat.OpenXml.Wordprocessing.BreakValues.Page
+    '                '    }))
+    '                '    body.InsertAfter(pageBreak, clonedTable.NextSibling())
+    '                '    headerIndex += 1
+    '                '    enviosProcesados = 0
+    '                'End If
+
+    '            Next
+
+    '            referenceTable.Remove()
+
+    '            docPart.Document.Save()
+    '        End Using
+
+    '        MessageBox.Show("El documento ha sido creado exitosamente.")
+
+    '    Catch ex As Exception
+
+    '        MessageBox.Show("Excepcion capturada: " & ex.ToString)
+
+    '    End Try
+
+
+
+
+    'End Sub
+
+
+
+End Class

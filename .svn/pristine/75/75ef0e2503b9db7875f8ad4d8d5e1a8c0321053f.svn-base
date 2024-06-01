@@ -1,0 +1,7 @@
+﻿Public Class clsPreferencies
+    Public Property Idioma As String
+
+    Public Property PathEtiquetas As String
+
+    Public Property LDAP As Boolean
+End Class

@@ -1,0 +1,117 @@
+﻿Imports Microsoft.Data.SqlClient
+
+Public Class frmAltaRapida
+
+#Region "Atributs"
+
+    Private oConn As SqlConnection
+#End Region
+
+#Region "Constructor"
+    Public Sub New(_oConn As SqlConnection, _Id As Integer)
+
+        ' Esta llamada es exigida por el diseñador.
+        InitializeComponent()
+
+        ' Agregue cualquier inicialización después de la llamada a InitializeComponent().
+
+        Me.oConn = _oConn
+
+        Me.Text = fnTraductor.RetornaIdiomaSeleccionat("Alta Rápida", "Alta Ràpida")
+
+
+    End Sub
+#End Region
+
+#Region "Metodes"
+
+    Public Function TryLoad() As Boolean
+
+        Dim bTryload As Boolean 'Variable que indica si ha cargao bien el frm.
+
+        Try
+
+            ActualitzarIdiomaControls(Me, clsConstants.Idioma)
+
+            Inicialitzacions() 'Inicialitzacions del formulari abans de carregar res.
+
+
+
+            bTryload = True
+
+
+        Catch ex As Exception
+            frmMissatge.Mostrar(fnTraductor.RetornaIdiomaSeleccionat("Error al cargar el formulario.",
+                                                                      "Error al carregar el formulari."), ex)
+            bTryload = False
+        End Try
+
+        Return bTryload
+    End Function
+
+
+
+
+    Private Sub Inicialitzacions()
+
+    End Sub
+
+
+    Private Sub ActualitzarIdiomaControls(ByVal frm As Control, ByVal sIdioma As String)
+        For Each ctrl As Control In frm.Controls
+            If TypeOf ctrl Is LabelMultiIdioma Then
+                DirectCast(ctrl, LabelMultiIdioma).CambiarIdioma(sIdioma)
+
+            ElseIf TypeOf ctrl Is ButtonMultiIdioma Then
+                DirectCast(ctrl, ButtonMultiIdioma).CambiarIdioma(sIdioma)
+
+
+            ElseIf ctrl.HasChildren Then
+                ActualitzarIdiomaControls(ctrl, sIdioma)
+            End If
+        Next
+    End Sub
+
+
+#End Region
+
+#Region "Control Botons"
+
+    Private Sub btnGuardar_Click(sender As Object, e As EventArgs) Handles btnGuardar.Click
+        If Guardar() Then
+            Me.Close()
+            Me.DialogResult = DialogResult.OK
+        End If
+    End Sub
+
+    Private Function Guardar() As Boolean
+
+
+
+    End Function
+
+    Private Sub btnCancelar_Click(sender As Object, e As EventArgs) Handles btnCancelar.Click
+        Me.Close()
+        Me.DialogResult = DialogResult.Cancel
+    End Sub
+
+    Private Sub frmGeneric_FormClosed(sender As Object, e As FormClosedEventArgs) Handles MyBase.FormClosed
+
+    End Sub
+
+    Private Sub btnAfegir_Click(sender As Object, e As EventArgs) Handles btnAfegir.Click
+
+        Try
+
+        Catch ex As Exception
+
+        End Try
+    End Sub
+
+
+
+
+#End Region
+
+
+End Class

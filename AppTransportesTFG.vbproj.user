@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Compile Update="Controls\ButtonMultiIdioma.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="FormsAuxiliars\FormTicket.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="FormsAuxiliars\frmAltaRapida.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="FormsAuxiliars\frmGeneric.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="FormsAuxiliars\frmLlistat.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="FormsAuxiliars\frmLogin.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="FormsAuxiliars\frmMissatge.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="FormsBarraHerramientas\frmPreferencies.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="FormsBBDD\frmClients.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="FormsBBDD\frmEnvios.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="FormsBBDD\frmFactura.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="FormsBBDD\frmFactura_Linia.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="FormsBBDD\frmFurgoneta_Ruta.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="FormsBBDD\frmTarifas.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="frmMain.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Controls\LabelMultiIdioma.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Controls\Lupa.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+  </ItemGroup>
+</Project>
