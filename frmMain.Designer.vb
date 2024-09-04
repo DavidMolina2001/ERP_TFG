@@ -23,13 +23,13 @@ Partial Class frmMain
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         components = New ComponentModel.Container()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmMain))
         Dim TreeNode1 As TreeNode = New TreeNode("Seguimiento", 2, 2)
         Dim TreeNode2 As TreeNode = New TreeNode("Incidencias")
         Dim TreeNode3 As TreeNode = New TreeNode("Envíos", 3, 3, New TreeNode() {TreeNode1, TreeNode2})
         Dim TreeNode4 As TreeNode = New TreeNode("Tarifas", 2, 2)
         Dim TreeNode5 As TreeNode = New TreeNode("Etiquetas de Envío", 2, 2)
         Dim TreeNode6 As TreeNode = New TreeNode("Alta Rápida")
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmMain))
         Dim TreeNode7 As TreeNode = New TreeNode("Comercials")
         Dim TreeNode8 As TreeNode = New TreeNode("Personals")
         Dim TreeNode9 As TreeNode = New TreeNode("Clients", 3, 3, New TreeNode() {TreeNode7, TreeNode8})
@@ -44,7 +44,13 @@ Partial Class frmMain
         Dim TreeNode18 As TreeNode = New TreeNode("Rutas (Historico)")
         Dim TreeNode19 As TreeNode = New TreeNode("Rutes", 3, 3, New TreeNode() {TreeNode16, TreeNode17, TreeNode18})
         Dim TreeNode20 As TreeNode = New TreeNode("Trabajadores")
+        Dim TreeNode21 As TreeNode = New TreeNode("Informe Envíos", 4, 4)
+        Dim TreeNode22 As TreeNode = New TreeNode("Informe Facturación")
+        Dim TreeNode23 As TreeNode = New TreeNode("MostrarInformes")
         ToolStripContainer1 = New ToolStripContainer()
+        btnActualizarTrabajadoresRuta = New ButtonMultiIdioma()
+        lblTrabajadoresEnRuta = New LabelMultiIdioma()
+        dgTrabajadoresEnRuta = New Syncfusion.WinForms.DataGrid.SfDataGrid()
         lblAvisos = New LabelMultiIdioma()
         gbxControlRutas = New GroupBox()
         lblRutaDiaria = New LabelMultiIdioma()
@@ -60,6 +66,7 @@ Partial Class frmMain
         tvClients = New TreeView()
         tvLogistica = New TreeView()
         lblTreeSelected = New LabelMultiIdioma()
+        tvInformes = New TreeView()
         btnConfiguracion = New ButtonMultiIdioma()
         btnCalendario = New ButtonMultiIdioma()
         btnInformes = New ButtonMultiIdioma()
@@ -72,6 +79,7 @@ Partial Class frmMain
         Timer1 = New Timer(components)
         ToolStripContainer1.ContentPanel.SuspendLayout()
         ToolStripContainer1.SuspendLayout()
+        CType(dgTrabajadoresEnRuta, ComponentModel.ISupportInitialize).BeginInit()
         gbxControlRutas.SuspendLayout()
         Panel1.SuspendLayout()
         CType(SplitContainer1, ComponentModel.ISupportInitialize).BeginInit()
@@ -87,6 +95,9 @@ Partial Class frmMain
         ' ToolStripContainer1.ContentPanel
         ' 
         ToolStripContainer1.ContentPanel.BackColor = SystemColors.AppWorkspace
+        ToolStripContainer1.ContentPanel.Controls.Add(btnActualizarTrabajadoresRuta)
+        ToolStripContainer1.ContentPanel.Controls.Add(lblTrabajadoresEnRuta)
+        ToolStripContainer1.ContentPanel.Controls.Add(dgTrabajadoresEnRuta)
         ToolStripContainer1.ContentPanel.Controls.Add(lblAvisos)
         ToolStripContainer1.ContentPanel.Controls.Add(gbxControlRutas)
         ToolStripContainer1.ContentPanel.Controls.Add(lblIncidencies)
@@ -98,6 +109,62 @@ Partial Class frmMain
         ToolStripContainer1.Size = New Size(1413, 647)
         ToolStripContainer1.TabIndex = 1
         ToolStripContainer1.Text = "ToolStripContainer1"
+        ' 
+        ' btnActualizarTrabajadoresRuta
+        ' 
+        btnActualizarTrabajadoresRuta.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
+        btnActualizarTrabajadoresRuta.AutoSize = True
+        btnActualizarTrabajadoresRuta.Font = New Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point)
+        btnActualizarTrabajadoresRuta.Image = CType(resources.GetObject("btnActualizarTrabajadoresRuta.Image"), Image)
+        btnActualizarTrabajadoresRuta.ImageAlign = ContentAlignment.MiddleLeft
+        btnActualizarTrabajadoresRuta.Location = New Point(1302, 329)
+        btnActualizarTrabajadoresRuta.Name = "btnActualizarTrabajadoresRuta"
+        btnActualizarTrabajadoresRuta.Size = New Size(108, 30)
+        btnActualizarTrabajadoresRuta.TabIndex = 30
+        btnActualizarTrabajadoresRuta.Text = "Actualizar"
+        btnActualizarTrabajadoresRuta.TextAlign = ContentAlignment.MiddleRight
+        btnActualizarTrabajadoresRuta.TextoCastellano = "Actualizar"
+        btnActualizarTrabajadoresRuta.TextoCatalan = "Actualitzar"
+        btnActualizarTrabajadoresRuta.UseVisualStyleBackColor = True
+        ' 
+        ' lblTrabajadoresEnRuta
+        ' 
+        lblTrabajadoresEnRuta.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
+        lblTrabajadoresEnRuta.AutoEllipsis = True
+        lblTrabajadoresEnRuta.BackColor = Color.Khaki
+        lblTrabajadoresEnRuta.BorderStyle = BorderStyle.FixedSingle
+        lblTrabajadoresEnRuta.Font = New Font("Verdana", 11.25F, FontStyle.Regular, GraphicsUnit.Point)
+        lblTrabajadoresEnRuta.Location = New Point(711, 329)
+        lblTrabajadoresEnRuta.Name = "lblTrabajadoresEnRuta"
+        lblTrabajadoresEnRuta.Size = New Size(699, 29)
+        lblTrabajadoresEnRuta.TabIndex = 29
+        lblTrabajadoresEnRuta.Text = "Trabajadores en Ruta"
+        lblTrabajadoresEnRuta.TextAlign = ContentAlignment.MiddleCenter
+        lblTrabajadoresEnRuta.TextoCastellano = "Trabajadores en Ruta"
+        lblTrabajadoresEnRuta.TextoCatalan = "Treballadors en Ruta"
+        ' 
+        ' dgTrabajadoresEnRuta
+        ' 
+        dgTrabajadoresEnRuta.AccessibleName = "Table"
+        dgTrabajadoresEnRuta.AllowEditing = False
+        dgTrabajadoresEnRuta.AllowFiltering = True
+        dgTrabajadoresEnRuta.AllowGrouping = False
+        dgTrabajadoresEnRuta.AllowResizingColumns = True
+        dgTrabajadoresEnRuta.AllowSelectionOnMouseDown = True
+        dgTrabajadoresEnRuta.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
+        dgTrabajadoresEnRuta.EditMode = Syncfusion.WinForms.DataGrid.Enums.EditMode.SingleClick
+        dgTrabajadoresEnRuta.Location = New Point(711, 361)
+        dgTrabajadoresEnRuta.Name = "dgTrabajadoresEnRuta"
+        dgTrabajadoresEnRuta.Size = New Size(699, 258)
+        dgTrabajadoresEnRuta.Style.BorderColor = Color.FromArgb(CByte(100), CByte(100), CByte(100))
+        dgTrabajadoresEnRuta.Style.CheckBoxStyle.CheckedBackColor = Color.FromArgb(CByte(0), CByte(120), CByte(215))
+        dgTrabajadoresEnRuta.Style.CheckBoxStyle.CheckedBorderColor = Color.FromArgb(CByte(0), CByte(120), CByte(215))
+        dgTrabajadoresEnRuta.Style.CheckBoxStyle.IndeterminateBorderColor = Color.FromArgb(CByte(0), CByte(120), CByte(215))
+        dgTrabajadoresEnRuta.Style.HeaderStyle.BackColor = Color.FromArgb(CByte(230), CByte(230), CByte(230))
+        dgTrabajadoresEnRuta.Style.HeaderStyle.Font.Bold = True
+        dgTrabajadoresEnRuta.Style.HyperlinkStyle.DefaultLinkColor = Color.FromArgb(CByte(0), CByte(120), CByte(215))
+        dgTrabajadoresEnRuta.TabIndex = 11
+        dgTrabajadoresEnRuta.Text = "SfDataGrid1"
         ' 
         ' lblAvisos
         ' 
@@ -209,6 +276,7 @@ Partial Class frmMain
         SplitContainer1.Panel1.Controls.Add(tvClients)
         SplitContainer1.Panel1.Controls.Add(tvLogistica)
         SplitContainer1.Panel1.Controls.Add(lblTreeSelected)
+        SplitContainer1.Panel1.Controls.Add(tvInformes)
         ' 
         ' SplitContainer1.Panel2
         ' 
@@ -228,7 +296,7 @@ Partial Class frmMain
         cCalendar.Location = New Point(0, 27)
         cCalendar.MinimumSize = New Size(196, 196)
         cCalendar.Name = "cCalendar"
-        cCalendar.Size = New Size(224, 248)
+        cCalendar.Size = New Size(224, 252)
         cCalendar.TabIndex = 2
         cCalendar.Text = "SfCalendar1"
         cCalendar.Visible = False
@@ -298,6 +366,7 @@ Partial Class frmMain
         ImageList1.Images.SetKeyName(1, "folderopen.png")
         ImageList1.Images.SetKeyName(2, "itemts.png")
         ImageList1.Images.SetKeyName(3, "folder.png")
+        ImageList1.Images.SetKeyName(4, "excel.png")
         ' 
         ' tvClients
         ' 
@@ -412,6 +481,35 @@ Partial Class frmMain
         lblTreeSelected.TextAlign = ContentAlignment.MiddleCenter
         lblTreeSelected.TextoCastellano = "Envíos"
         lblTreeSelected.TextoCatalan = "Enviaments"
+        ' 
+        ' tvInformes
+        ' 
+        tvInformes.BorderStyle = BorderStyle.FixedSingle
+        tvInformes.Dock = DockStyle.Fill
+        tvInformes.Font = New Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point)
+        tvInformes.ImageIndex = 0
+        tvInformes.ImageList = ImageList1
+        tvInformes.Location = New Point(0, 0)
+        tvInformes.Name = "tvInformes"
+        TreeNode21.ImageIndex = 4
+        TreeNode21.Name = "ndeInformeEnvios"
+        TreeNode21.SelectedImageIndex = 4
+        TreeNode21.Tag = "2;Informe Envíos;Informe Enviaments;E;0;0"
+        TreeNode21.Text = "Informe Envíos"
+        TreeNode22.ImageKey = "excel.png"
+        TreeNode22.Name = "ndeInformeFacturacio"
+        TreeNode22.SelectedImageKey = "excel.png"
+        TreeNode22.Tag = "2;Informe Facturación;Informe Facturació;F;0;0"
+        TreeNode22.Text = "Informe Facturación"
+        TreeNode23.ImageKey = "itemts.png"
+        TreeNode23.Name = "ndeMostrarInformes"
+        TreeNode23.SelectedImageKey = "itemts.png"
+        TreeNode23.Tag = "1;Mostrar Informes;Mostrar Informes;clsDocuments;0;0"
+        TreeNode23.Text = "MostrarInformes"
+        tvInformes.Nodes.AddRange(New TreeNode() {TreeNode21, TreeNode22, TreeNode23})
+        tvInformes.SelectedImageIndex = 0
+        tvInformes.Size = New Size(224, 266)
+        tvInformes.TabIndex = 3
         ' 
         ' btnConfiguracion
         ' 
@@ -543,12 +641,15 @@ Partial Class frmMain
         Controls.Add(ToolStripContainer1)
         Controls.Add(StatusStrip1)
         Icon = CType(resources.GetObject("$this.Icon"), Icon)
+        MinimumSize = New Size(1100, 700)
         Name = "frmMain"
         Text = "MyTFG"
         WindowState = FormWindowState.Maximized
         ToolStripContainer1.ContentPanel.ResumeLayout(False)
+        ToolStripContainer1.ContentPanel.PerformLayout()
         ToolStripContainer1.ResumeLayout(False)
         ToolStripContainer1.PerformLayout()
+        CType(dgTrabajadoresEnRuta, ComponentModel.ISupportInitialize).EndInit()
         gbxControlRutas.ResumeLayout(False)
         gbxControlRutas.PerformLayout()
         Panel1.ResumeLayout(False)
@@ -589,4 +690,8 @@ Partial Class frmMain
     Friend WithEvents btnCopiarRutasSI As ButtonMultiIdioma
     Friend WithEvents gbxControlRutas As GroupBox
     Friend WithEvents lblAvisos As LabelMultiIdioma
+    Friend WithEvents dgTrabajadoresEnRuta As Syncfusion.WinForms.DataGrid.SfDataGrid
+    Friend WithEvents lblTrabajadoresEnRuta As LabelMultiIdioma
+    Friend WithEvents btnActualizarTrabajadoresRuta As ButtonMultiIdioma
+    Friend WithEvents tvInformes As TreeView
 End Class

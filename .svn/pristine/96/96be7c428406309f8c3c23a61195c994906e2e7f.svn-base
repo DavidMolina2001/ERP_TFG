@@ -1,0 +1,287 @@
+﻿Imports Microsoft.Data.SqlClient
+Imports System
+Imports Independentsoft.Office
+Imports Independentsoft.Office.Charts
+Imports Independentsoft.Office.Drawing
+Imports Independentsoft.Office.Spreadsheet
+Imports Independentsoft.Office.Spreadsheet.Drawing
+
+Public Class frmGeneradorInformes
+
+#Region "Atributs"
+
+    Private oConn As SqlConnection
+    Private bEsEnvio As Boolean
+#End Region
+
+#Region "Constructor"
+    Public Sub New(_oConn As SqlConnection, bEsEnvio As Boolean)
+
+        ' Esta llamada es exigida por el diseñador.
+        InitializeComponent()
+
+        ' Agregue cualquier inicialización después de la llamada a InitializeComponent().
+
+        Me.oConn = _oConn
+        Me.bEsEnvio = bEsEnvio
+
+        If Me.bEsEnvio Then
+            Me.Text = fnTraductor.RetornaIdiomaSeleccionat("Informe Excel Envíos",
+                                                           "Informe Excel Enviaments")
+        Else
+            Me.Text = fnTraductor.RetornaIdiomaSeleccionat("Informe Excel Facturación",
+                                                           "Informe Excel Facturació")
+        End If
+
+    End Sub
+#End Region
+
+#Region "Metodes"
+
+    Public Function TryLoad() As Boolean
+
+        Dim bTryload As Boolean 'Variable que indica si ha cargao bien el frm.
+
+        Try
+
+            ActualitzarIdiomaControls(Me, clsConstants.Idioma)
+
+            dtpFechaFin.Value = Date.Now
+            dtpFechaInicio.Value = dtpFechaFin.Value.AddMonths(-1)
+
+            bTryload = True
+
+        Catch ex As Exception
+            frmMissatge.Mostrar(fnTraductor.RetornaIdiomaSeleccionat("Error al cargar el formulario.",
+                                                                      "Error al carregar el formulari."), ex)
+            bTryload = False
+        End Try
+
+        Return bTryload
+    End Function
+
+
+
+
+    Private Sub ActualitzarIdiomaControls(ByVal frm As Control, ByVal sIdioma As String)
+        For Each ctrl As Control In frm.Controls
+            If TypeOf ctrl Is LabelMultiIdioma Then
+                DirectCast(ctrl, LabelMultiIdioma).CambiarIdioma(sIdioma)
+
+            ElseIf TypeOf ctrl Is ButtonMultiIdioma Then
+                DirectCast(ctrl, ButtonMultiIdioma).CambiarIdioma(sIdioma)
+
+
+            ElseIf ctrl.HasChildren Then
+                ActualitzarIdiomaControls(ctrl, sIdioma)
+            End If
+        Next
+    End Sub
+
+
+#End Region
+
+#Region "Control Botons"
+
+
+    Private Sub btnCancelar_Click(sender As Object, e As EventArgs) Handles btnCancelar.Click
+        Close()
+        DialogResult = DialogResult.Cancel
+    End Sub
+
+    Private Sub btnGenerarInforme_Click(sender As Object, e As EventArgs) Handles btnGenerarInforme.Click
+        If bEsEnvio Then
+            GenerarInformeEnvios()
+        Else
+            GenerarInformeFacturacio()
+        End If
+    End Sub
+
+
+
+#End Region
+
+#Region "Generar Informe"
+
+    Private Sub GenerarInformeEnvios()
+
+        Dim oBook As Workbook = Nothing
+        Dim Hoja1 As Worksheet = Nothing
+        Dim dtEnvios As System.Data.DataTable = Nothing
+
+        Try
+
+            Dim sRutaExcel As String = IIf(clsConstants.Idioma.StartsWith("C"), clsConstants.PathExcelEnviosCAT, clsConstants.PathExcelEnviosCAS)
+
+
+            oBook = New Workbook(sRutaExcel)
+
+            Hoja1 = oBook.Sheets(0)
+
+            Dim sTitol As String = fnTraductor.RetornaIdiomaSeleccionat("Envíos", "Enviaments") & " de " & dtpFechaInicio.Value.ToString("dd/MM/yyyy") & " a " & dtpFechaFin.Value.ToString("dd/MM/yyyy")
+
+            Hoja1("A1").Value = sTitol
+
+            dtEnvios = SQLReader.ReaderDataTable(oConn, Nothing, clsEnvios.ConsultaSelect_EntreDosFechas(dtpFechaInicio.Value, dtpFechaFin.Value))
+
+            Dim iFila As Integer = 3
+
+            For Each oRow In dtEnvios.Rows
+
+                Hoja1("A" & iFila) = New Cell(oRow("CodigoSeguimiento").ToString())
+                Hoja1("B" & iFila) = New Cell(oRow("DireccionOrigen").ToString())
+                Hoja1("C" & iFila) = New Cell(oRow("PoblacionDestino").ToString())
+                Hoja1("D" & iFila) = New Cell(oRow("CodigoPostalDestino").ToString())
+                Hoja1("E" & iFila) = New Cell(oRow("CodigoCliente").ToString())
+
+                iFila += 1
+            Next
+
+            ContruirChartEnvios(Hoja1, dtEnvios.Rows.Count)
+
+            oBook.Save("C:\temp\output.xlsx", True)
+
+        Catch ex As Exception
+            frmMissatge.Mostrar(fnTraductor.RetornaIdiomaSeleccionat("Error al generar el informe", "Error al generar el informe"), ex)
+        Finally
+            If dtEnvios IsNot Nothing Then
+                dtEnvios.Clear()
+                dtEnvios.Dispose()
+                dtEnvios = Nothing
+            End If
+        End Try
+
+    End Sub
+
+
+    Private Sub ContruirChartEnvios(ByRef Hoja1 As Worksheet, iTotalEnvios As Integer)
+        Try
+
+            Dim pieChart As New PieChart()
+            pieChart.VaryColors = True
+
+            Dim serie1 As New PieChartSerie()
+            serie1.Index = 0
+            serie1.Order = 0
+
+            Hoja1("H3") = New Cell("1st Qtr")
+            Hoja1("H4") = New Cell("2nd Qtr")
+            Hoja1("H5") = New Cell("3rd Qtr")
+            Hoja1("H6") = New Cell("4th Qtr")
+
+            Hoja1("I2") = New Cell("Sales")
+            Hoja1("I3") = New Cell(365.68)
+            Hoja1("I4") = New Cell(259.98)
+            Hoja1("I5") = New Cell(199.8)
+            Hoja1("I6") = New Cell(411.9)
+
+            serie1.SeriesText = New SeriesText()
+            serie1.SeriesText.StringReference = New StringReference()
+            serie1.SeriesText.StringReference.Formula = "Hoja1!$I$1"
+
+            serie1.SeriesText.StringReference.StringCache = New StringCache()
+
+            Dim seriesTextPoint1 As New StringPoint(0, "Sales")
+            serie1.SeriesText.StringReference.StringCache.StringPoints.Add(seriesTextPoint1)
+
+            serie1.CategoryAxis = New CategoryAxis()
+            serie1.CategoryAxis.StringReference = New StringReference()
+            serie1.CategoryAxis.StringReference.Formula = "Hoja1!$H$2:$H$5"
+
+            serie1.CategoryAxis.StringReference.StringCache = New StringCache()
+
+            Dim categoryAxisPoint1 As New StringPoint(0, "1st Qtr")
+            Dim categoryAxisPoint2 As New StringPoint(1, "2nd Qtr")
+            Dim categoryAxisPoint3 As New StringPoint(2, "3rd Qtr")
+            Dim categoryAxisPoint4 As New StringPoint(3, "4th Qtr")
+
+            serie1.CategoryAxis.StringReference.StringCache.StringPoints.Add(categoryAxisPoint1)
+            serie1.CategoryAxis.StringReference.StringCache.StringPoints.Add(categoryAxisPoint2)
+            serie1.CategoryAxis.StringReference.StringCache.StringPoints.Add(categoryAxisPoint3)
+            serie1.CategoryAxis.StringReference.StringCache.StringPoints.Add(categoryAxisPoint4)
+
+            serie1.Values = New Values()
+            serie1.Values.NumberReference = New NumberReference()
+            serie1.Values.NumberReference.Formula = "Hoja1!$I$2:$I$5"
+
+            serie1.Values.NumberReference.NumberCache = New NumberCache()
+            serie1.Values.NumberReference.NumberCache.Format = "General"
+
+            Dim valuesPoint1 As New NumericPoint(0, "365.68")
+            Dim valuesPoint2 As New NumericPoint(1, "259.98")
+            Dim valuesPoint3 As New NumericPoint(2, "199.80")
+            Dim valuesPoint4 As New NumericPoint(3, "411.90")
+
+            serie1.Values.NumberReference.NumberCache.NumericPoints.Add(valuesPoint1)
+            serie1.Values.NumberReference.NumberCache.NumericPoints.Add(valuesPoint2)
+            serie1.Values.NumberReference.NumberCache.NumericPoints.Add(valuesPoint3)
+            serie1.Values.NumberReference.NumberCache.NumericPoints.Add(valuesPoint4)
+
+            pieChart.Series.Add(serie1)
+
+            Dim chartSpace As New ChartSpace()
+            chartSpace.PlotArea = New PlotArea()
+            chartSpace.PlotArea.Layout = New Layout()
+            chartSpace.PlotArea.Charts.Add(pieChart)
+
+            Dim legend As New Legend()
+            legend.Position = LegendPosition.Right
+            legend.Layout = New Layout()
+
+            chartSpace.Legend = legend
+            chartSpace.PlotVisibleOnly = True
+
+            Dim anchor As New TwoCellAnchor()
+
+            anchor.Start = New StartAnchorPoint()
+            anchor.Start.Column = 5
+            anchor.Start.ColumnOffset = New Unit(1, UnitType.Pixel)
+            anchor.Start.Row = 5
+            anchor.Start.RowOffset = New Unit(1, UnitType.Pixel)
+
+            anchor.[End] = New EndAnchorPoint()
+            anchor.[End].Column = 12
+            anchor.[End].ColumnOffset = New Unit(33, UnitType.Pixel)
+            anchor.[End].Row = 19
+            anchor.[End].RowOffset = New Unit(9, UnitType.Pixel)
+
+            Dim graphicFrame As New Independentsoft.Office.Spreadsheet.Drawing.GraphicFrame()
+            graphicFrame.ID = "1"
+            graphicFrame.Name = "Chart 1"
+            graphicFrame.GraphicObject = chartSpace
+
+            graphicFrame.Transform2D = New Independentsoft.Office.Spreadsheet.Drawing.Transform2D()
+            graphicFrame.Transform2D.Extents = New Extents(0, 0)
+            graphicFrame.Transform2D.Offset = New Offset(0, 0)
+
+            anchor.Element = graphicFrame
+            anchor.ClientData = New ClientData()
+
+            Dim drawingObjects As New DrawingObjects()
+            drawingObjects.Anchors.Add(anchor)
+
+            Hoja1.DrawingObjects = drawingObjects
+
+
+
+
+
+        Catch ex As Exception
+            Throw New Exception("frmGeneradorInformes.ContruirChartEnvios")
+        End Try
+    End Sub
+
+
+
+    Private Sub GenerarInformeFacturacio()
+        Try
+
+        Catch ex As Exception
+            frmMissatge.Mostrar(fnTraductor.RetornaIdiomaSeleccionat("Error al generar el informe", "Error al generar el informe"), ex)
+        End Try
+    End Sub
+
+#End Region
+
+
+End Class

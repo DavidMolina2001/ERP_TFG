@@ -31,6 +31,7 @@ Partial Class frmLlistat
         btnAcceptar = New ButtonMultiIdioma()
         btnNou = New ButtonMultiIdioma()
         btnActualizar = New ButtonMultiIdioma()
+        lblData = New LabelMultiIdioma()
         CType(dgListado, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
         ' 
@@ -38,9 +39,9 @@ Partial Class frmLlistat
         ' 
         tbxCerca.Anchor = AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
         tbxCerca.Font = New Font("Segoe UI Light", 12F, FontStyle.Italic, GraphicsUnit.Point)
-        tbxCerca.Location = New Point(12, 413)
+        tbxCerca.Location = New Point(101, 413)
         tbxCerca.Name = "tbxCerca"
-        tbxCerca.Size = New Size(489, 29)
+        tbxCerca.Size = New Size(400, 29)
         tbxCerca.TabIndex = 2
         ' 
         ' dgListado
@@ -164,11 +165,28 @@ Partial Class frmLlistat
         btnActualizar.TextoCatalan = "Actualitzar"
         btnActualizar.UseVisualStyleBackColor = True
         ' 
+        ' lblData
+        ' 
+        lblData.Anchor = AnchorStyles.Bottom Or AnchorStyles.Left
+        lblData.AutoEllipsis = True
+        lblData.BackColor = Color.Khaki
+        lblData.BorderStyle = BorderStyle.FixedSingle
+        lblData.Font = New Font("Verdana", 12F, FontStyle.Regular, GraphicsUnit.Point)
+        lblData.Location = New Point(4, 413)
+        lblData.Name = "lblData"
+        lblData.Size = New Size(95, 29)
+        lblData.TabIndex = 28
+        lblData.Text = "Buscar"
+        lblData.TextAlign = ContentAlignment.MiddleCenter
+        lblData.TextoCastellano = "Buscar"
+        lblData.TextoCatalan = "Cercar"
+        ' 
         ' frmLlistat
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         ClientSize = New Size(1109, 450)
+        Controls.Add(lblData)
         Controls.Add(btnNou)
         Controls.Add(btnActualizar)
         Controls.Add(btnExportarExcel)
@@ -193,4 +211,5 @@ Partial Class frmLlistat
     Friend WithEvents btnAcceptar As ButtonMultiIdioma
     Friend WithEvents btnNou As ButtonMultiIdioma
     Friend WithEvents btnActualizar As ButtonMultiIdioma
+    Friend WithEvents lblData As LabelMultiIdioma
 End Class

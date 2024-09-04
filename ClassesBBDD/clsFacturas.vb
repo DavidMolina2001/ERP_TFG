@@ -18,6 +18,7 @@ Public Class clsFacturas
     Private sObservaciones As String
     Private decTotalBruto As Decimal?
     Private decTotalLimpio As Decimal?
+    Private iIdDocument As Object
 #End Region
 
 #Region "Constructores"
@@ -32,6 +33,7 @@ Public Class clsFacturas
         Me.sObservaciones = String.Empty
         Me.decTotalBruto = 0
         Me.decTotalLimpio = 0
+        Me.iIdDocument = DBNull.Value
     End Sub
 #End Region
 
@@ -107,6 +109,15 @@ Public Class clsFacturas
             decTotalLimpio = value
         End Set
     End Property
+
+    Public Property IdDocument As Object
+        Get
+            Return iIdDocument
+        End Get
+        Set(value As Object)
+            iIdDocument = value
+        End Set
+    End Property
 #End Region
 
 #Region "Metodos"
@@ -119,6 +130,8 @@ Public Class clsFacturas
         Me.sObservaciones = Convert.ToString(reader("Observaciones"))
         Me.decTotalBruto = Convert.ToDecimal(reader("TotalBruto"))
         Me.decTotalLimpio = Convert.ToDecimal(reader("TotalLimpio"))
+        Me.iIdDocument = reader("IdDocument")
+
     End Sub
 
     Public Overrides Sub CopiarDatosADataRow(drw As DataRow)
@@ -130,6 +143,8 @@ Public Class clsFacturas
         drw("Observaciones") = Me.sObservaciones
         drw("TotalBruto") = Me.decTotalBruto
         drw("TotalLimpio") = Me.decTotalLimpio
+        drw("IdDocument") = Me.iIdDocument
+
     End Sub
 
     Public Overrides Function FormulariManteniment() As Type
@@ -162,30 +177,41 @@ Public Class clsFacturas
     End Function
 
     Public Shared Function ConsultaSelectTots()
-        Return "SELECT IdFactura, NumFactura, Clients.IdClient, NomClient ,Cobrado, FechaEmision, FechaVencimiento, Factura.Observaciones, TotalBruto, TotalLimpio" &
-          " FROM Factura  " &
-          "INNER JOIN Clients ON Factura.IdClient = Clients.IdClient"
+        Return "SELECT IdFactura, NumFactura, Clients.IdClient, NomClient ,Cobrado, FechaEmision, FechaVencimiento, Factura.Observaciones, TotalBruto, TotalLimpio, IdDocument" &
+          " FROM Factura WITH (NOLOCK)  " &
+          "INNER JOIN Clients WITH (NOLOCK) ON Factura.IdClient = Clients.IdClient"
     End Function
 
     Public Shared Function ConsultaSelectPendientesPago() As String
         Return "SELECT f.IdFactura, f.NumFactura, f.IdClient, c.NomClient, f.Cobrado, f.FechaEmision, f.FechaVencimiento, f.Observaciones, f.TotalBruto, f.TotalLimpio " &
-           "FROM Factura f " &
-           "INNER JOIN Clients c ON f.IdClient = c.IdClient " &
+           "FROM Factura f WITH (NOLOCK) " &
+           "INNER JOIN Clients c WITH (NOLOCK) ON f.IdClient = c.IdClient " &
            "WHERE f.Cobrado = 0"
     End Function
 
     Public Shared Function ConsultaSelectFecha(ByVal fecha As Date) As String
         Return "SELECT f.IdFactura, f.NumFactura, f.IdClient, c.NomClient, f.Cobrado, f.FechaEmision, f.FechaVencimiento, f.Observaciones, f.TotalBruto, f.TotalLimpio " &
-           "FROM Factura f " &
-           "INNER JOIN Clients c ON f.IdClient = c.IdClient " &
+           "FROM Factura f WITH (NOLOCK) " &
+           "INNER JOIN Clients c WITH (NOLOCK) ON f.IdClient = c.IdClient " &
            "WHERE CONVERT(date, f.FechaEmision) = '" & fecha.ToString("yyyy-MM-dd") & "'"
     End Function
 
     Public Shared Function ConsultaSelectPorCliente(ByVal idCliente As Integer) As String
-        Return "SELECT f.IdFactura, f.NumFactura,f.Cobrado, f.FechaEmision, f.FechaVencimiento, f.Observaciones, f.TotalBruto, f.TotalLimpio " &
-           "FROM Factura f " &
-           "INNER JOIN Clients c ON f.IdClient = c.IdClient " &
+        Return "SELECT f.IdFactura, f.NumFactura,f.Cobrado, f.FechaEmision, f.FechaVencimiento, f.Observaciones, f.TotalBruto, f.TotalLimpio, f.IdDocument " &
+           "FROM Factura f WITH (NOLOCK) " &
+           "INNER JOIN Clients c WITH (NOLOCK) ON f.IdClient = c.IdClient " &
            "WHERE f.IdClient = " & idCliente
+    End Function
+
+    Public Shared Function ConsultaSelect_EntreDosFechas(ByVal dDateInicio As Date, ByVal dDateFinal As Date) As String
+        Dim formattedDateInicio As String = dDateInicio.ToString("yyyy/MM/dd")
+        Dim formattedDateFinal As String = dDateFinal.ToString("yyyy/MM/dd")
+
+        Return "SELECT        dbo.Factura.NumFactura, dbo.Factura.IdClient, dbo.Clients.NomClient, dbo.Clients.EsComercial, dbo.Factura.Cobrado, dbo.Factura.FechaEmision, dbo.Factura.Observaciones, dbo.Factura.TotalLimpio
+        FROM            dbo.Factura  WITH (NOLOCK) INNER JOIN
+        dbo.Clients ON dbo.Factura.IdClient = dbo.Clients.IdClient " &
+        "WHERE Convert(Date, FechaEmision) >= '" & formattedDateInicio & "' AND Convert(Date, FechaEmision) <= '" & formattedDateFinal & "' "
+
     End Function
 
 

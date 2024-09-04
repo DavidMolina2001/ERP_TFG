@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<databaseConfig>
+  <database name="LocalDavid">
+    <connectionString>Server=localhost\MSSQLSERVER01;Database=AppTransportes;Integrated Security=True;TrustServerCertificate=True;</connectionString>
+  </database>
+  <database name="AppTransportes">
+    <connectionString>Data Source=tcp:192.168.2.202,1433;Initial Catalog=AppTransportes;User ID=TFG;Password=Tatun123!;TrustServerCertificate=True;MultipleActiveResultSets=true;</connectionString>
+  </database>
+</databaseConfig>

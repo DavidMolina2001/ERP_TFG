@@ -1,0 +1,454 @@
+﻿Imports Microsoft.Data.SqlClient
+Imports System
+Imports Independentsoft.Office
+Imports Independentsoft.Office.Charts
+Imports Independentsoft.Office.Drawing
+Imports Independentsoft.Office.Spreadsheet
+Imports Independentsoft.Office.Spreadsheet.Drawing
+Imports System.IO
+
+Public Class frmGeneradorInformes
+
+#Region "Atributs"
+
+    Private oConn As SqlConnection
+    Private bEsEnvio As Boolean
+#End Region
+
+#Region "Constructor"
+    Public Sub New(_oConn As SqlConnection, bEsEnvio As Boolean)
+
+        ' Esta llamada es exigida por el diseñador.
+        InitializeComponent()
+
+        ' Agregue cualquier inicialización después de la llamada a InitializeComponent().
+
+        Me.oConn = _oConn
+        Me.bEsEnvio = bEsEnvio
+
+        If Me.bEsEnvio Then
+            Me.Text = fnTraductor.RetornaIdiomaSeleccionat("Informe Excel Envíos",
+                                                           "Informe Excel Enviaments")
+        Else
+            Me.Text = fnTraductor.RetornaIdiomaSeleccionat("Informe Excel Facturación",
+                                                           "Informe Excel Facturació")
+        End If
+
+    End Sub
+#End Region
+
+#Region "Metodes"
+
+    Public Function TryLoad() As Boolean
+
+        Dim bTryload As Boolean 'Variable que indica si ha cargao bien el frm.
+
+        Try
+
+            ActualitzarIdiomaControls(Me, clsConstants.Idioma)
+
+            dtpFechaFin.Value = Date.Now
+            dtpFechaInicio.Value = dtpFechaFin.Value.AddMonths(-1)
+
+            bTryload = True
+
+        Catch ex As Exception
+            frmMissatge.Mostrar(fnTraductor.RetornaIdiomaSeleccionat("Error al cargar el formulario.",
+                                                                      "Error al carregar el formulari."), ex)
+            bTryload = False
+        End Try
+
+        Return bTryload
+    End Function
+
+
+
+
+    Private Sub ActualitzarIdiomaControls(ByVal frm As Control, ByVal sIdioma As String)
+        For Each ctrl As Control In frm.Controls
+            If TypeOf ctrl Is LabelMultiIdioma Then
+                DirectCast(ctrl, LabelMultiIdioma).CambiarIdioma(sIdioma)
+
+            ElseIf TypeOf ctrl Is ButtonMultiIdioma Then
+                DirectCast(ctrl, ButtonMultiIdioma).CambiarIdioma(sIdioma)
+
+
+            ElseIf ctrl.HasChildren Then
+                ActualitzarIdiomaControls(ctrl, sIdioma)
+            End If
+        Next
+    End Sub
+
+
+#End Region
+
+#Region "Control Botons"
+
+
+    Private Sub btnCancelar_Click(sender As Object, e As EventArgs) Handles btnCancelar.Click
+        Close()
+        DialogResult = DialogResult.Cancel
+    End Sub
+
+    Private Sub btnGenerarInforme_Click(sender As Object, e As EventArgs) Handles btnGenerarInforme.Click
+        If bEsEnvio Then
+            GenerarInformeEnvios()
+        Else
+            GenerarInformeFacturacio()
+        End If
+    End Sub
+
+
+
+#End Region
+
+#Region "Generar Informe"
+#Region "Informe Envios"
+
+    Private Sub GenerarInformeEnvios()
+
+        Dim oBook As Workbook = Nothing
+        Dim Hoja1 As Worksheet = Nothing
+        Dim dtEnvios As System.Data.DataTable = Nothing
+
+        Try
+
+            Dim sRutaExcel As String = IIf(clsConstants.Idioma.StartsWith("C"), clsConstants.PathExcelEnviosCAT, clsConstants.PathExcelEnviosCAS)
+
+
+            oBook = New Workbook(sRutaExcel)
+
+            Hoja1 = oBook.Sheets(0)
+
+            Dim sTitol As String = fnTraductor.RetornaIdiomaSeleccionat("Envíos", "Enviaments") & " de " & dtpFechaInicio.Value.ToString("dd/MM/yyyy") & " a " & dtpFechaFin.Value.ToString("dd/MM/yyyy")
+
+            Hoja1("A1").Value = sTitol
+
+            dtEnvios = SQLReader.ReaderDataTable(oConn, Nothing, clsEnvios.ConsultaSelect_EntreDosFechas(dtpFechaInicio.Value, dtpFechaFin.Value))
+
+            Dim iFila As Integer = 3
+
+            '        Dim formattedDateInicio As String = dDateInicio.ToString("yyyy/MM/dd")
+            '        Dim formattedDateFinal As String = dDateFinal.ToString("yyyy/MM/dd")
+            '        Return "Select        e.IdEnvio, e.CodigoSeguimiento, e.DireccionOrigen, e.NombreRemitente, e.MailRemitente, e.DireccionDestino, e.NombreDestinatario, " &
+            '" e.EmailDestinatario, e.Dimensiones, e.Peso, e.CodigoCliente, e.Porte, es." & fnTraductor.RetornaIdiomaSeleccionat("Nom_ES", "Nom_CA") & ", 
+            '    eh.Observaciones, eh.FechaEstado, Poblacions_1.NomPoblacio As PoblacioOrigen, dbo.Poblacions.NomPoblacio AS PoblacioDesti, latest.MaxFechaEstado, 
+            '    From dbo.Envios AS e WITH (NOLOCK) INNER Join
+            '    dbo.Envios_Historico AS eh WITH (NOLOCK) ON e.IdEnvio = eh.IdEnvio INNER Join
+            '    dbo.Envios_Estados AS es WITH (NOLOCK) ON e.IdEstado = es.IdEstado INNER Join
+            '        (Select IdEnvio, MAX(FechaEstado) As MaxFechaEstado
+            '        From dbo.Envios_Historico WITH (NOLOCK)
+            '        Group By IdEnvio) AS latest ON eh.IdEnvio = latest.IdEnvio And eh.FechaEstado = latest.MaxFechaEstado INNER Join
+            '    dbo.Poblacions AS Poblacions_1 ON e.PoblacionOrigen = Poblacions_1.IdPoblacio INNER Join
+            '    dbo.Poblacions ON e.PoblacionDestino = dbo.Poblacions.IdPoblacio " &
+            '       "WHERE Convert(Date, eh.FechaEstado) >= '" & formattedDateInicio & "' AND Convert(Date, eh.FechaEstado) <= '" & formattedDateFinal & "'"
+            '        End Function
+
+            For Each oRow In dtEnvios.Rows
+
+                Hoja1("A" & iFila) = New Cell(oRow("CodigoSeguimiento").ToString())
+                Hoja1("B" & iFila) = New Cell(oRow("DireccionOrigen").ToString())
+                Hoja1("C" & iFila) = New Cell(oRow("PoblacioOrigen").ToString())
+                Hoja1("D" & iFila) = New Cell(oRow("DireccionDestino").ToString())
+                Hoja1("E" & iFila) = New Cell(oRow("PoblacioDesti").ToString())
+                Hoja1("F" & iFila) = New Cell(oRow("CodigoCliente").ToString())
+                Hoja1("G" & iFila) = New Cell(oRow("Porte").ToString())
+                Dim dDate As DateTime = CType(oRow("MaxFechaEstado"), DateTime)
+                Hoja1("H" & iFila) = New Cell(dDate.ToString("dd/MM/yyyy hh:mm"))
+
+
+                iFila += 1
+            Next
+
+            ContruirChartEnvios(Hoja1, dtEnvios)
+
+            Dim sOutput As String = "C:\temp\InformeEnvios-" & Date.Now.ToString("dd-MM-yyyy") & "-" & Date.Now.Ticks & ".xlsx"
+
+            oBook.Save(sOutput, True)
+
+            frmMissatge.MostrarAvis(fnTraductor.RetornaIdiomaSeleccionat("Informe generat correctament",
+                                                                         "Informe generado correctamente"))
+
+        Catch ex As Exception
+            frmMissatge.Mostrar(fnTraductor.RetornaIdiomaSeleccionat("Error al generar el informe", "Error al generar el informe"), ex)
+        Finally
+            If dtEnvios IsNot Nothing Then
+                dtEnvios.Clear()
+                dtEnvios.Dispose()
+                dtEnvios = Nothing
+            End If
+        End Try
+
+    End Sub
+
+    Private Sub ContruirChartEnvios(ByRef Hoja1 As Worksheet, dtEnvios As System.Data.DataTable)
+        Dim dicPoblacionsOrigen As Dictionary(Of Object, Object) = Nothing
+        Dim dicPoblacionsDesti As Dictionary(Of Object, Object) = Nothing
+        Dim dicPorts As Dictionary(Of Object, Object) = Nothing
+
+        Try
+            dicPoblacionsOrigen = EmplenarDiccionariOrigen(dtEnvios)
+
+            AfegirChartSegonsDic(Hoja1, dtEnvios, dicPoblacionsOrigen, "W", "X", 1, False)
+
+            dicPoblacionsDesti = EmplenarDiccionariDesti(dtEnvios)
+
+            AfegirChartSegonsDic(Hoja1, dtEnvios, dicPoblacionsDesti, "Y", "Z", 2, False)
+
+            dicPorts = EmplenarDiccionariPorts(dtEnvios)
+
+            AfegirChartSegonsDic(Hoja1, dtEnvios, dicPorts, "AA", "AB", 3, True)
+
+        Catch ex As Exception
+            Throw New Exception("Error ContruirChartEnvios", ex)
+
+        Finally
+            If dicPoblacionsOrigen IsNot Nothing Then
+                dicPoblacionsOrigen.Clear()
+                dicPoblacionsOrigen = Nothing
+            End If
+            If dicPoblacionsDesti IsNot Nothing Then
+                dicPoblacionsDesti.Clear()
+                dicPoblacionsDesti = Nothing
+            End If
+        End Try
+    End Sub
+
+    Private Sub AfegirChartSegonsDic(ByRef Hoja1 As Worksheet, dtenvios As System.Data.DataTable,
+                                     ByRef dicEstadistiques As Dictionary(Of Object, Object), cColumnaPoblacio As String,
+                                     cColumnaCount As String, iIdGrafico As Integer, bLargo As Boolean)
+        Try
+            ' Crear el gráfico de tipo PieChart
+            Dim pieChart As New PieChart()
+            pieChart.VaryColors = True
+
+            ' Crear la serie del gráfico
+            Dim serie1 As New PieChartSerie()
+            serie1.Index = 0
+            serie1.Order = 0
+
+            ' Rellenar los datos de la hoja de cálculo y preparar referencias
+            Dim categories As New List(Of String)
+            Dim values As New List(Of Integer)
+            Dim iFila As Integer = 3
+
+            For Each oKey In dicEstadistiques
+                Dim sPoblacio As String = oKey.Key
+                Dim iCount As Integer = oKey.Value
+
+                Hoja1(cColumnaPoblacio & iFila) = New Cell(sPoblacio)
+                Hoja1(cColumnaCount & iFila) = New Cell(iCount)
+                categories.Add(sPoblacio)
+                values.Add(iCount)
+                iFila += 1
+            Next
+
+            serie1.SeriesText = New SeriesText()
+            serie1.SeriesText.StringReference = New StringReference()
+            serie1.SeriesText.StringReference.Formula = "Hoja1!$" & cColumnaCount & "$1"
+
+            serie1.SeriesText.StringReference.StringCache = New StringCache()
+            serie1.SeriesText.StringReference.StringCache.StringPoints.Add(New StringPoint(0 + iIdGrafico, "Envios " & iIdGrafico))
+
+            serie1.CategoryAxis = New Charts.CategoryAxis()
+            serie1.CategoryAxis.StringReference = New StringReference()
+
+            serie1.CategoryAxis.StringReference.Formula = $"Hoja1!${cColumnaPoblacio}$3:${cColumnaPoblacio}${iFila - 1}"
+
+            serie1.CategoryAxis.StringReference.StringCache = New StringCache()
+            For i As Integer = 0 To categories.Count - 1
+                serie1.CategoryAxis.StringReference.StringCache.StringPoints.Add(New StringPoint(i, categories(i)))
+            Next
+
+            serie1.Values = New Values()
+            serie1.Values.NumberReference = New NumberReference()
+            serie1.Values.NumberReference.Formula = $"Hoja1!${cColumnaCount}$3:${cColumnaCount}${iFila - 1}"
+
+            serie1.Values.NumberReference.NumberCache = New NumberCache()
+            serie1.Values.NumberReference.NumberCache.Format = "General"
+            For i As Integer = 0 To values.Count - 1
+                serie1.Values.NumberReference.NumberCache.NumericPoints.Add(New NumericPoint(i, values(i).ToString()))
+            Next
+
+            ' Agregar etiquetas de datos para mostrar porcentajes
+            serie1.DataLabels = New DataLabels()
+
+            If Not bLargo Then
+                serie1.DataLabels.ShowPercent = True
+            Else
+
+                serie1.DataLabels.ShowValue = True
+            End If
+
+
+
+            pieChart.Series.Add(serie1)
+
+            Dim chartSpace As New ChartSpace()
+            chartSpace.PlotArea = New PlotArea()
+            chartSpace.PlotArea.Layout = New Layout()
+            chartSpace.PlotArea.Charts.Add(pieChart)
+
+            Dim legend As New Legend()
+            legend.Position = Independentsoft.Office.Charts.LegendPosition.Right
+            legend.Layout = New Layout()
+
+            chartSpace.Legend = legend
+            chartSpace.PlotVisibleOnly = True
+
+            Dim anchor As New TwoCellAnchor()
+
+            ' Ajuste de coordenadas únicas para cada gráfico
+            anchor.Start = New StartAnchorPoint()
+            anchor.Start.Column = 10  ' Ejemplo de coordenadas únicas
+            anchor.Start.ColumnOffset = New Unit(1, UnitType.Pixel)
+            anchor.Start.Row = (5 + (iIdGrafico - 1) * 15) + 2
+            anchor.Start.RowOffset = New Unit(1, UnitType.Pixel)
+
+            anchor.[End] = New EndAnchorPoint()
+            anchor.[End].Column = 14 '+ (iIdGrafico - 1) * 10
+            anchor.[End].ColumnOffset = New Unit(0, UnitType.Pixel)
+
+            If Not bLargo Then
+                anchor.[End].Row = 19 + (iIdGrafico - 1) * 15
+                anchor.[End].RowOffset = New Unit(9, UnitType.Pixel)
+            Else
+
+                anchor.[End].Row = (19 + (iIdGrafico - 1) * 15) + 10
+                anchor.[End].RowOffset = New Unit(9, UnitType.Pixel)
+
+            End If
+            Dim graphicFrame As New Independentsoft.Office.Spreadsheet.Drawing.GraphicFrame()
+            graphicFrame.ID = iIdGrafico
+            graphicFrame.Name = "Chart " & iIdGrafico
+            graphicFrame.GraphicObject = chartSpace
+
+            graphicFrame.Transform2D = New Independentsoft.Office.Spreadsheet.Drawing.Transform2D()
+            graphicFrame.Transform2D.Extents = New Extents(0, 0)
+            graphicFrame.Transform2D.Offset = New Offset(0, 0)
+
+            anchor.Element = graphicFrame
+            anchor.ClientData = New ClientData()
+
+            ' Asignación de gráfico a la hoja
+            If Hoja1.DrawingObjects Is Nothing Then
+                Hoja1.DrawingObjects = New DrawingObjects()
+            End If
+            Hoja1.DrawingObjects.Anchors.Add(anchor)
+
+        Catch ex As Exception
+            Throw New Exception("frmGeneradorInformes.ContruirChartEnvios", ex)
+        End Try
+    End Sub
+
+
+    Private Function EmplenarDiccionariOrigen(dtEnvios As System.Data.DataTable)
+        Dim dicPoblacionesOrigen As Dictionary(Of Object, Object) = Nothing
+
+        Try
+            dicPoblacionesOrigen = New Dictionary(Of Object, Object)
+            For Each oRow As DataRow In dtEnvios.Rows
+                Dim category As String = oRow("PoblacioOrigen").ToString()
+
+                If dicPoblacionesOrigen.ContainsKey(category) Then
+                    dicPoblacionesOrigen(category) += 1
+
+                Else
+                    dicPoblacionesOrigen.Add(category, 1)
+                End If
+
+            Next
+        Catch ex As Exception
+            Throw New Exception("frmGeneradorInformes.EmplenarDiccionariOrigen")
+
+        End Try
+        Return dicPoblacionesOrigen
+    End Function
+
+    Private Function EmplenarDiccionariPorts(dtEnvios As System.Data.DataTable)
+        Dim dicPorts As Dictionary(Of Object, List(Of Object)) = Nothing
+        Dim dicPortsFinal As Dictionary(Of Object, Object) = Nothing
+
+        Try
+            dicPorts = New Dictionary(Of Object, List(Of Object))
+            For Each oRow As DataRow In dtEnvios.Rows
+                Dim category As String = oRow("PoblacioOrigen").ToString() & "-" & oRow("PoblacioDesti").ToString()
+                Dim porte As Double = oRow("Porte").ToString()
+
+
+                If dicPorts.ContainsKey(category) Then
+                    dicPorts(category).Add(porte)
+                Else
+                    Dim oList As List(Of Object) = New List(Of Object)
+                    oList.Add(porte)
+
+                    dicPorts.Add(category, oList)
+                End If
+
+            Next
+
+            dicPortsFinal = New Dictionary(Of Object, Object)
+
+            For Each oKey In dicPorts.Keys
+
+                Dim oSum As Double = 0
+                For Each oPorte In dicPorts(oKey)
+                    oSum += oPorte
+                Next
+                oSum = oSum \ dicPorts(oKey).Count
+
+                dicPortsFinal.Add(oKey, oSum)
+            Next
+
+
+        Catch ex As Exception
+            Throw New Exception("frmGeneradorInformes.EmplenarDiccionariPorts")
+
+        Finally
+            If dicPorts IsNot Nothing Then
+                dicPorts.Clear()
+                dicPorts = Nothing
+
+            End If
+
+        End Try
+        Return dicPortsFinal
+    End Function
+
+    Private Function EmplenarDiccionariDesti(dtEnvios As System.Data.DataTable)
+        Dim dicPoblacionesDesti As Dictionary(Of Object, Object) = Nothing
+
+        Try
+            dicPoblacionesDesti = New Dictionary(Of Object, Object)
+
+            For Each oRow As DataRow In dtEnvios.Rows
+                Dim category As String = oRow("PoblacioDesti").ToString()
+
+                If dicPoblacionesDesti.ContainsKey(category) Then
+                    dicPoblacionesDesti(category) += 1
+
+                Else
+                    dicPoblacionesDesti.Add(category, 1)
+                End If
+
+            Next
+        Catch ex As Exception
+            Throw New Exception("frmGeneradorInformes.EmplenarDiccionariDesti")
+
+        End Try
+        Return dicPoblacionesDesti
+    End Function
+#End Region
+
+    Private Sub GenerarInformeFacturacio()
+        Try
+
+        Catch ex As Exception
+            frmMissatge.Mostrar(fnTraductor.RetornaIdiomaSeleccionat("Error al generar el informe", "Error al generar el informe"), ex)
+        End Try
+    End Sub
+
+#End Region
+
+
+End Class

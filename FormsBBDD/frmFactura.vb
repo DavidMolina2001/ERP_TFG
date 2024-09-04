@@ -1,6 +1,8 @@
-﻿Imports System.Globalization
+﻿Imports System.CodeDom
+Imports System.Globalization
 Imports System.IO
 Imports System.Text.RegularExpressions
+Imports System.Threading
 Imports Microsoft.Data.SqlClient
 Imports Syncfusion.Windows.Forms.InternalMenus
 Imports Syncfusion.WinForms.DataGrid
@@ -62,6 +64,11 @@ Public Class frmFactura
 
                 LlegirDades()
                 CargarItems()
+
+                If Not IsDBNull(oDades.IdDocument) Then
+                    btnGenerarFactura.Text = fnTraductor.RetornaIdiomaSeleccionat("Abrir factura",
+                                                                                  "Obrir factura")
+                End If
 
 
             End If
@@ -147,7 +154,7 @@ Public Class frmFactura
     End Sub
 
     Private Sub getUltimNumero()
-        Dim sUltim As String = SQLReader.ObtenirUnCamp(oConn, Nothing, "SELECT TOP 1 NumFactura FROM Factura ORDER BY IdFactura DESC")
+        Dim sUltim As String = SQLReader.ObtenirUnCamp(oConn, Nothing, "SELECT TOP 1 NumFactura FROM Factura WITH (NOLOCK) ORDER BY IdFactura DESC")
         Dim sNumero As Integer = 0
         If sUltim IsNot Nothing Then
             sUltim = sUltim.Substring(3, 3)
@@ -294,7 +301,7 @@ Public Class frmFactura
 
         Try
             For Each item In dtItems.Rows
-                'sRes = "SELECT dbo.Factura_Linia.IdFactura_Linia, dbo.Envios.CodigoSeguimiento, dbo.Factura_Linia.IdEnvio, dbo.Envios.Porte, dbo.Factura_Linia.Descripcion, dbo.IVA.Porcentaje
+                'sRes = "SELECT Factura_Linia.IdFactura_Linia, Envios.CodigoSeguimiento, Factura_Linia.IdEnvio, Envios.Porte, Factura_Linia.Descripcion, IVA.Porcentaje
                 iTotalBruto += item("Porte")
                 iTotalLimpio += item("Porte") + (item("Porte") * item("Porcentaje") / 100)
 
@@ -320,6 +327,7 @@ Public Class frmFactura
     Private Sub AfegirItem()
 
         Dim oForm As frmFactura_Linia = Nothing
+        Dim oEnvio As clsEnvios = Nothing
 
         Try
 
@@ -345,7 +353,13 @@ Public Class frmFactura
                 oRow("IdEnvio") = oForm.oDades.IdEnvio
                 oRow("Descripcion") = oForm.tbxObservacions.Text
 
-                Dim dPorcentaje As Decimal = SQLReader.ObtenirUnCamp(oConn, Nothing, "SELECT Porcentaje FROM IVA WHERE IdTipoImpositivo = " & oForm.oDades.IdTipoImpositivo)
+                oEnvio = New clsEnvios()
+                oEnvio.Llegir(oForm.oDades.IdEnvio)
+
+                oRow("Porte") = oEnvio.Porte
+
+
+                Dim dPorcentaje As Decimal = SQLReader.ObtenirUnCamp(oConn, Nothing, "SELECT Porcentaje FROM IVA WITH (NOLOCK) WHERE IdTipoImpositivo = " & oForm.oDades.IdTipoImpositivo)
 
                 oRow("Porcentaje") = dPorcentaje
 
@@ -362,6 +376,10 @@ Public Class frmFactura
             If oForm IsNot Nothing Then
                 oForm.Dispose()
                 oForm = Nothing
+            End If
+
+            If oEnvio IsNot Nothing Then
+                oEnvio = Nothing
             End If
         End Try
     End Sub
@@ -414,10 +432,33 @@ Public Class frmFactura
         End Try
     End Sub
 
+    Private Sub ObrirDocument()
+        Dim oDocument As clsDocuments = Nothing
+
+        Try
+
+            oDocument = New clsDocuments()
+            oDocument.Llegir(oDades.IdDocument)
+
+
+            Process.Start("C:\Program Files\Microsoft Office\root\Office16\winword.EXE", oDocument.RutaDocument)
+
+        Catch ex As Exception
+            Throw New Exception("Error ObrirDocument", ex)
+        End Try
+    End Sub
+
     Private Sub btnGenerarFactura_Click(sender As Object, e As EventArgs) Handles btnGenerarFactura.Click
         Dim dicDatos As Dictionary(Of String, String) = Nothing
 
         Try
+
+            If Not IsDBNull(oDades.IdDocument) Then
+                ObrirDocument()
+                Exit Sub
+
+            End If
+
             dicDatos = New Dictionary(Of String, String)
             dicDatos.Add("IDFACTURA", oDades.Id)
             dicDatos.Add("NUMFACTURA", tbxNumFactura.Text)
@@ -434,10 +475,28 @@ Public Class frmFactura
 
             Dim sRuta As String = GenerarFactura.GenerarFactura(dicDatos, dtItems, tbxIdioma.Text)
 
+            Dim iIdDocumento = frmGeneradorInformes.GuardarDocumento(sRuta, 2)
+
+            oDades.IdDocument = iIdDocumento
+            oDades.Escriure(bEsAlta)
+
+            btnGenerarFactura.Text = fnTraductor.RetornaIdiomaSeleccionat("Abrir factura",
+                                                                          "Obrir factura")
 
             If frmMissatge.MostrarPreguntaSiNo(fnTraductor.RetornaIdiomaSeleccionat("Factura Generada, ¿desea abrirla?", "Factura Generada, vol obrir-la?")) Then
-                File.Open(sRuta, FileMode.Open)
+                DialogResult = DialogResult.OK
+                Me.Close()
+
+                'Process.Start("winword.exe", sRuta)
+                Process.Start("C:\Program Files\Microsoft Office\root\Office16\WINWORD.EXE", sRuta)
+
+                'Dim wordApp As New Microsoft.Office.Interop.Word.Application()
+                'wordApp.Visible = True
+                'wordApp.Documents.Open(sRuta)
+
             End If
+
+
 
         Catch ex As Exception
             frmMissatge.Mostrar(fnTraductor.RetornaIdiomaSeleccionat("Error al generar la Factura",

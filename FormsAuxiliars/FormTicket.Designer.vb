@@ -37,7 +37,7 @@ Partial Class FormTicket
         lblExplica.Name = "lblExplica"
         lblExplica.Size = New Size(204, 23)
         lblExplica.TabIndex = 0
-        lblExplica.Text = "Explicanos que ha ocurrido"
+        lblExplica.Text = "Explica'ns que ha passat"
         lblExplica.TextAlign = ContentAlignment.MiddleCenter
         lblExplica.TextoCastellano = "Explicanos que ha ocurrido"
         lblExplica.TextoCatalan = "Explicans que ha passat"

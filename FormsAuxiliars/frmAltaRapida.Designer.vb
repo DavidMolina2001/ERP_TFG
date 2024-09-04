@@ -47,10 +47,10 @@ Partial Class frmAltaRapida
         TabPage1.Controls.Add(tbxEnvio)
         TabPage1.Controls.Add(lblData)
         TabPage1.Controls.Add(dg_Envios)
-        TabPage1.Location = New Point(4, 24)
+        TabPage1.Location = New Point(4, 27)
         TabPage1.Name = "TabPage1"
         TabPage1.Padding = New Padding(3)
-        TabPage1.Size = New Size(1551, 376)
+        TabPage1.Size = New Size(1551, 373)
         TabPage1.TabIndex = 0
         TabPage1.Text = "Principal"
         ' 
@@ -58,12 +58,13 @@ Partial Class frmAltaRapida
         ' 
         cbxRecuperarPlataforma.AutoSize = True
         cbxRecuperarPlataforma.Font = New Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point)
-        cbxRecuperarPlataforma.Location = New Point(681, 4)
+        cbxRecuperarPlataforma.Location = New Point(683, 4)
         cbxRecuperarPlataforma.Name = "cbxRecuperarPlataforma"
         cbxRecuperarPlataforma.Size = New Size(202, 24)
         cbxRecuperarPlataforma.TabIndex = 31
         cbxRecuperarPlataforma.Text = "Recuperar de Plataforma"
         cbxRecuperarPlataforma.UseVisualStyleBackColor = True
+        cbxRecuperarPlataforma.Visible = False
         ' 
         ' btnTreureSeleccionat
         ' 
@@ -71,7 +72,7 @@ Partial Class frmAltaRapida
         btnTreureSeleccionat.BackColor = Color.Red
         btnTreureSeleccionat.Font = New Font("Segoe UI Black", 9.75F, FontStyle.Bold Or FontStyle.Italic, GraphicsUnit.Point)
         btnTreureSeleccionat.ForeColor = SystemColors.ActiveCaptionText
-        btnTreureSeleccionat.Location = New Point(523, 1)
+        btnTreureSeleccionat.Location = New Point(525, 1)
         btnTreureSeleccionat.Name = "btnTreureSeleccionat"
         btnTreureSeleccionat.Size = New Size(152, 27)
         btnTreureSeleccionat.TabIndex = 30
@@ -99,7 +100,7 @@ Partial Class frmAltaRapida
         ' 
         tbxEnvio.Location = New Point(173, 3)
         tbxEnvio.Name = "tbxEnvio"
-        tbxEnvio.Size = New Size(200, 23)
+        tbxEnvio.Size = New Size(200, 24)
         tbxEnvio.TabIndex = 29
         ' 
         ' lblData
@@ -124,7 +125,7 @@ Partial Class frmAltaRapida
         dg_Envios.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
         dg_Envios.Location = New Point(0, 28)
         dg_Envios.Name = "dg_Envios"
-        dg_Envios.Size = New Size(1551, 348)
+        dg_Envios.Size = New Size(1551, 345)
         dg_Envios.Style.BorderColor = Color.FromArgb(CByte(100), CByte(100), CByte(100))
         dg_Envios.Style.CheckBoxStyle.CheckedBackColor = Color.FromArgb(CByte(0), CByte(120), CByte(215))
         dg_Envios.Style.CheckBoxStyle.CheckedBorderColor = Color.FromArgb(CByte(0), CByte(120), CByte(215))
@@ -137,6 +138,7 @@ Partial Class frmAltaRapida
         ' 
         TabControl1.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
         TabControl1.Controls.Add(TabPage1)
+        TabControl1.Font = New Font("Microsoft Sans Serif", 11.25F, FontStyle.Bold Or FontStyle.Italic, GraphicsUnit.Point)
         TabControl1.Location = New Point(0, 0)
         TabControl1.Name = "TabControl1"
         TabControl1.SelectedIndex = 0

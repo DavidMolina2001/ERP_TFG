@@ -6,7 +6,7 @@ Public Class frmClients
 
 #Region "Atributs"
 
-    Private oDades As clsClients
+    Public oDades As clsClients
     Private oConn As SqlConnection
     Private bEsAlta As Boolean
     Private iId As Integer
@@ -47,18 +47,20 @@ Public Class frmClients
 
             Inicialitzacions() 'Inicialitzacions del formulari abans de carregar res.
 
+            CargarTarifas()
+
             If bEsAlta Then
 
 
 
 
             Else
-                CargarTarifas()
                 LlegirDades()
                 CargarEnvios()
                 CargarFacturas()
 
             End If
+
 
             bTryload = True
 
@@ -82,7 +84,7 @@ Public Class frmClients
 
 
         Catch ex As Exception
-            Throw New Exception("Error frmEnvios.LlegirDades")
+            Throw New Exception("Error frmClients.LlegirDades")
         End Try
 
     End Sub
@@ -97,6 +99,7 @@ Public Class frmClients
         oDades.NIF = tbxNIF.Text
         oDades.Idioma = IIf(cmbxIdioma.SelectedIndex = 0, "E", "C")
         oDades.Observaciones = tbxObservaciones.Text
+        oDades.IdPoblacio = tbiPoblacioOrigen._Valor
     End Sub
 
     Private Sub CopiarDadesAControls()
@@ -108,10 +111,11 @@ Public Class frmClients
         tbxNIF.Text = oDades.NIF
         cmbxIdioma.SelectedIndex = IIf(oDades.Idioma.StartsWith("E"), 0, 1)
         tbxObservaciones.Text = oDades.Observaciones
+        tbiPoblacioOrigen._Valor = oDades.IdPoblacio
     End Sub
 
     Private Sub Inicialitzacions()
-
+        tbiPoblacioOrigen.uObjRecord = New clsPoblacions()
     End Sub
 
 
@@ -137,7 +141,7 @@ Public Class frmClients
 
         Try
 
-            dt = SQLReader.ReaderDataTable(oConn, Nothing, "SELECT Nom FROM Tarifas")
+            dt = SQLReader.ReaderDataTable(oConn, Nothing, "SELECT Nom FROM Tarifas WITH (NOLOCK)")
 
             lstTarifas = New List(Of String)
 
@@ -147,11 +151,15 @@ Public Class frmClients
 
             cmbxTarifas.DataSource = lstTarifas
 
+            If bEsAlta Then
+                cmbxTarifas.SelectedIndex = 0
+            End If
+
             cmbxIdioma.Items.Add("Español")
             cmbxIdioma.Items.Add("Català")
 
         Catch ex As Exception
-            Throw New Exception("Error frmEnvios.CargarTarifas")
+            Throw New Exception("Error frmClients.CargarTarifas")
         Finally
             If dt IsNot Nothing Then
                 dt.Clear()
@@ -188,7 +196,7 @@ Public Class frmClients
 
         Catch ex As Exception
 
-            Throw New Exception("Error frmEnvios.Guardar")
+            Throw New Exception("Error frmClients.Guardar")
             bGuardar = False
 
         End Try
@@ -278,10 +286,16 @@ Public Class frmClients
 
                 Dim nombreActual As String = columna.HeaderText
 
+                If nombreActual = "IdDocument" Then
+                    columna.Visible = False
+                End If
+
                 Dim nombreTraducido As String = oClase.NomCampMostrar(nombreActual)
 
                 columna.HeaderText = nombreTraducido
             Next
+
+            btnGenerarFactura.Enabled = dtFacturas.Rows.Count <> 0
 
         Catch ex As Exception
             Throw New Exception("Error frmClients.CargarFacturas", ex)
@@ -289,6 +303,34 @@ Public Class frmClients
             If oClase IsNot Nothing Then
                 oClase = Nothing
             End If
+        End Try
+    End Sub
+
+    Private Sub btnGenerarFactura_Click(sender As Object, e As EventArgs) Handles btnGenerarFactura.Click
+        Dim oDocument As clsDocuments = Nothing
+
+        Try
+            If dgFacturas.SelectedItems.Count > 0 Then
+
+                Dim filaSeleccionada = dgFacturas.SelectedItems(0)
+
+                If filaSeleccionada.Row.Item("IdDocument") IsNot Nothing AndAlso Not IsDBNull(filaSeleccionada.Row.Item("IdDocument")) Then
+
+                    Dim valorNOM_PK As Integer = filaSeleccionada.Row.Item("IdDocument")
+                    oDocument = New clsDocuments()
+                    oDocument.Llegir(valorNOM_PK)
+
+                    Process.Start("C:\Program Files\Microsoft Office\root\Office16\winword.EXE", oDocument.RutaDocument)
+
+                Else
+                    frmMissatge.MostrarAvis(fnTraductor.RetornaIdiomaSeleccionat("Documento no generado",
+                                                                                     "Document no generat"))
+                End If
+            End If
+        Catch ex As Exception
+            frmMissatge.Mostrar(fnTraductor.RetornaIdiomaSeleccionat("Error al abrir la factura",
+                                                                     "Error al obrir la factura"), ex)
+
         End Try
     End Sub
 

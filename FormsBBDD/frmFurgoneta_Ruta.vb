@@ -116,20 +116,20 @@ Public Class frmFurgoneta_Ruta
         Try
 
             'cmbx Trabajadores
-            dtTrabajadores = SQLReader.ReaderDataTable(oConn, Nothing, "SELECT t.IdTrabajador, t.Nombre + ' ' + t.Apellidos AS NombreCompleto FROM dbo.Trabajadores t")
+            dtTrabajadores = SQLReader.ReaderDataTable(oConn, Nothing, "SELECT IdTrabajador, Nombre + ' ' + Apellidos AS NombreCompleto FROM Trabajadores WITH (NOLOCK)")
             dvTrabajadores = New DataView(dtTrabajadores)
             cmbxTrabajadores.DataSource = dvTrabajadores
             Me.cmbxTrabajadores.DisplayMember = "NombreCompleto"
 
             'cmbx Furgonetas
-            dtFurgonetas = SQLReader.ReaderDataTable(oConn, Nothing, "SELECT t.IdFurgoneta, t.Nombre FROM dbo.Furgonetas t")
+            dtFurgonetas = SQLReader.ReaderDataTable(oConn, Nothing, "SELECT IdFurgoneta, Nombre FROM Furgonetas WITH (NOLOCK)")
             dvFurgonetas = New DataView(dtFurgonetas)
             cmbxFurgonetas.DataSource = dvFurgonetas
 
             Me.cmbxFurgonetas.DisplayMember = "Nombre"
 
             'cmbx Rutas
-            dtRutas = SQLReader.ReaderDataTable(oConn, Nothing, "SELECT t.IdRuta, t.Nom FROM dbo.Rutas t")
+            dtRutas = SQLReader.ReaderDataTable(oConn, Nothing, "SELECT IdRuta, Nom FROM Rutas WITH (NOLOCK)")
             dvRutas = New DataView(dtRutas)
             cmbxRutas.DataSource = dvRutas
 

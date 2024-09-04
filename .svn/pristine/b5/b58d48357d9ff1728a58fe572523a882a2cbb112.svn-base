@@ -1,0 +1,455 @@
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+Partial Class frmPreferencies
+    Inherits System.Windows.Forms.Form
+
+    'Form reemplaza a Dispose para limpiar la lista de componentes.
+    <System.Diagnostics.DebuggerNonUserCode()> _
+    Protected Overrides Sub Dispose(ByVal disposing As Boolean)
+        Try
+            If disposing AndAlso components IsNot Nothing Then
+                components.Dispose()
+            End If
+        Finally
+            MyBase.Dispose(disposing)
+        End Try
+    End Sub
+
+    'Requerido por el Diseñador de Windows Forms
+    Private components As System.ComponentModel.IContainer
+
+    'NOTA: el Diseñador de Windows Forms necesita el siguiente procedimiento
+    'Se puede modificar usando el Diseñador de Windows Forms.  
+    'No lo modifique con el editor de código.
+    <System.Diagnostics.DebuggerStepThrough()> _
+    Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmPreferencies))
+        cmbxIdioma = New ComboBox()
+        Label1 = New Label()
+        btnAcceptar = New ButtonMultiIdioma()
+        btnSelectPathEtiquetes = New ButtonMultiIdioma()
+        Label2 = New Label()
+        LabelMultiIdioma1 = New LabelMultiIdioma()
+        tbxRutaEtiquetas = New TextBox()
+        cmbxLDAP = New ComboBox()
+        tbxRutaFactCAT = New TextBox()
+        LabelMultiIdioma2 = New LabelMultiIdioma()
+        btnSelectPathFactCAT = New ButtonMultiIdioma()
+        tbxRutaFactCAS = New TextBox()
+        LabelMultiIdioma3 = New LabelMultiIdioma()
+        btnSelectPathFactCAS = New ButtonMultiIdioma()
+        tbxRutaExcelEnvCAS = New TextBox()
+        LabelMultiIdioma4 = New LabelMultiIdioma()
+        btnSelectPathExcelEnvCAS = New ButtonMultiIdioma()
+        tbxRutaExcelEnvCAT = New TextBox()
+        LabelMultiIdioma5 = New LabelMultiIdioma()
+        btnSelectPathExcelEnvCAT = New ButtonMultiIdioma()
+        TabControl1 = New TabControl()
+        TabPage1 = New TabPage()
+        TabPage2 = New TabPage()
+        tbxRutaExcelFactCAS = New TextBox()
+        LabelMultiIdioma6 = New LabelMultiIdioma()
+        btnSelectPathExcelFactCAS = New ButtonMultiIdioma()
+        tbxRutaExcelFactCAT = New TextBox()
+        LabelMultiIdioma7 = New LabelMultiIdioma()
+        btnSelectPathExcelFactCAT = New ButtonMultiIdioma()
+        TabControl1.SuspendLayout()
+        TabPage1.SuspendLayout()
+        TabPage2.SuspendLayout()
+        SuspendLayout()
+        ' 
+        ' cmbxIdioma
+        ' 
+        cmbxIdioma.FormattingEnabled = True
+        cmbxIdioma.Location = New Point(3, 27)
+        cmbxIdioma.Name = "cmbxIdioma"
+        cmbxIdioma.Size = New Size(275, 23)
+        cmbxIdioma.TabIndex = 0
+        ' 
+        ' Label1
+        ' 
+        Label1.BackColor = Color.Khaki
+        Label1.BorderStyle = BorderStyle.FixedSingle
+        Label1.Font = New Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point)
+        Label1.Location = New Point(3, 3)
+        Label1.Name = "Label1"
+        Label1.Size = New Size(275, 21)
+        Label1.TabIndex = 1
+        Label1.Text = "Idioma"
+        Label1.TextAlign = ContentAlignment.MiddleCenter
+        ' 
+        ' btnAcceptar
+        ' 
+        btnAcceptar.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
+        btnAcceptar.AutoSize = True
+        btnAcceptar.Font = New Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point)
+        btnAcceptar.Location = New Point(139, 463)
+        btnAcceptar.Name = "btnAcceptar"
+        btnAcceptar.Size = New Size(148, 25)
+        btnAcceptar.TabIndex = 2
+        btnAcceptar.Text = "Guardar Preferencias"
+        btnAcceptar.TextoCastellano = "Guardar Preferencias"
+        btnAcceptar.TextoCatalan = "Guardar Preferències"
+        btnAcceptar.UseVisualStyleBackColor = True
+        ' 
+        ' btnSelectPathEtiquetes
+        ' 
+        btnSelectPathEtiquetes.AutoSize = True
+        btnSelectPathEtiquetes.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point)
+        btnSelectPathEtiquetes.Location = New Point(216, 27)
+        btnSelectPathEtiquetes.Name = "btnSelectPathEtiquetes"
+        btnSelectPathEtiquetes.Size = New Size(62, 25)
+        btnSelectPathEtiquetes.TabIndex = 0
+        btnSelectPathEtiquetes.Text = "Cambiar"
+        btnSelectPathEtiquetes.TextoCastellano = "Cambiar"
+        btnSelectPathEtiquetes.TextoCatalan = "Canviar"
+        btnSelectPathEtiquetes.UseVisualStyleBackColor = True
+        ' 
+        ' Label2
+        ' 
+        Label2.BackColor = Color.Khaki
+        Label2.BorderStyle = BorderStyle.FixedSingle
+        Label2.Font = New Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point)
+        Label2.Location = New Point(3, 64)
+        Label2.Name = "Label2"
+        Label2.Size = New Size(275, 21)
+        Label2.TabIndex = 3
+        Label2.Text = "LDAP"
+        Label2.TextAlign = ContentAlignment.MiddleCenter
+        ' 
+        ' LabelMultiIdioma1
+        ' 
+        LabelMultiIdioma1.BackColor = Color.Khaki
+        LabelMultiIdioma1.BorderStyle = BorderStyle.FixedSingle
+        LabelMultiIdioma1.Font = New Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point)
+        LabelMultiIdioma1.Location = New Point(3, 3)
+        LabelMultiIdioma1.Name = "LabelMultiIdioma1"
+        LabelMultiIdioma1.Size = New Size(275, 21)
+        LabelMultiIdioma1.TabIndex = 5
+        LabelMultiIdioma1.Text = "Ruta Guardado Etiquetas"
+        LabelMultiIdioma1.TextAlign = ContentAlignment.MiddleCenter
+        LabelMultiIdioma1.TextoCastellano = "Ruta Guardado Etiquetas"
+        LabelMultiIdioma1.TextoCatalan = "Ruta Guardat Etiquetes"
+        ' 
+        ' tbxRutaEtiquetas
+        ' 
+        tbxRutaEtiquetas.Location = New Point(3, 27)
+        tbxRutaEtiquetas.Name = "tbxRutaEtiquetas"
+        tbxRutaEtiquetas.Size = New Size(213, 23)
+        tbxRutaEtiquetas.TabIndex = 6
+        ' 
+        ' cmbxLDAP
+        ' 
+        cmbxLDAP.FormattingEnabled = True
+        cmbxLDAP.Location = New Point(3, 88)
+        cmbxLDAP.Name = "cmbxLDAP"
+        cmbxLDAP.Size = New Size(275, 23)
+        cmbxLDAP.TabIndex = 7
+        ' 
+        ' tbxRutaFactCAT
+        ' 
+        tbxRutaFactCAT.Location = New Point(3, 86)
+        tbxRutaFactCAT.Name = "tbxRutaFactCAT"
+        tbxRutaFactCAT.Size = New Size(213, 23)
+        tbxRutaFactCAT.TabIndex = 10
+        ' 
+        ' LabelMultiIdioma2
+        ' 
+        LabelMultiIdioma2.BackColor = Color.Khaki
+        LabelMultiIdioma2.BorderStyle = BorderStyle.FixedSingle
+        LabelMultiIdioma2.Font = New Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point)
+        LabelMultiIdioma2.Location = New Point(3, 62)
+        LabelMultiIdioma2.Name = "LabelMultiIdioma2"
+        LabelMultiIdioma2.Size = New Size(275, 21)
+        LabelMultiIdioma2.TabIndex = 9
+        LabelMultiIdioma2.Text = "Ruta Plantilla Factura CAT"
+        LabelMultiIdioma2.TextAlign = ContentAlignment.MiddleCenter
+        LabelMultiIdioma2.TextoCastellano = "Ruta Plantilla Factura CAT"
+        LabelMultiIdioma2.TextoCatalan = "Ruta Plantilla Factura CAT"
+        ' 
+        ' btnSelectPathFactCAT
+        ' 
+        btnSelectPathFactCAT.AutoSize = True
+        btnSelectPathFactCAT.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point)
+        btnSelectPathFactCAT.Location = New Point(216, 86)
+        btnSelectPathFactCAT.Name = "btnSelectPathFactCAT"
+        btnSelectPathFactCAT.Size = New Size(62, 25)
+        btnSelectPathFactCAT.TabIndex = 8
+        btnSelectPathFactCAT.Text = "Cambiar"
+        btnSelectPathFactCAT.TextoCastellano = "Cambiar"
+        btnSelectPathFactCAT.TextoCatalan = "Canviar"
+        btnSelectPathFactCAT.UseVisualStyleBackColor = True
+        ' 
+        ' tbxRutaFactCAS
+        ' 
+        tbxRutaFactCAS.Location = New Point(3, 143)
+        tbxRutaFactCAS.Name = "tbxRutaFactCAS"
+        tbxRutaFactCAS.Size = New Size(213, 23)
+        tbxRutaFactCAS.TabIndex = 13
+        ' 
+        ' LabelMultiIdioma3
+        ' 
+        LabelMultiIdioma3.BackColor = Color.Khaki
+        LabelMultiIdioma3.BorderStyle = BorderStyle.FixedSingle
+        LabelMultiIdioma3.Font = New Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point)
+        LabelMultiIdioma3.Location = New Point(3, 119)
+        LabelMultiIdioma3.Name = "LabelMultiIdioma3"
+        LabelMultiIdioma3.Size = New Size(275, 21)
+        LabelMultiIdioma3.TabIndex = 12
+        LabelMultiIdioma3.Text = "Ruta Plantilla Factura CAS"
+        LabelMultiIdioma3.TextAlign = ContentAlignment.MiddleCenter
+        LabelMultiIdioma3.TextoCastellano = "Ruta Plantilla Factura CAS"
+        LabelMultiIdioma3.TextoCatalan = "Ruta Plantilla Factura CAS"
+        ' 
+        ' btnSelectPathFactCAS
+        ' 
+        btnSelectPathFactCAS.AutoSize = True
+        btnSelectPathFactCAS.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point)
+        btnSelectPathFactCAS.Location = New Point(216, 143)
+        btnSelectPathFactCAS.Name = "btnSelectPathFactCAS"
+        btnSelectPathFactCAS.Size = New Size(62, 25)
+        btnSelectPathFactCAS.TabIndex = 11
+        btnSelectPathFactCAS.Text = "Cambiar"
+        btnSelectPathFactCAS.TextoCastellano = "Cambiar"
+        btnSelectPathFactCAS.TextoCatalan = "Canviar"
+        btnSelectPathFactCAS.UseVisualStyleBackColor = True
+        ' 
+        ' tbxRutaExcelEnvCAS
+        ' 
+        tbxRutaExcelEnvCAS.Location = New Point(3, 255)
+        tbxRutaExcelEnvCAS.Name = "tbxRutaExcelEnvCAS"
+        tbxRutaExcelEnvCAS.Size = New Size(213, 23)
+        tbxRutaExcelEnvCAS.TabIndex = 19
+        ' 
+        ' LabelMultiIdioma4
+        ' 
+        LabelMultiIdioma4.BackColor = Color.Khaki
+        LabelMultiIdioma4.BorderStyle = BorderStyle.FixedSingle
+        LabelMultiIdioma4.Font = New Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point)
+        LabelMultiIdioma4.Location = New Point(3, 231)
+        LabelMultiIdioma4.Name = "LabelMultiIdioma4"
+        LabelMultiIdioma4.Size = New Size(275, 21)
+        LabelMultiIdioma4.TabIndex = 18
+        LabelMultiIdioma4.Text = "Ruta Plantilla Excel Env. CAS"
+        LabelMultiIdioma4.TextAlign = ContentAlignment.MiddleCenter
+        LabelMultiIdioma4.TextoCastellano = "Ruta Plantilla Excel Envíos CAS"
+        LabelMultiIdioma4.TextoCatalan = "Ruta Plantilla Excel Env. CAS"
+        ' 
+        ' btnSelectPathExcelEnvCAS
+        ' 
+        btnSelectPathExcelEnvCAS.AutoSize = True
+        btnSelectPathExcelEnvCAS.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point)
+        btnSelectPathExcelEnvCAS.Location = New Point(216, 255)
+        btnSelectPathExcelEnvCAS.Name = "btnSelectPathExcelEnvCAS"
+        btnSelectPathExcelEnvCAS.Size = New Size(62, 25)
+        btnSelectPathExcelEnvCAS.TabIndex = 17
+        btnSelectPathExcelEnvCAS.Text = "Cambiar"
+        btnSelectPathExcelEnvCAS.TextoCastellano = "Cambiar"
+        btnSelectPathExcelEnvCAS.TextoCatalan = "Canviar"
+        btnSelectPathExcelEnvCAS.UseVisualStyleBackColor = True
+        ' 
+        ' tbxRutaExcelEnvCAT
+        ' 
+        tbxRutaExcelEnvCAT.Location = New Point(3, 198)
+        tbxRutaExcelEnvCAT.Name = "tbxRutaExcelEnvCAT"
+        tbxRutaExcelEnvCAT.Size = New Size(213, 23)
+        tbxRutaExcelEnvCAT.TabIndex = 16
+        ' 
+        ' LabelMultiIdioma5
+        ' 
+        LabelMultiIdioma5.BackColor = Color.Khaki
+        LabelMultiIdioma5.BorderStyle = BorderStyle.FixedSingle
+        LabelMultiIdioma5.Font = New Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point)
+        LabelMultiIdioma5.Location = New Point(3, 174)
+        LabelMultiIdioma5.Name = "LabelMultiIdioma5"
+        LabelMultiIdioma5.Size = New Size(275, 21)
+        LabelMultiIdioma5.TabIndex = 15
+        LabelMultiIdioma5.Text = "Ruta Plantilla Excel Env. CAT"
+        LabelMultiIdioma5.TextAlign = ContentAlignment.MiddleCenter
+        LabelMultiIdioma5.TextoCastellano = "Ruta Plantilla Excel Envíos CAT"
+        LabelMultiIdioma5.TextoCatalan = "Ruta Plantilla Excel Env. CAT"
+        ' 
+        ' btnSelectPathExcelEnvCAT
+        ' 
+        btnSelectPathExcelEnvCAT.AutoSize = True
+        btnSelectPathExcelEnvCAT.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point)
+        btnSelectPathExcelEnvCAT.Location = New Point(216, 198)
+        btnSelectPathExcelEnvCAT.Name = "btnSelectPathExcelEnvCAT"
+        btnSelectPathExcelEnvCAT.Size = New Size(62, 25)
+        btnSelectPathExcelEnvCAT.TabIndex = 14
+        btnSelectPathExcelEnvCAT.Text = "Cambiar"
+        btnSelectPathExcelEnvCAT.TextoCastellano = "Cambiar"
+        btnSelectPathExcelEnvCAT.TextoCatalan = "Canviar"
+        btnSelectPathExcelEnvCAT.UseVisualStyleBackColor = True
+        ' 
+        ' TabControl1
+        ' 
+        TabControl1.Controls.Add(TabPage1)
+        TabControl1.Controls.Add(TabPage2)
+        TabControl1.Location = New Point(3, 4)
+        TabControl1.Name = "TabControl1"
+        TabControl1.SelectedIndex = 0
+        TabControl1.Size = New Size(290, 452)
+        TabControl1.TabIndex = 20
+        ' 
+        ' TabPage1
+        ' 
+        TabPage1.Controls.Add(Label1)
+        TabPage1.Controls.Add(cmbxIdioma)
+        TabPage1.Controls.Add(Label2)
+        TabPage1.Controls.Add(cmbxLDAP)
+        TabPage1.Location = New Point(4, 24)
+        TabPage1.Name = "TabPage1"
+        TabPage1.Padding = New Padding(3)
+        TabPage1.Size = New Size(540, 424)
+        TabPage1.TabIndex = 0
+        TabPage1.Text = "Principal"
+        TabPage1.UseVisualStyleBackColor = True
+        ' 
+        ' TabPage2
+        ' 
+        TabPage2.Controls.Add(tbxRutaExcelFactCAS)
+        TabPage2.Controls.Add(LabelMultiIdioma6)
+        TabPage2.Controls.Add(btnSelectPathExcelFactCAS)
+        TabPage2.Controls.Add(tbxRutaExcelFactCAT)
+        TabPage2.Controls.Add(LabelMultiIdioma7)
+        TabPage2.Controls.Add(btnSelectPathExcelFactCAT)
+        TabPage2.Controls.Add(LabelMultiIdioma1)
+        TabPage2.Controls.Add(tbxRutaExcelEnvCAS)
+        TabPage2.Controls.Add(btnSelectPathEtiquetes)
+        TabPage2.Controls.Add(LabelMultiIdioma4)
+        TabPage2.Controls.Add(tbxRutaEtiquetas)
+        TabPage2.Controls.Add(btnSelectPathExcelEnvCAS)
+        TabPage2.Controls.Add(btnSelectPathFactCAT)
+        TabPage2.Controls.Add(tbxRutaExcelEnvCAT)
+        TabPage2.Controls.Add(LabelMultiIdioma2)
+        TabPage2.Controls.Add(LabelMultiIdioma5)
+        TabPage2.Controls.Add(tbxRutaFactCAT)
+        TabPage2.Controls.Add(btnSelectPathExcelEnvCAT)
+        TabPage2.Controls.Add(btnSelectPathFactCAS)
+        TabPage2.Controls.Add(tbxRutaFactCAS)
+        TabPage2.Controls.Add(LabelMultiIdioma3)
+        TabPage2.Location = New Point(4, 24)
+        TabPage2.Name = "TabPage2"
+        TabPage2.Padding = New Padding(3)
+        TabPage2.Size = New Size(282, 424)
+        TabPage2.TabIndex = 1
+        TabPage2.Text = "Rutas Plantillas"
+        TabPage2.UseVisualStyleBackColor = True
+        ' 
+        ' tbxRutaExcelFactCAS
+        ' 
+        tbxRutaExcelFactCAS.Location = New Point(3, 368)
+        tbxRutaExcelFactCAS.Name = "tbxRutaExcelFactCAS"
+        tbxRutaExcelFactCAS.Size = New Size(213, 23)
+        tbxRutaExcelFactCAS.TabIndex = 25
+        ' 
+        ' LabelMultiIdioma6
+        ' 
+        LabelMultiIdioma6.BackColor = Color.Khaki
+        LabelMultiIdioma6.BorderStyle = BorderStyle.FixedSingle
+        LabelMultiIdioma6.Font = New Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point)
+        LabelMultiIdioma6.Location = New Point(3, 344)
+        LabelMultiIdioma6.Name = "LabelMultiIdioma6"
+        LabelMultiIdioma6.Size = New Size(275, 21)
+        LabelMultiIdioma6.TabIndex = 24
+        LabelMultiIdioma6.Text = "Ruta Plantilla Excel Fact CAS"
+        LabelMultiIdioma6.TextAlign = ContentAlignment.MiddleCenter
+        LabelMultiIdioma6.TextoCastellano = "Ruta Plantilla Excel Fact CAS"
+        LabelMultiIdioma6.TextoCatalan = "Ruta Plantilla Excel Fact CAS"
+        ' 
+        ' btnSelectPathExcelFactCAS
+        ' 
+        btnSelectPathExcelFactCAS.AutoSize = True
+        btnSelectPathExcelFactCAS.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point)
+        btnSelectPathExcelFactCAS.Location = New Point(216, 368)
+        btnSelectPathExcelFactCAS.Name = "btnSelectPathExcelFactCAS"
+        btnSelectPathExcelFactCAS.Size = New Size(62, 25)
+        btnSelectPathExcelFactCAS.TabIndex = 23
+        btnSelectPathExcelFactCAS.Text = "Cambiar"
+        btnSelectPathExcelFactCAS.TextoCastellano = "Cambiar"
+        btnSelectPathExcelFactCAS.TextoCatalan = "Canviar"
+        btnSelectPathExcelFactCAS.UseVisualStyleBackColor = True
+        ' 
+        ' tbxRutaExcelFactCAT
+        ' 
+        tbxRutaExcelFactCAT.Location = New Point(3, 311)
+        tbxRutaExcelFactCAT.Name = "tbxRutaExcelFactCAT"
+        tbxRutaExcelFactCAT.Size = New Size(213, 23)
+        tbxRutaExcelFactCAT.TabIndex = 22
+        ' 
+        ' LabelMultiIdioma7
+        ' 
+        LabelMultiIdioma7.BackColor = Color.Khaki
+        LabelMultiIdioma7.BorderStyle = BorderStyle.FixedSingle
+        LabelMultiIdioma7.Font = New Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point)
+        LabelMultiIdioma7.Location = New Point(3, 287)
+        LabelMultiIdioma7.Name = "LabelMultiIdioma7"
+        LabelMultiIdioma7.Size = New Size(275, 21)
+        LabelMultiIdioma7.TabIndex = 21
+        LabelMultiIdioma7.Text = "Ruta Plantilla Excel Fact CAT"
+        LabelMultiIdioma7.TextAlign = ContentAlignment.MiddleCenter
+        LabelMultiIdioma7.TextoCastellano = "Ruta Plantilla Excel Fact CAT"
+        LabelMultiIdioma7.TextoCatalan = "Ruta Plantilla Excel Fact CAT"
+        ' 
+        ' btnSelectPathExcelFactCAT
+        ' 
+        btnSelectPathExcelFactCAT.AutoSize = True
+        btnSelectPathExcelFactCAT.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point)
+        btnSelectPathExcelFactCAT.Location = New Point(216, 311)
+        btnSelectPathExcelFactCAT.Name = "btnSelectPathExcelFactCAT"
+        btnSelectPathExcelFactCAT.Size = New Size(62, 25)
+        btnSelectPathExcelFactCAT.TabIndex = 20
+        btnSelectPathExcelFactCAT.Text = "Cambiar"
+        btnSelectPathExcelFactCAT.TextoCastellano = "Cambiar"
+        btnSelectPathExcelFactCAT.TextoCatalan = "Canviar"
+        btnSelectPathExcelFactCAT.UseVisualStyleBackColor = True
+        ' 
+        ' frmPreferencies
+        ' 
+        AutoScaleDimensions = New SizeF(7F, 15F)
+        AutoScaleMode = AutoScaleMode.Font
+        ClientSize = New Size(298, 503)
+        Controls.Add(TabControl1)
+        Controls.Add(btnAcceptar)
+        FormBorderStyle = FormBorderStyle.FixedToolWindow
+        Icon = CType(resources.GetObject("$this.Icon"), Icon)
+        Name = "frmPreferencies"
+        Text = "frmPreferencies"
+        TabControl1.ResumeLayout(False)
+        TabPage1.ResumeLayout(False)
+        TabPage2.ResumeLayout(False)
+        TabPage2.PerformLayout()
+        ResumeLayout(False)
+        PerformLayout()
+    End Sub
+
+    Friend WithEvents cmbxIdioma As ComboBox
+    Friend WithEvents Label1 As Label
+    Friend WithEvents btnAcceptar As ButtonMultiIdioma
+    Friend WithEvents btnSelectPathEtiquetes As ButtonMultiIdioma
+    Friend WithEvents Label2 As Label
+    Friend WithEvents LabelMultiIdioma1 As LabelMultiIdioma
+    Friend WithEvents tbxRutaEtiquetas As TextBox
+    Friend WithEvents cmbxLDAP As ComboBox
+    Friend WithEvents tbxRutaFactCAT As TextBox
+    Friend WithEvents LabelMultiIdioma2 As LabelMultiIdioma
+    Friend WithEvents btnSelectPathFactCAT As ButtonMultiIdioma
+    Friend WithEvents tbxRutaFactCAS As TextBox
+    Friend WithEvents LabelMultiIdioma3 As LabelMultiIdioma
+    Friend WithEvents btnSelectPathFactCAS As ButtonMultiIdioma
+    Friend WithEvents tbxRutaExcelEnvCAS As TextBox
+    Friend WithEvents LabelMultiIdioma4 As LabelMultiIdioma
+    Friend WithEvents btnSelectPathExcelEnvCAS As ButtonMultiIdioma
+    Friend WithEvents tbxRutaExcelEnvCAT As TextBox
+    Friend WithEvents LabelMultiIdioma5 As LabelMultiIdioma
+    Friend WithEvents btnSelectPathExcelEnvCAT As ButtonMultiIdioma
+    Friend WithEvents TabControl1 As TabControl
+    Friend WithEvents TabPage1 As TabPage
+    Friend WithEvents TabPage2 As TabPage
+    Friend WithEvents tbxRutaExcelFactCAS As TextBox
+    Friend WithEvents LabelMultiIdioma6 As LabelMultiIdioma
+    Friend WithEvents btnSelectPathExcelFactCAS As ButtonMultiIdioma
+    Friend WithEvents tbxRutaExcelFactCAT As TextBox
+    Friend WithEvents LabelMultiIdioma7 As LabelMultiIdioma
+    Friend WithEvents btnSelectPathExcelFactCAT As ButtonMultiIdioma
+End Class

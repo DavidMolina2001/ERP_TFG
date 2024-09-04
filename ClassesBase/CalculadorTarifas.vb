@@ -5,6 +5,8 @@ Public Class CalculadorTarifas
 
     Public Shared DIR_ORIGEN As String = "Carrer de Maria Aurèlia Capmany i Farnés, 61, 17003 Girona"
 
+    Private Const apiKey As String = "AIzaSyAXnasJVItYof46mQ7ZMLUZmpx9PYi04lo"
+
     Public Enum Tarifas
         U24 = 0
         U12 = 1
@@ -14,12 +16,10 @@ Public Class CalculadorTarifas
         NORMAL = 5
     End Enum
 
-    Friend Shared Async Function getDistancia(sDestino As String) As Task(Of Decimal)
+    Friend Shared Async Function getDistancia(sOrigen As String, sDestino As String) As Task(Of Decimal)
         Dim dDistancia As Decimal = 0.0
 
-        Dim apiKey As String = "AIzaSyAXnasJVItYof46mQ7ZMLUZmpx9PYi04lo"
-
-        Dim url As String = $"https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins={WebUtility.UrlEncode(DIR_ORIGEN)}&destinations={WebUtility.UrlEncode(sDestino)}&key={apiKey}"
+        Dim url As String = $"https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins={WebUtility.UrlEncode(sOrigen)}&destinations={WebUtility.UrlEncode(sDestino)}&key={apiKey}"
 
         Try
             Using client As New HttpClient()

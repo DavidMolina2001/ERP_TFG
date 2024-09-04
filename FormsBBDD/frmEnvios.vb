@@ -57,8 +57,6 @@ Public Class frmEnvios
 
                 pnlTarifa.Visible = False
                 gbxEntrarTarifa.Visible = True
-                btnAbrirFactura.Enabled = False
-                btnAbrirFactura.Text = "Factura No Generada"
 
             Else
 
@@ -70,8 +68,9 @@ Public Class frmEnvios
 
                 ControlBTNAbrirFactura()
 
+                tbiCodiClient.Enabled = False
+                btnNouClient.Enabled = False
 
-                'TODOOO cambiar nombres a gbx
 
             End If
 
@@ -88,15 +87,15 @@ Public Class frmEnvios
 
     Private Sub ControlBTNAbrirFactura()
         Try
-            Dim iRegistro As Object = SQLReader.ObtenirUnCamp(oConn, Nothing, "SELECT TOP 1 IdFactura FROM Factura_Linia WHERE IdEnvio = " & oDades.Id)
+            Dim iRegistro As Object = SQLReader.ObtenirUnCamp(oConn, Nothing, "SELECT TOP 1 IdFactura FROM Factura_Linia WITH (NOLOCK) WHERE IdEnvio = " & oDades.Id)
 
-            If iRegistro Is Nothing Then
-                btnAbrirFactura.Enabled = False
-                btnAbrirFactura.Text = "Factura No Generada"
-            Else
+            'If iRegistro Is Nothing Then
+            '    btnAbrirFactura.Enabled = False
+            '    btnAbrirFactura.Text = "Factura No Generada"
+            'Else
 
-                btnAbrirFactura.Tag = iRegistro
-            End If
+            '    btnAbrirFactura.Tag = iRegistro
+            'End If
 
 
         Catch ex As Exception
@@ -121,36 +120,48 @@ Public Class frmEnvios
 
     Private Sub CopiarControlsADades()
         oDades.CodigoSeguimiento = tbxCodigoSeguimiento.Text
-        oDades.DireccionOrigen = tbxDireccionOrigen.Text
-        oDades.PoblacionDestino = tbxPoblacionDestino.Text
-        oDades.CodigoPostalDestino = tbxCPDestino.Text
-        oDades.NombreDestinatario = tbxNombreDestinatario.Text
-        oDades.Estado = Convert.ToByte(cmbxEstat.SelectedIndex)
+        'ORIGEN
+
+        oDades.DireccionOrigen = tbxDireccioOrigen.Text
+        oDades.NombreRemitente = tbxNombreRemitente.Text
+        oDades.PoblacionOrigen = tbiPoblacioOrigen._Valor
+        oDades.MailRemitente = tbxMailRemitente.Text
+        'DESTINO
         oDades.DireccionDestino = tbxDireccionDestino.Text
+        oDades.NombreDestinatario = tbxNombreDestinatario.Text
+        oDades.PoblacionDestino = tbiPoblacioDesti._Valor
+        oDades.EmailDestinatario = tbxMailDestinatari.Text
+
+        oDades.IdEstado = Convert.ToByte(cmbxEstat.SelectedIndex)
         oDades.Peso = Convert.ToDouble(tbxPeso.Text)
         oDades.Dimensiones = tbxDimensiones.Text
         oDades.CodigoCliente = If(tbiCodiClient._Valor = String.Empty, DBNull.Value, tbiCodiClient._Valor)
         oDades.Porte = Convert.ToDecimal(tbxPorte.Text)
         oDades.EmailDestinatario = tbxMailDestinatari.Text
-        oDades.IdRuta = tbiRuta._Valor
+        'oDades.IdRuta = tbiRuta._Valor
     End Sub
 
     Private Sub CopiarDadesAControls()
         tbxCodigoSeguimiento.Text = oDades.CodigoSeguimiento
-        tbxDireccionOrigen.Text = oDades.DireccionOrigen
-        tbxPoblacionDestino.Text = oDades.PoblacionDestino
-        tbxCPDestino.Text = oDades.CodigoPostalDestino
-        tbxNombreDestinatario.Text = oDades.NombreDestinatario
-        cmbxEstat.SelectedIndex = oDades.Estado
+
+        tbxDireccioOrigen.Text = oDades.DireccionOrigen
+        tbxNombreRemitente.Text = oDades.NombreRemitente
+        tbiPoblacioOrigen._Valor = oDades.PoblacionOrigen
+        tbxMailRemitente.Text = oDades.MailRemitente
+
         tbxDireccionDestino.Text = oDades.DireccionDestino
-        tbxPeso.Text = oDades.Peso
-        tbxDimensiones.Text = oDades.Dimensiones
-        tbiCodiClient._Valor = IIf(IsDBNull(oDades.CodigoCliente), String.Empty, oDades.CodigoCliente)
-        tbxPorte.Text = oDades.Porte
+        tbxNombreDestinatario.Text = oDades.NombreDestinatario
+        tbiPoblacioDesti._Valor = oDades.PoblacionDestino
         tbxMailDestinatari.Text = oDades.EmailDestinatario
-        tbiRuta._Valor = oDades.IdRuta
+
+        cmbxEstat.SelectedIndex = oDades.IdEstado
+        tbxPeso.Text = oDades.Peso.ToString()
+        tbxDimensiones.Text = oDades.Dimensiones
+        tbiCodiClient._Valor = If(IsDBNull(oDades.CodigoCliente), String.Empty, oDades.CodigoCliente.ToString())
+        tbxPorte.Text = oDades.Porte.ToString()
 
     End Sub
+
 
     Private Sub Inicialitzacions()
         For Each iEstado As Integer In [Enum].GetValues(GetType(EstadosEnvios.Estados))
@@ -161,7 +172,7 @@ Public Class frmEnvios
         Next
 
         tbiCodiClient.uObjRecord = New clsClients()
-        tbiRuta.uObjRecord = New clsRutas()
+        'tbiRuta.uObjRecord = New clsRutas()
 
 
         gbxDatosCliente.Text = fnTraductor.RetornaIdiomaSeleccionat("Datos Cliente", "Dades Client")
@@ -171,6 +182,8 @@ Public Class frmEnvios
         gbxPrecios.Text = fnTraductor.RetornaIdiomaSeleccionat("Precios", "Preus")
         Me.Text = fnTraductor.RetornaIdiomaSeleccionat("Envíos", "Enviaments")
 
+        tbiPoblacioOrigen.uObjRecord = New clsPoblacions()
+        tbiPoblacioDesti.uObjRecord = New clsPoblacions()
     End Sub
 
 
@@ -214,8 +227,8 @@ Public Class frmEnvios
 
     Private Sub btnGuardar_Click(sender As Object, e As EventArgs) Handles btnGuardar.Click
         If Guardar() Then
-            Me.Close()
-            Me.DialogResult = DialogResult.OK
+            Close()
+            DialogResult = DialogResult.OK
         End If
     End Sub
 
@@ -235,7 +248,7 @@ Public Class frmEnvios
                     sCodigo = GenerarCodigoEnvio()
 
 
-                    bExisteix = SQLReader.CampoExiste(oConn, Nothing, "SELECT CodigoSeguimiento FROM Envios WHERE CodigoSeguimiento = '" & sCodigo & "'")
+                    bExisteix = SQLReader.CampoExiste(oConn, Nothing, "SELECT CodigoSeguimiento FROM Envios WITH (NOLOCK) WHERE CodigoSeguimiento = '" & sCodigo & "'")
 
                 End While
 
@@ -382,7 +395,7 @@ Public Class frmEnvios
 
                 cmbxEstat.SelectedIndex = oForm.oDades.Estado
 
-                oRow("Estado") = EstadosEnvios.GetTraduccio(oForm.oDades.Estado)
+                oRow("IdEstado") = EstadosEnvios.GetTraduccio(oForm.oDades.Estado)
 
                 dtHistorico.Rows.InsertAt(oRow, 0)
 
@@ -392,7 +405,7 @@ Public Class frmEnvios
                 If getNecesarioEnviarMail_SegunEstado(oForm.oDades.Estado) Then
 
                     If EsCorreoElectronicoValido(sMail) Then
-                        clsMail.EnviarMailCliente(sMail, tbxCodigoSeguimiento.Text, oForm.oDades.Estado)
+                        'clsMail.EnviarMailCliente(sMail, tbxCodigoSeguimiento.Text, oForm.oDades.Estado)
                     End If
 
                 End If
@@ -485,7 +498,7 @@ Public Class frmEnvios
 
 
 
-            Dim dDistancia As Decimal = Await CalculadorTarifas.getDistancia(tbxDireccioDestiCT.Text)
+            Dim dDistancia As Decimal = Await CalculadorTarifas.getDistancia(tbxDireccioOrigenCT.Text, tbxDireccioDestiCT.Text)
 
             tbxDistanciaTotalCT.Text = dDistancia
 
@@ -516,7 +529,7 @@ Public Class frmEnvios
         Try
             Dim dPorte As Decimal = 0.0
 
-            Dim iMultiplicador As Integer = SQLReader.ObtenirUnCamp(oConn, Nothing, "SELECT Multiplicador FROM Tarifas WHERE IdTarifa = " & iTarifa + 1)
+            Dim iMultiplicador As Integer = SQLReader.ObtenirUnCamp(oConn, Nothing, "SELECT Multiplicador FROM Tarifas WITH (NOLOCK) WHERE IdTarifa = " & iTarifa + 1)
 
             dPorte = (iMultiplicador * dDistancia * dPeso * dSize) / 10000
 
@@ -543,7 +556,7 @@ Public Class frmEnvios
                 Exit Sub
             Else
 
-                tbxDireccioOrigenCT.Text = IIf(tbxDireccionOrigen.Text = String.Empty, CalculadorTarifas.DIR_ORIGEN, tbxDireccionOrigen.Text)
+                tbxDireccioOrigenCT.Text = IIf(tbxDireccioOrigen.Text = String.Empty, CalculadorTarifas.DIR_ORIGEN, tbxDireccioOrigen.Text)
                 tbxDireccioDestiCT.Text = tbxDireccionDestino.Text
             End If
 
@@ -596,7 +609,7 @@ Public Class frmEnvios
 
         Try
 
-            dt = SQLReader.ReaderDataTable(oConn, Nothing, "SELECT Nom FROM Tarifas")
+            dt = SQLReader.ReaderDataTable(oConn, Nothing, "SELECT Nom FROM Tarifas WITH (NOLOCK)")
 
             lstTarifas = New List(Of String)
 
@@ -677,6 +690,94 @@ Public Class frmEnvios
             End If
         End Try
     End Sub
+
+    Private Sub btnNouClient_Click(sender As Object, e As EventArgs) Handles btnNouClient.Click
+
+        Dim oForm As frmClients = Nothing
+
+        Try
+            oForm = New frmClients(oConn, 0)
+
+            oForm.TryLoad()
+
+            If oForm.ShowDialog = DialogResult.OK Then
+                tbiCodiClient._Valor = oForm.oDades.Id
+            End If
+
+        Catch ex As Exception
+            frmMissatge.Mostrar(fnTraductor.RetornaIdiomaSeleccionat("Error al donar de alta el Cliente",
+                                                                      "Error al dar d'alta el Client"), ex)
+
+        Finally
+            If oForm IsNot Nothing Then
+                oForm.Dispose()
+                oForm = Nothing
+
+            End If
+        End Try
+    End Sub
+
+
+
+
+
+
+#End Region
+
+#Region "Botones direcciones"
+
+    Private Sub btnImportarDirClientOrigen_Click(sender As Object, e As EventArgs) Handles btnImportarDirClientOrigen.Click
+        Dim oList As List(Of Object) = Nothing
+        Try
+            If tbiCodiClient._Valor = String.Empty Then
+                frmMissatge.MostrarAvis(fnTraductor.RetornaIdiomaSeleccionat("Primero entra el cliente", "Primer entra el client"))
+                Exit Sub
+            End If
+
+            oList = SQLReader.ObtenerUnaFila(oConn, Nothing, "SELECT DireccionOrigenFavorita, NomClient, IdPoblacio, Mail FROM Clients WHERE IdClient =" & tbiCodiClient._Valor)
+
+            tbxDireccioOrigen.Text = oList(0)
+            tbxNombreRemitente.Text = oList(1)
+            tbiPoblacioOrigen._Valor = oList(2)
+            tbxMailRemitente.Text = oList(3)
+
+        Catch ex As Exception
+            frmMissatge.Mostrar(fnTraductor.RetornaIdiomaSeleccionat("Error al importar la dirección del Cliente",
+                                                                      "Error al importar la direcció del Client"), ex)
+        Finally
+            If oList IsNot Nothing Then
+                oList.Clear()
+                oList = Nothing
+            End If
+        End Try
+    End Sub
+
+    Private Sub btnImportarClientDesti_Click(sender As Object, e As EventArgs) Handles btnImportarClientDesti.Click
+        Dim oList As List(Of Object) = Nothing
+        Try
+            If tbiCodiClient._Valor = String.Empty Then
+                frmMissatge.MostrarAvis(fnTraductor.RetornaIdiomaSeleccionat("Primero entra el cliente", "Primer entra el client"))
+                Exit Sub
+            End If
+
+            oList = SQLReader.ObtenerUnaFila(oConn, Nothing, "SELECT DireccionOrigenFavorita, NomClient, IdPoblacio, Mail FROM Clients WHERE IdClient =" & tbiCodiClient._Valor)
+
+            tbxDireccionDestino.Text = oList(0)
+            tbxNombreDestinatario.Text = oList(1)
+            tbiPoblacioDesti._Valor = oList(2)
+            tbxMailDestinatari.Text = oList(3)
+
+        Catch ex As Exception
+            frmMissatge.Mostrar(fnTraductor.RetornaIdiomaSeleccionat("Error al importar la dirección del Cliente",
+                                                                      "Error al importar la direcció del Client"), ex)
+        Finally
+            If oList IsNot Nothing Then
+                oList.Clear()
+                oList = Nothing
+            End If
+        End Try
+    End Sub
+
 
 #End Region
 

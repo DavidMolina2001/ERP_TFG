@@ -24,6 +24,12 @@ Partial Class frmClients
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmClients))
         tabPage1 = New TabPage()
+        LabelMultiIdioma31 = New LabelMultiIdioma()
+        tbxPoblacionOrigen = New TextBox()
+        tbiPoblacioOrigen = New Lupa()
+        tbxCPOrigen = New TextBox()
+        LabelMultiIdioma27 = New LabelMultiIdioma()
+        LabelMultiIdioma28 = New LabelMultiIdioma()
         tbxObservaciones = New TextBox()
         LabelMultiIdioma1 = New LabelMultiIdioma()
         LabelMultiIdioma5 = New LabelMultiIdioma()
@@ -44,6 +50,7 @@ Partial Class frmClients
         TabPage2 = New TabPage()
         dgEnvios = New Syncfusion.WinForms.DataGrid.SfDataGrid()
         TabPage3 = New TabPage()
+        btnGenerarFactura = New ButtonMultiIdioma()
         dgFacturas = New Syncfusion.WinForms.DataGrid.SfDataGrid()
         btnGuardar = New ButtonMultiIdioma()
         btnCancelar = New ButtonMultiIdioma()
@@ -59,6 +66,12 @@ Partial Class frmClients
         ' tabPage1
         ' 
         tabPage1.BackColor = Color.Gainsboro
+        tabPage1.Controls.Add(LabelMultiIdioma31)
+        tabPage1.Controls.Add(tbxPoblacionOrigen)
+        tabPage1.Controls.Add(tbiPoblacioOrigen)
+        tabPage1.Controls.Add(LabelMultiIdioma27)
+        tabPage1.Controls.Add(LabelMultiIdioma28)
+        tabPage1.Controls.Add(tbxCPOrigen)
         tabPage1.Controls.Add(tbxObservaciones)
         tabPage1.Controls.Add(LabelMultiIdioma1)
         tabPage1.Controls.Add(LabelMultiIdioma5)
@@ -75,21 +88,115 @@ Partial Class frmClients
         tabPage1.Controls.Add(tbxDireccionOrigen)
         tabPage1.Controls.Add(LabelMultiIdioma8)
         tabPage1.Controls.Add(tbxNom)
-        tabPage1.Location = New Point(4, 24)
+        tabPage1.Location = New Point(4, 27)
         tabPage1.Name = "tabPage1"
         tabPage1.Padding = New Padding(3)
-        tabPage1.Size = New Size(885, 376)
+        tabPage1.Size = New Size(885, 373)
         tabPage1.TabIndex = 0
         tabPage1.Text = "Principal"
+        ' 
+        ' LabelMultiIdioma31
+        ' 
+        LabelMultiIdioma31.AutoEllipsis = True
+        LabelMultiIdioma31.BackColor = Color.Khaki
+        LabelMultiIdioma31.BorderStyle = BorderStyle.FixedSingle
+        LabelMultiIdioma31.Font = New Font("Verdana", 11.25F, FontStyle.Regular, GraphicsUnit.Point)
+        LabelMultiIdioma31.Location = New Point(3, 111)
+        LabelMultiIdioma31.Name = "LabelMultiIdioma31"
+        LabelMultiIdioma31.Size = New Size(172, 23)
+        LabelMultiIdioma31.TabIndex = 50
+        LabelMultiIdioma31.Text = "Población Origen"
+        LabelMultiIdioma31.TextAlign = ContentAlignment.MiddleCenter
+        LabelMultiIdioma31.TextoCastellano = "Población Origen"
+        LabelMultiIdioma31.TextoCatalan = "Població Origen"
+        ' 
+        ' tbxPoblacionOrigen
+        ' 
+        tbxPoblacionOrigen.BackColor = SystemColors.GradientActiveCaption
+        tbxPoblacionOrigen.BorderStyle = BorderStyle.FixedSingle
+        tbxPoblacionOrigen.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point)
+        tbxPoblacionOrigen.Location = New Point(178, 111)
+        tbxPoblacionOrigen.MaxLength = 10
+        tbxPoblacionOrigen.Name = "tbxPoblacionOrigen"
+        tbxPoblacionOrigen.Size = New Size(338, 23)
+        tbxPoblacionOrigen.TabIndex = 51
+        ' 
+        ' tbiPoblacioOrigen
+        ' 
+        tbiPoblacioOrigen._Valor = ""
+        tbiPoblacioOrigen.AutoSize = True
+        tbiPoblacioOrigen.AutoSizeMode = AutoSizeMode.GrowAndShrink
+        tbiPoblacioOrigen.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point)
+        tbiPoblacioOrigen.Location = New Point(177, 82)
+        tbiPoblacioOrigen.Margin = New Padding(4, 3, 4, 3)
+        tbiPoblacioOrigen.Name = "tbiPoblacioOrigen"
+        tbiPoblacioOrigen.Size = New Size(131, 30)
+        tbiPoblacioOrigen.TabIndex = 49
+        tbiPoblacioOrigen.uCampBD1 = "NomPoblacio"
+        tbiPoblacioOrigen.uCampBD2 = "CodPostal"
+        tbiPoblacioOrigen.uCampBD3 = ""
+        tbiPoblacioOrigen.uCampBD4 = ""
+        tbiPoblacioOrigen.uCampBD5 = Nothing
+        tbiPoblacioOrigen.uCampBD6 = Nothing
+        tbiPoblacioOrigen.uCampBD7 = Nothing
+        tbiPoblacioOrigen.uObjRecord = Nothing
+        tbiPoblacioOrigen.utbxCamp1 = tbxPoblacionOrigen
+        tbiPoblacioOrigen.utbxCamp2 = tbxCPOrigen
+        tbiPoblacioOrigen.utbxCamp3 = Nothing
+        tbiPoblacioOrigen.utbxCamp4 = Nothing
+        tbiPoblacioOrigen.utbxCamp5 = Nothing
+        tbiPoblacioOrigen.utbxCamp6 = Nothing
+        tbiPoblacioOrigen.utbxCamp7 = Nothing
+        ' 
+        ' tbxCPOrigen
+        ' 
+        tbxCPOrigen.BackColor = SystemColors.GradientActiveCaption
+        tbxCPOrigen.BorderStyle = BorderStyle.FixedSingle
+        tbxCPOrigen.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point)
+        tbxCPOrigen.Location = New Point(178, 138)
+        tbxCPOrigen.MaxLength = 10
+        tbxCPOrigen.Name = "tbxCPOrigen"
+        tbxCPOrigen.Size = New Size(130, 23)
+        tbxCPOrigen.TabIndex = 47
+        ' 
+        ' LabelMultiIdioma27
+        ' 
+        LabelMultiIdioma27.AutoEllipsis = True
+        LabelMultiIdioma27.BackColor = Color.Khaki
+        LabelMultiIdioma27.BorderStyle = BorderStyle.FixedSingle
+        LabelMultiIdioma27.Font = New Font("Verdana", 11.25F, FontStyle.Regular, GraphicsUnit.Point)
+        LabelMultiIdioma27.Location = New Point(3, 84)
+        LabelMultiIdioma27.Name = "LabelMultiIdioma27"
+        LabelMultiIdioma27.Size = New Size(172, 23)
+        LabelMultiIdioma27.TabIndex = 48
+        LabelMultiIdioma27.Text = "Población Origen"
+        LabelMultiIdioma27.TextAlign = ContentAlignment.MiddleCenter
+        LabelMultiIdioma27.TextoCastellano = "Población Origen"
+        LabelMultiIdioma27.TextoCatalan = "Població Origen"
+        ' 
+        ' LabelMultiIdioma28
+        ' 
+        LabelMultiIdioma28.AutoEllipsis = True
+        LabelMultiIdioma28.BackColor = Color.Khaki
+        LabelMultiIdioma28.BorderStyle = BorderStyle.FixedSingle
+        LabelMultiIdioma28.Font = New Font("Verdana", 11.25F, FontStyle.Regular, GraphicsUnit.Point)
+        LabelMultiIdioma28.Location = New Point(3, 138)
+        LabelMultiIdioma28.Name = "LabelMultiIdioma28"
+        LabelMultiIdioma28.Size = New Size(172, 23)
+        LabelMultiIdioma28.TabIndex = 46
+        LabelMultiIdioma28.Text = "CP Origen"
+        LabelMultiIdioma28.TextAlign = ContentAlignment.MiddleCenter
+        LabelMultiIdioma28.TextoCastellano = "CP Origen"
+        LabelMultiIdioma28.TextoCatalan = "CP Origen"
         ' 
         ' tbxObservaciones
         ' 
         tbxObservaciones.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point)
-        tbxObservaciones.Location = New Point(3, 137)
+        tbxObservaciones.Location = New Point(3, 191)
         tbxObservaciones.MaxLength = 500
         tbxObservaciones.Multiline = True
         tbxObservaciones.Name = "tbxObservaciones"
-        tbxObservaciones.Size = New Size(876, 233)
+        tbxObservaciones.Size = New Size(876, 179)
         tbxObservaciones.TabIndex = 45
         ' 
         ' LabelMultiIdioma1
@@ -98,7 +205,7 @@ Partial Class frmClients
         LabelMultiIdioma1.BackColor = Color.Khaki
         LabelMultiIdioma1.BorderStyle = BorderStyle.FixedSingle
         LabelMultiIdioma1.Font = New Font("Verdana", 11.25F, FontStyle.Regular, GraphicsUnit.Point)
-        LabelMultiIdioma1.Location = New Point(3, 111)
+        LabelMultiIdioma1.Location = New Point(3, 165)
         LabelMultiIdioma1.Name = "LabelMultiIdioma1"
         LabelMultiIdioma1.Size = New Size(172, 23)
         LabelMultiIdioma1.TabIndex = 44
@@ -113,7 +220,7 @@ Partial Class frmClients
         LabelMultiIdioma5.BackColor = Color.Khaki
         LabelMultiIdioma5.BorderStyle = BorderStyle.FixedSingle
         LabelMultiIdioma5.Font = New Font("Verdana", 11.25F, FontStyle.Regular, GraphicsUnit.Point)
-        LabelMultiIdioma5.Location = New Point(3, 84)
+        LabelMultiIdioma5.Location = New Point(444, 57)
         LabelMultiIdioma5.Name = "LabelMultiIdioma5"
         LabelMultiIdioma5.Size = New Size(172, 23)
         LabelMultiIdioma5.TabIndex = 43
@@ -161,6 +268,7 @@ Partial Class frmClients
         ' cmbxIdioma
         ' 
         cmbxIdioma.DropDownStyle = ComboBoxStyle.DropDownList
+        cmbxIdioma.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point)
         cmbxIdioma.FormattingEnabled = True
         cmbxIdioma.Location = New Point(619, 30)
         cmbxIdioma.Name = "cmbxIdioma"
@@ -171,7 +279,7 @@ Partial Class frmClients
         ' 
         cbxEsComercial.AutoSize = True
         cbxEsComercial.Font = New Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point)
-        cbxEsComercial.Location = New Point(619, 63)
+        cbxEsComercial.Location = New Point(619, 90)
         cbxEsComercial.Name = "cbxEsComercial"
         cbxEsComercial.Size = New Size(15, 14)
         cbxEsComercial.TabIndex = 38
@@ -182,7 +290,7 @@ Partial Class frmClients
         cmbxTarifas.DropDownStyle = ComboBoxStyle.DropDownList
         cmbxTarifas.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point)
         cmbxTarifas.FormattingEnabled = True
-        cmbxTarifas.Location = New Point(178, 84)
+        cmbxTarifas.Location = New Point(619, 57)
         cmbxTarifas.Name = "cmbxTarifas"
         cmbxTarifas.Size = New Size(260, 23)
         cmbxTarifas.TabIndex = 37
@@ -193,7 +301,7 @@ Partial Class frmClients
         LabelMultiIdioma3.BackColor = Color.Khaki
         LabelMultiIdioma3.BorderStyle = BorderStyle.FixedSingle
         LabelMultiIdioma3.Font = New Font("Verdana", 11.25F, FontStyle.Regular, GraphicsUnit.Point)
-        LabelMultiIdioma3.Location = New Point(444, 57)
+        LabelMultiIdioma3.Location = New Point(444, 84)
         LabelMultiIdioma3.Name = "LabelMultiIdioma3"
         LabelMultiIdioma3.Size = New Size(172, 23)
         LabelMultiIdioma3.TabIndex = 35
@@ -280,6 +388,7 @@ Partial Class frmClients
         tabEnvios.Controls.Add(tabPage1)
         tabEnvios.Controls.Add(TabPage2)
         tabEnvios.Controls.Add(TabPage3)
+        tabEnvios.Font = New Font("Microsoft Sans Serif", 11.25F, FontStyle.Bold Or FontStyle.Italic, GraphicsUnit.Point)
         tabEnvios.Location = New Point(0, 0)
         tabEnvios.Name = "tabEnvios"
         tabEnvios.SelectedIndex = 0
@@ -289,12 +398,12 @@ Partial Class frmClients
         ' TabPage2
         ' 
         TabPage2.Controls.Add(dgEnvios)
-        TabPage2.Location = New Point(4, 24)
+        TabPage2.Location = New Point(4, 27)
         TabPage2.Name = "TabPage2"
         TabPage2.Padding = New Padding(3)
-        TabPage2.Size = New Size(885, 376)
+        TabPage2.Size = New Size(885, 373)
         TabPage2.TabIndex = 1
-        TabPage2.Text = "Envíos"
+        TabPage2.Text = "Enviaments"
         TabPage2.UseVisualStyleBackColor = True
         ' 
         ' dgEnvios
@@ -304,12 +413,12 @@ Partial Class frmClients
         dgEnvios.AllowFiltering = True
         dgEnvios.AllowResizingColumns = True
         dgEnvios.AllowSelectionOnMouseDown = True
-        dgEnvios.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
+        dgEnvios.Dock = DockStyle.Fill
         dgEnvios.EditMode = Syncfusion.WinForms.DataGrid.Enums.EditMode.SingleClick
-        dgEnvios.Location = New Point(0, 0)
+        dgEnvios.Location = New Point(3, 3)
         dgEnvios.Name = "dgEnvios"
         dgEnvios.ShowGroupDropArea = True
-        dgEnvios.Size = New Size(885, 376)
+        dgEnvios.Size = New Size(879, 367)
         dgEnvios.Style.BorderColor = Color.FromArgb(CByte(100), CByte(100), CByte(100))
         dgEnvios.Style.CheckBoxStyle.CheckedBackColor = Color.FromArgb(CByte(0), CByte(120), CByte(215))
         dgEnvios.Style.CheckBoxStyle.CheckedBorderColor = Color.FromArgb(CByte(0), CByte(120), CByte(215))
@@ -322,14 +431,31 @@ Partial Class frmClients
         ' 
         ' TabPage3
         ' 
+        TabPage3.Controls.Add(btnGenerarFactura)
         TabPage3.Controls.Add(dgFacturas)
-        TabPage3.Location = New Point(4, 24)
+        TabPage3.Location = New Point(4, 27)
         TabPage3.Name = "TabPage3"
         TabPage3.Padding = New Padding(3)
-        TabPage3.Size = New Size(885, 376)
+        TabPage3.Size = New Size(885, 373)
         TabPage3.TabIndex = 2
-        TabPage3.Text = "Facturas"
+        TabPage3.Text = "Factures"
         TabPage3.UseVisualStyleBackColor = True
+        ' 
+        ' btnGenerarFactura
+        ' 
+        btnGenerarFactura.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        btnGenerarFactura.AutoSize = True
+        btnGenerarFactura.Font = New Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point)
+        btnGenerarFactura.Image = CType(resources.GetObject("btnGenerarFactura.Image"), Image)
+        btnGenerarFactura.ImageAlign = ContentAlignment.MiddleLeft
+        btnGenerarFactura.Location = New Point(795, 15)
+        btnGenerarFactura.Name = "btnGenerarFactura"
+        btnGenerarFactura.Size = New Size(84, 30)
+        btnGenerarFactura.TabIndex = 25
+        btnGenerarFactura.Text = "Abrir"
+        btnGenerarFactura.TextoCastellano = "Abrir"
+        btnGenerarFactura.TextoCatalan = "Obrir"
+        btnGenerarFactura.UseVisualStyleBackColor = True
         ' 
         ' dgFacturas
         ' 
@@ -343,7 +469,7 @@ Partial Class frmClients
         dgFacturas.Location = New Point(0, 0)
         dgFacturas.Name = "dgFacturas"
         dgFacturas.ShowGroupDropArea = True
-        dgFacturas.Size = New Size(885, 376)
+        dgFacturas.Size = New Size(789, 373)
         dgFacturas.Style.BorderColor = Color.FromArgb(CByte(100), CByte(100), CByte(100))
         dgFacturas.Style.CheckBoxStyle.CheckedBackColor = Color.FromArgb(CByte(0), CByte(120), CByte(215))
         dgFacturas.Style.CheckBoxStyle.CheckedBorderColor = Color.FromArgb(CByte(0), CByte(120), CByte(215))
@@ -356,7 +482,7 @@ Partial Class frmClients
         ' 
         ' btnGuardar
         ' 
-        btnGuardar.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
+        btnGuardar.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
         btnGuardar.AutoSize = True
         btnGuardar.Font = New Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point)
         btnGuardar.Image = CType(resources.GetObject("btnGuardar.Image"), Image)
@@ -372,7 +498,7 @@ Partial Class frmClients
         ' 
         ' btnCancelar
         ' 
-        btnCancelar.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
+        btnCancelar.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
         btnCancelar.AutoSize = True
         btnCancelar.Font = New Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point)
         btnCancelar.Image = CType(resources.GetObject("btnCancelar.Image"), Image)
@@ -388,7 +514,7 @@ Partial Class frmClients
         ' 
         ' btnBorrar
         ' 
-        btnBorrar.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
+        btnBorrar.Anchor = AnchorStyles.Bottom Or AnchorStyles.Left
         btnBorrar.AutoSize = True
         btnBorrar.Font = New Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point)
         btnBorrar.Image = CType(resources.GetObject("btnBorrar.Image"), Image)
@@ -420,6 +546,7 @@ Partial Class frmClients
         TabPage2.ResumeLayout(False)
         CType(dgEnvios, ComponentModel.ISupportInitialize).EndInit()
         TabPage3.ResumeLayout(False)
+        TabPage3.PerformLayout()
         CType(dgFacturas, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
         PerformLayout()
@@ -450,4 +577,11 @@ Partial Class frmClients
     Friend WithEvents tbxNom As TextBox
     Friend WithEvents TabPage3 As TabPage
     Friend WithEvents dgFacturas As Syncfusion.WinForms.DataGrid.SfDataGrid
+    Friend WithEvents LabelMultiIdioma31 As LabelMultiIdioma
+    Friend WithEvents tbxPoblacionOrigen As TextBox
+    Friend WithEvents tbiPoblacioOrigen As Lupa
+    Friend WithEvents tbxCPOrigen As TextBox
+    Friend WithEvents LabelMultiIdioma27 As LabelMultiIdioma
+    Friend WithEvents LabelMultiIdioma28 As LabelMultiIdioma
+    Friend WithEvents btnGenerarFactura As ButtonMultiIdioma
 End Class

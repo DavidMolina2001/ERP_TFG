@@ -3,7 +3,7 @@ Imports System.Text
 
 Public Class clsSeguretat
 
-    Friend Const PC_DAVID As String = "DESKTOP-SEL5MT6"
+    Public Const PC_DAVID As String = "DESKTOP-SEL5MT6"
 
     Friend Shared Usuari As String
 
@@ -32,7 +32,7 @@ Public Class clsSeguretat
         Dim bCorrecta As Boolean = False
 
         Try
-            Dim sHashed As String = SQLReader.ObtenirUnCamp(clsConstants.ConnGlobal, Nothing, "SELECT PasswordUsuari FROM Usuaris WHERE CodiUsuari = '" & usuari & "'")
+            Dim sHashed As String = SQLReader.ObtenirUnCamp(clsConstants.ConnGlobal, Nothing, "SELECT PasswordUsuari FROM Usuaris WITH (NOLOCK) WHERE CodiUsuari = '" & usuari & "'")
 
             If sHashed IsNot Nothing And sHashed IsNot String.Empty Then
                 bCorrecta = String.Equals(hashedInput, sHashed, StringComparison.OrdinalIgnoreCase)

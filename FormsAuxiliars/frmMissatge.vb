@@ -3,7 +3,12 @@
     Public Sub Mostrar(ByVal sTextError As String, ByRef _ex As Exception)
         lblError.Text = sTextError
 
-        tbxDescripcio.Text = _ex.ToString
+        If _ex.InnerException IsNot Nothing Then
+            tbxDescripcio.Text = _ex.Message.ToString() & vbCrLf & _ex.InnerException.Message
+        Else
+            tbxDescripcio.Text = _ex.Message.ToString()
+        End If
+
         ex = _ex
         Me.ShowDialog()
     End Sub
@@ -14,7 +19,7 @@
     End Sub
 
     Public Function MostrarPreguntaSiNo(ByVal sTextAvis As String)
-        Return MsgBox(sTextAvis, MsgBoxStyle.YesNo, "!!")
+        Return MsgBox(sTextAvis, MsgBoxStyle.YesNo, "!!") = MsgBoxResult.Yes
     End Function
 
     Private Sub btnAcceptar_Click(sender As Object, e As EventArgs) Handles btnAcceptar.Click

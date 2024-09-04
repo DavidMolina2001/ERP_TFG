@@ -27,34 +27,86 @@ Public Class frmMain
 #Region "Constructor"
     Public Sub New()
 
-        clsConstants.ConnGlobal = New SqlClient.SqlConnection("Server=localhost;Database=AppTransportes;Integrated Security=True;TrustServerCertificate=True;")
 
-        clsConstants.ConnGlobal.Open()
+        Try
+            'If Environment.MachineName = clsSeguretat.PC_DAVID Then
+            '    clsConstants.ConnGlobal = New SqlClient.SqlConnection("Server=localhost;Database=AppTransportes;Integrated Security=True;TrustServerCertificate=True;")
 
-        InitializeComponent()
+            'Else
+            '    'clsConstants.ConnGlobal = New SqlClient.SqlConnection("Server=192.168.2.202;Database=AppTransportesTFG;User Id=sa;Password=Z57ZVjOzCuzwsVAxcB6E;TrustServerCertificate=True;")
+            '    'clsConstants.ConnGlobal = New SqlClient.SqlConnection("Server=192.168.2.202;Database=AppTransportes;User Id=sa;Password=Z57ZVjOzCuzwsVAxcB6E;TrustServerCertificate=True;MultipleActiveResultSets=true;Trusted_Connection=True")
+            '    'clsConstants.ConnGlobal = New SqlClient.SqlConnection("Server=192.168.2.202;Database=AppTransportes;User Id=sa;Password=Z57ZVjOzCuzwsVAxcB6E;Trusted_Connection=True;")
+            '    clsConstants.ConnGlobal = New SqlClient.SqlConnection("Data Source=tcp:192.168.2.202,1433;Initial Catalog=AppTransportes;User ID=TFG;Password=Tatun123!;TrustServerCertificate=True;MultipleActiveResultSets=true;")
+
+            '    '
+            'End If
+
+            'frmMissatge.MostrarAvis("1")
+            ElegirBaseDatos()
+            'clsConstants.ConnGlobal.Open()
+
+            'frmMissatge.MostrarAvis("2")
 
 
-        lblData.Text = Date.Now.ToString("dd-MM-yyyy")
+            InitializeComponent()
+
+            frmWaitForm.ShowWaitForm(String.Empty)
+
+            lblData.Text = Date.Now.ToString("dd-MM-yyyy")
+
+            'frmMissatge.MostrarAvis("3")
+
+            Timer1.Interval = 30000 '300000 ms que son 5 minutos
+
+            ActualitzarIdiomaControls(Me, clsConstants.Idioma, True)
+            'frmMissatge.MostrarAvis("4")
+
+            ConsultarIncidencies()
+            'frmMissatge.MostrarAvis("5")
+
+            ComprobarRutas()
+            'frmMissatge.MostrarAvis("6")
+
+            CargarTrabajadoresEnRuta()
+
+            'frmMissatge.MostrarAvis("7")
+
+            If bExistenAvisos Then
+                lblAvisos.Visible = True
+            End If
+
+
+            CargarCbxCalendario()
+
+            frmWaitForm.CloseWaitForm()
+
+
+            'AuthenticateUser()
+        Catch ex As Exception
+            frmMissatge.Mostrar("Error al obrir el programa", ex)
+            Forms.Application.Exit()
+            End
+        End Try
 
 
 
-        Timer1.Interval = 300000 '300000 ms que son 5 minutos
-
-        ActualitzarIdiomaControls(Me, clsConstants.Idioma, True)
-
-        ComprobarRutas()
+    End Sub
 
 
-        ConsultarIncidencies()
+    Private Sub ElegirBaseDatos()
+        Dim oForm As frmEscollirBD = Nothing
 
+        Try
+            oForm = New frmEscollirBD
 
-        If bExistenAvisos Then
-            lblAvisos.Visible = True
-        End If
+            If oForm.ShowDialog() = DialogResult.OK Then
+                clsConstants.ConnGlobal.Open()
 
-        CargarCbxCalendario()
-        'AuthenticateUser()
+            End If
 
+        Catch ex As Exception
+            Throw New Exception("Error ElegirBaseDatos ", ex)
+        End Try
     End Sub
 
 #End Region
@@ -67,32 +119,74 @@ Public Class frmMain
 
     Private Sub ToolStripContainer1_ContentPanel_Layout(sender As Object, e As LayoutEventArgs) Handles ToolStripContainer1.ContentPanel.Layout
         If Not bLogin Then
+            'frmMissatge.MostrarAvis("aa7")
 
             CargarPreferencias()
 
             'Autenticar con LDAP
-            If Not LDAP.AutenticarLDAP() And clsConstants.LDAP Then
-                frmMissatge.MostrarAvis(fnTraductor.RetornaIdiomaSeleccionat("No se ha podido autenticar automáticamente, entra las credenciales",
+            If clsConstants.LDAP Then
+                If Not LDAP.AutenticarLDAP() Then
+                    frmMissatge.MostrarAvis(fnTraductor.RetornaIdiomaSeleccionat("No se ha podido autenticar automáticamente, entra las credenciales",
                                                                               "No s'ha pogut autenticar automàticament, entra les credencials"))
-                ShowLogin()
-                bLogin = True
-            Else
-                ShowLogin()
-                bLogin = True
 
+
+                    ShowLogin()
+                    bLogin = True
+                Else
+
+                    bLogin = True
+                End If
+            Else
+
+                ShowLogin()
+                bLogin = True
             End If
+
+            lblUser.Text = clsSeguretat.Usuari
+
+
         End If
 
     End Sub
 
     Private Sub CargarPreferencias()
-        oPreferencias = New clsEmpresa
 
-        oPreferencias.Llegir(2)
-        clsConstants.Idioma = oPreferencias.CodiIdioma
-        clsConstants.PathEtiquetas = oPreferencias.PathEtiquetas
-        clsConstants.PathFactCAT = oPreferencias.PathFactura_CA
-        clsConstants.PathFactCAS = oPreferencias.PathFactura_ES
+        Try
+            Dim sVersio As String = SQLReader.ObtenirUnCamp(clsConstants.ConnGlobal, Nothing, "SELECT Versio FROM Empresa Where IdEmpresa = " & 2)
+
+            Dim oVersio As String() = sVersio.Split(".")
+
+            If oVersio(0) <> clsConstants.VERSIO_MAJOR Or oVersio(1) <> clsConstants.VERSIO_MINOR Or oVersio(2) <> clsConstants.VERSIO_BUILD Then
+                frmMissatge.MostrarAvis(fnTraductor.RetornaIdiomaSeleccionat("El programa no esta actualitzat, executa el Update",
+                                                                                  "El programa no esta actualizado, ejecuta el Update"))
+                Forms.Application.Exit()
+                End
+            End If
+
+
+            oPreferencias = New clsEmpresa
+
+            oPreferencias.Llegir(2)
+            clsConstants.Idioma = oPreferencias.CodiIdioma
+
+
+
+            clsConstants.LDAP = oPreferencias.LDAP
+            clsConstants.PathEtiquetas = oPreferencias.PathEtiquetas
+            clsConstants.PathFactCAT = oPreferencias.PathFactura_CA
+            clsConstants.PathFactCAS = oPreferencias.PathFactura_ES
+            clsConstants.PathExcelEnviosCAT = oPreferencias.PathExcelEnvios_CA
+            clsConstants.PathExcelEnviosCAS = oPreferencias.PathExcelEnvios_ES
+            clsConstants.PathExcelEnviosCAT = oPreferencias.PathExcelEnvios_CA
+            clsConstants.PathExcelEnviosCAS = oPreferencias.PathExcelEnvios_ES
+            clsConstants.PathGuardadoFacturas = oPreferencias.PathGuardadoFacturas
+            clsConstants.PathGuardadoInformes = oPreferencias.PathGuardadoInformes
+
+        Catch ex As Exception
+            Throw New Exception("Error: CargarPreferencias", ex)
+        End Try
+
+
 
     End Sub
 
@@ -116,7 +210,6 @@ Public Class frmMain
                 End
             End If
 
-            lblUser.Text = clsSeguretat.Usuari
 
 
 
@@ -176,6 +269,22 @@ Public Class frmMain
                 clsConstants.PathFactCAS = oPreferencias.PathFactura_ES
             End If
 
+            If oPreferencias.PathExcelEnvios_CA <> clsConstants.PathExcelEnviosCAT Then
+                clsConstants.PathExcelEnviosCAT = oPreferencias.PathExcelEnvios_CA
+            End If
+
+            If oPreferencias.PathExcelEnvios_ES <> clsConstants.PathExcelEnviosCAS Then
+                clsConstants.PathExcelEnviosCAS = oPreferencias.PathExcelEnvios_ES
+            End If
+
+            If oPreferencias.PathExcelFacturas_CA <> clsConstants.PathExcelFacturasCAT Then
+                clsConstants.PathExcelFacturasCAT = oPreferencias.PathExcelFacturas_CA
+            End If
+
+            If oPreferencias.PathExcelFacturas_ES <> clsConstants.PathExcelFacturasCAS Then
+                clsConstants.PathExcelFacturasCAS = oPreferencias.PathExcelFacturas_ES
+            End If
+
             oPreferencias = oForm.oPreferencias
 
         Catch ex As Exception
@@ -192,6 +301,11 @@ Public Class frmMain
 
 #Region "Control Idiomas"
     Private Sub ActualitzarIdiomaControls(ByVal frm As Control, ByVal sIdioma As String, bEsMain As Boolean)
+
+        If TypeOf (frm) Is frmWaitForm Then
+            Exit Sub
+        End If
+
         For Each ctrl As Control In frm.Controls
             If TypeOf ctrl Is LabelMultiIdioma Then
                 DirectCast(ctrl, LabelMultiIdioma).CambiarIdioma(sIdioma)
@@ -286,8 +400,14 @@ Public Class frmMain
         cmbxSelectCalendari.Visible = False
     End Sub
 
+    Private Sub btnInformes_Click(sender As Object, e As EventArgs) Handles btnInformes.Click
+        lblTreeSelected.Text = "Informes"
+        tvInformes.BringToFront()
+        cmbxSelectCalendari.Visible = False
+    End Sub
 
-#Region "Controles i Eventos Calendario"
+
+#Region "Controles Treeview i Eventos Calendario"
 
     Private Sub btnCalendario_Click(sender As Object, e As EventArgs) Handles btnCalendario.Click
         lblTreeSelected.Text = fnTraductor.RetornaIdiomaSeleccionat("Calendario", "Calendari")
@@ -372,11 +492,11 @@ Public Class frmMain
 
 #End Region
 
-
-    Private Sub tvEnviaments_DoubleClick(sender As Object, e As EventArgs) Handles tvEnviaments.DoubleClick, tvLogistica.DoubleClick, tvClients.DoubleClick
+    Private Sub ControlTreeViewClick(sender As Object, e As EventArgs) Handles tvEnviaments.DoubleClick, tvLogistica.DoubleClick, tvClients.DoubleClick, tvInformes.DoubleClick
 
         Dim oTag As String() = Nothing
         Dim oForm As frmLlistat = Nothing
+        Dim oFormInforme As frmGeneradorInformes = Nothing
 
         Try
             oTag = Split(sender.SelectedNode.Tag, ";")
@@ -384,7 +504,7 @@ Public Class frmMain
             If oTag(0) = 0 Then 'Es carpeta res.
                 Exit Sub
 
-            Else 'Es un item
+            ElseIf oTag(0) = 1 Then 'Es un item
 
                 If oTag(3) = "clsAltaRapida" Then
 
@@ -393,6 +513,36 @@ Public Class frmMain
                     oFormAR.TryLoad()
 
                     oFormAR.Show()
+
+                ElseIf oTag(3) = "clsDocuments" Then
+
+                    Dim sClasse As String = "AppTransportesTFG.clsDocuments" ' & oTag(3)
+
+                    Dim tipoClase As Type = Type.GetType(sClasse)
+
+                    Dim instanciaClase As Object = Activator.CreateInstance(tipoClase)
+
+                    Dim sTitol As String = fnTraductor.RetornaIdiomaSeleccionat("Elige un documento para abrir",
+                                                                                 "Escull un document per obrir")
+
+
+
+                    oForm = New frmLlistat(clsConstants.ConnGlobal, instanciaClase, instanciaClase.Seleccionar_Consulta(oTag(4)), Me, sTitol, True, False)
+                    oForm.TopLevel = True
+
+                    oForm.TryLoad()
+                    'ToolStripContainer1.ContentPanel.Controls.Add(oForm)
+                    oForm.BringToFront()
+                    If oForm.ShowDialog() = DialogResult.OK Then
+                        Dim IdDocument As Integer = oForm.IdSeleccionat
+
+                        Dim oDocument As clsDocuments = New clsDocuments
+                        oDocument.Llegir(IdDocument)
+
+                        Process.Start("C:\Program Files\Microsoft Office\root\Office16\excel.EXE", oDocument.RutaDocument)
+
+
+                    End If
 
 
                 ElseIf oTag(3) <> "clsEtiquetas" Then 'TODO: igual en un futuro interesa agrupar los que no abren listados de eleccion como por ejemplo etiquetas i asi
@@ -413,7 +563,7 @@ Public Class frmMain
                     oForm.Show()
 
 
-                Else
+                ElseIf oTag(3) = "clsEtiquetas" Then
                     Dim sClasse As String = "AppTransportesTFG.clsEnvios" ' & oTag(3)
 
                     Dim tipoClase As Type = Type.GetType(sClasse)
@@ -434,7 +584,7 @@ Public Class frmMain
                     If oForm.ShowDialog() = DialogResult.OK Then
                         Dim IdEnvio As Integer = oForm.IdSeleccionat
 
-                        Dim sCodigoEnvio As String = SQLReader.ObtenirUnCamp(clsConstants.ConnGlobal, Nothing, "SELECT CodigoSeguimiento FROM Envios WHERE IdEnvio = " & IdEnvio)
+                        Dim sCodigoEnvio As String = SQLReader.ObtenirUnCamp(clsConstants.ConnGlobal, Nothing, "SELECT CodigoSeguimiento FROM Envios WITH (NOLOCK) WHERE IdEnvio = " & IdEnvio)
 
 
                         Dim sRuta As String = GeneradorEtiquetas.GenerarCodigoBarrasYGuardar(sCodigoEnvio)
@@ -443,7 +593,17 @@ Public Class frmMain
                     End If
 
 
+
                 End If
+
+            Else 'Es un informe
+
+                Dim sTipusInforme As String = oTag(3)
+                oFormInforme = New frmGeneradorInformes(clsConstants.ConnGlobal, sTipusInforme.StartsWith("E"))
+
+
+                oFormInforme.TryLoad()
+                oFormInforme.ShowDialog()
 
 
             End If
@@ -476,7 +636,7 @@ Public Class frmMain
 
         Try
 
-            iFiles = SQLReader.ObtenirUnCamp(clsConstants.ConnGlobal, Nothing, "SELECT COUNT(*) as Total FROM Envios WHERE IdEstado = 6")
+            iFiles = SQLReader.ObtenirUnCamp(clsConstants.ConnGlobal, Nothing, "SELECT COUNT(*) as Total FROM Envios WITH (NOLOCK) WHERE IdEstado = 6")
 
             If iFiles <> 0 Then
                 lblIncidencies.Visible = True
@@ -492,8 +652,8 @@ Public Class frmMain
                                                                               "Tens " & iFiles & " incidències pendents de resoldre"))
                 End If
 
-                If bExistenAvisos Then
-                    lblIncidencies.Location = New Point(lblAvisos.Location.X, lblAvisos.Location.Y + 65)
+                If bExistenAvisos And Not gbxControlRutas.Visible Then
+                    lblIncidencies.Location = New Point(lblAvisos.Location.X, lblAvisos.Location.Y + 55)
                 Else
                     bExistenAvisos = True
                 End If
@@ -555,12 +715,13 @@ Public Class frmMain
 
     Private Sub ComprobarRutas()
         Try
-            Dim bExistenRutas As Boolean = SQLReader.CampoExiste(clsConstants.ConnGlobal, Nothing, "SELECT TOP 1 IdFurgoneta_Ruta FROM Furgoneta_Ruta WHERE FechaRuta = CONVERT(date, GETDATE())")
+            Dim bExistenRutas As Boolean = SQLReader.CampoExiste(clsConstants.ConnGlobal, Nothing, "SELECT TOP 1 IdFurgoneta_Ruta FROM Furgoneta_Ruta WITH (NOLOCK) WHERE FechaRuta = CONVERT(date, GETDATE())")
 
             If Not bExistenRutas Then
                 gbxControlRutas.Visible = True
             Else
 
+                lblIncidencies.Location = New Point(lblAvisos.Location.X, lblAvisos.Location.Y + 55)
 
                 bExistenAvisos = True
 
@@ -574,7 +735,7 @@ Public Class frmMain
 
     Private Sub btnCopiarRutasNO_Click(sender As Object, e As EventArgs) Handles btnCopiarRutasNO.Click
         gbxControlRutas.Visible = False
-        lblIncidencies.Location = New Point(lblAvisos.Location.X, lblAvisos.Location.Y + 65)
+        lblIncidencies.Location = New Point(lblAvisos.Location.X, lblAvisos.Location.Y + 55)
 
     End Sub
 
@@ -583,25 +744,35 @@ Public Class frmMain
         Dim oRuta As clsFurgoneta_Ruta = Nothing
         Try
 
-            dtRutasHistorico = SQLReader.ReaderDataTable(clsConstants.ConnGlobal, Nothing, "SELECT * FROM Furgoneta_Ruta WHERE FechaRuta = (SELECT MAX(FechaRuta) FROM Furgoneta_Ruta)")
+            dtRutasHistorico = SQLReader.ReaderDataTable(clsConstants.ConnGlobal, Nothing, "SELECT * FROM Furgoneta_Ruta WITH (NOLOCK) WHERE FechaRuta = (SELECT MAX(FechaRuta) FROM Furgoneta_Ruta WITH (NOLOCK))")
 
-            For Each oRow In dtRutasHistorico.Rows
-                oRuta = New clsFurgoneta_Ruta()
-                oRuta.IdFurgoneta = oRow("IdFurgoneta")
-                oRuta.IdRuta = oRow("IdRuta")
-                oRuta.IdTrabajador = oRow("IdTrabajador")
-                oRuta.FechaRuta = Date.Now
+            If dtRutasHistorico.Rows.Count <> 0 Then
+                For Each oRow In dtRutasHistorico.Rows
+                    oRuta = New clsFurgoneta_Ruta()
+                    oRuta.IdFurgoneta = oRow("IdFurgoneta")
+                    oRuta.IdRuta = oRow("IdRuta")
+                    oRuta.IdTrabajador = oRow("IdTrabajador")
+                    oRuta.FechaRuta = Date.Now
 
-                oRuta.Escriure(True)
+                    oRuta.Escriure(True)
 
-            Next
-            gbxControlRutas.Visible = False
+                Next
+                gbxControlRutas.Visible = False
 
-            lblIncidencies.Location = New Point(lblAvisos.Location.X, lblAvisos.Location.Y + 65)
+                lblIncidencies.Location = New Point(lblAvisos.Location.X, lblAvisos.Location.Y + 55)
 
 
-            frmMissatge.MostrarAvis(fnTraductor.RetornaIdiomaSeleccionat("Rutas copiadas con éxito",
-                                                                          "Rutes copiades amb èxit"))
+                frmMissatge.MostrarAvis(fnTraductor.RetornaIdiomaSeleccionat("Rutas copiadas con éxito",
+                                                                              "Rutes copiades amb èxit"))
+
+                CargarTrabajadoresEnRuta()
+            Else
+                frmMissatge.MostrarAvis(fnTraductor.RetornaIdiomaSeleccionat("No hay rutas para copiar",
+                                                                              "No hi ha rutes per copiar"))
+            End If
+
+
+
 
         Catch ex As Exception
             frmMissatge.Mostrar(fnTraductor.RetornaIdiomaSeleccionat("Error al copiar las rutas",
@@ -624,6 +795,87 @@ Public Class frmMain
 
 #End Region
 
+#Region "Control Trabajadores en Ruta"
+    Private dtTrabajadoresRuta As DataTable = Nothing
+
+    Private Sub CargarTrabajadoresEnRuta()
+        Try
+            Dim sConsulta As String = "SELECT        Furgonetas.Nombre, Furgonetas.Marca, Furgonetas.Modelo, Trabajadores.Nombre AS Expr1, Trabajadores.Apellidos, Rutas.Nom
+            FROM Furgoneta_Ruta WITH (NOLOCK) INNER JOIN
+                                     Furgonetas ON Furgoneta_Ruta.IdFurgoneta = Furgonetas.IdFurgoneta INNER JOIN
+                                     Trabajadores ON Furgoneta_Ruta.IdTrabajador = Trabajadores.IdTrabajador INNER JOIN
+                                     Rutas ON Furgoneta_Ruta.IdRuta = Rutas.IdRuta
+            WHERE        (CAST(Furgoneta_Ruta.FechaRuta AS DATE) = CAST(GETDATE() AS DATE))"
+
+            dtTrabajadoresRuta = SQLReader.ReaderDataTable(clsConstants.ConnGlobal, Nothing, sConsulta)
+
+            If dtTrabajadoresRuta.Rows.Count = 0 Then
+                dgTrabajadoresEnRuta.Visible = False
+                btnActualizarTrabajadoresRuta.Visible = False
+                lblTrabajadoresEnRuta.Visible = False
+                Exit Sub
+
+            Else
+                dgTrabajadoresEnRuta.Visible = True
+                lblTrabajadoresEnRuta.Visible = True
+                btnActualizarTrabajadoresRuta.Visible = True
+
+            End If
+
+            dgTrabajadoresEnRuta.DataSource = dtTrabajadoresRuta
+
+
+            For Each columna As Syncfusion.WinForms.DataGrid.GridColumn In dgTrabajadoresEnRuta.Columns
+                Dim nombreActual As String = columna.HeaderText
+
+                Select Case nombreActual
+                    Case "Nombre" ' Furgonetas.Nombre
+                        columna.HeaderText = fnTraductor.RetornaIdiomaSeleccionat("Nombre Furgoneta", "Nom Furgoneta")
+
+                    Case "Marca" ' Furgonetas.Marca
+                        columna.HeaderText = fnTraductor.RetornaIdiomaSeleccionat("Marca", "Marca")
+
+                    Case "Modelo" ' Furgonetas.Modelo
+                        columna.HeaderText = fnTraductor.RetornaIdiomaSeleccionat("Modelo", "Model")
+
+                    Case "Expr1" ' Trabajadores.Nombre
+                        columna.HeaderText = fnTraductor.RetornaIdiomaSeleccionat("Nombre Trabajador", "Nom Treballador")
+
+                    Case "Apellidos" ' Trabajadores.Apellidos
+                        columna.HeaderText = fnTraductor.RetornaIdiomaSeleccionat("Apellidos", "Cognoms")
+
+                    Case "Nom" ' Rutas.Nom
+                        columna.HeaderText = fnTraductor.RetornaIdiomaSeleccionat("Ruta", "Ruta")
+
+                End Select
+                columna.AutoSizeColumnsMode = Syncfusion.WinForms.DataGrid.Enums.AutoSizeColumnsMode.AllCells
+
+
+            Next
+
+            dgTrabajadoresEnRuta.Refresh()
+            'dgTrabajadoresEnRuta.AutoSizeColumnsMode = Syncfusion.WinForms.DataGrid.Enums.AutoSizeColumnsMode.AllCells
+
+
+
+        Catch ex As Exception
+            frmMissatge.Mostrar(fnTraductor.RetornaIdiomaSeleccionat("Error al cargar los trabajadores en ruta",
+                                                                     "Error al carregar els treballadors en ruta"), ex)
+        End Try
+    End Sub
+
+    Private Sub btnActualizarTrabajadoresRuta_Click(sender As Object, e As EventArgs) Handles btnActualizarTrabajadoresRuta.Click
+        CargarTrabajadoresEnRuta()
+
+    End Sub
+
+
+
+
+
+
+
+#End Region
 
 
 

@@ -38,6 +38,7 @@ Partial Class frmFactura
         tbxMailCliente = New TextBox()
         tbxDirCliente = New TextBox()
         tbxNifcliente = New TextBox()
+        tbxIdioma = New TextBox()
         LabelMultiIdioma11 = New LabelMultiIdioma()
         LabelMultiIdioma12 = New LabelMultiIdioma()
         LabelMultiIdioma13 = New LabelMultiIdioma()
@@ -59,7 +60,6 @@ Partial Class frmFactura
         btnCancelar = New ButtonMultiIdioma()
         btnBorrar = New ButtonMultiIdioma()
         btnGenerarFactura = New ButtonMultiIdioma()
-        tbxIdioma = New TextBox()
         TabPage1.SuspendLayout()
         GroupBox1.SuspendLayout()
         gbxDatosCliente.SuspendLayout()
@@ -81,10 +81,10 @@ Partial Class frmFactura
         TabPage1.Controls.Add(GroupBox1)
         TabPage1.Controls.Add(gbxDatosCliente)
         TabPage1.Controls.Add(gbxGeneral)
-        TabPage1.Location = New Point(4, 24)
+        TabPage1.Location = New Point(4, 27)
         TabPage1.Name = "TabPage1"
         TabPage1.Padding = New Padding(3)
-        TabPage1.Size = New Size(780, 376)
+        TabPage1.Size = New Size(780, 373)
         TabPage1.TabIndex = 0
         TabPage1.Text = "Principal"
         ' 
@@ -210,6 +210,7 @@ Partial Class frmFactura
         tbiCodiClient.uCampBD4 = "NIF"
         tbiCodiClient.uCampBD5 = "Idioma"
         tbiCodiClient.uCampBD6 = Nothing
+        tbiCodiClient.uCampBD7 = Nothing
         tbiCodiClient.uObjRecord = Nothing
         tbiCodiClient.utbxCamp1 = tbxNombreCliente
         tbiCodiClient.utbxCamp2 = tbxMailCliente
@@ -217,6 +218,7 @@ Partial Class frmFactura
         tbiCodiClient.utbxCamp4 = tbxNifcliente
         tbiCodiClient.utbxCamp5 = tbxIdioma
         tbiCodiClient.utbxCamp6 = Nothing
+        tbiCodiClient.utbxCamp7 = Nothing
         ' 
         ' tbxNombreCliente
         ' 
@@ -259,6 +261,17 @@ Partial Class frmFactura
         tbxNifcliente.Size = New Size(62, 23)
         tbxNifcliente.TabIndex = 22
         tbxNifcliente.Visible = False
+        ' 
+        ' tbxIdioma
+        ' 
+        tbxIdioma.BackColor = SystemColors.GradientActiveCaption
+        tbxIdioma.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point)
+        tbxIdioma.Location = New Point(460, 412)
+        tbxIdioma.Name = "tbxIdioma"
+        tbxIdioma.ReadOnly = True
+        tbxIdioma.Size = New Size(62, 23)
+        tbxIdioma.TabIndex = 25
+        tbxIdioma.Visible = False
         ' 
         ' LabelMultiIdioma11
         ' 
@@ -509,6 +522,7 @@ Partial Class frmFactura
         TabControl1.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
         TabControl1.Controls.Add(TabPage1)
         TabControl1.Controls.Add(TabPage2)
+        TabControl1.Font = New Font("Microsoft Sans Serif", 11.25F, FontStyle.Bold Or FontStyle.Italic, GraphicsUnit.Point)
         TabControl1.Location = New Point(0, 0)
         TabControl1.Name = "TabControl1"
         TabControl1.SelectedIndex = 0
@@ -520,10 +534,10 @@ Partial Class frmFactura
         TabPage2.Controls.Add(dgvItems)
         TabPage2.Controls.Add(btnTreureHistoric)
         TabPage2.Controls.Add(btnAfegirHistoric)
-        TabPage2.Location = New Point(4, 24)
+        TabPage2.Location = New Point(4, 27)
         TabPage2.Name = "TabPage2"
         TabPage2.Padding = New Padding(3)
-        TabPage2.Size = New Size(780, 376)
+        TabPage2.Size = New Size(780, 373)
         TabPage2.TabIndex = 1
         TabPage2.Text = "Items"
         TabPage2.UseVisualStyleBackColor = True
@@ -536,7 +550,7 @@ Partial Class frmFactura
         dgvItems.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
         dgvItems.Location = New Point(0, 0)
         dgvItems.Name = "dgvItems"
-        dgvItems.Size = New Size(663, 376)
+        dgvItems.Size = New Size(663, 373)
         dgvItems.Style.BorderColor = Color.FromArgb(CByte(100), CByte(100), CByte(100))
         dgvItems.Style.CheckBoxStyle.CheckedBackColor = Color.FromArgb(CByte(0), CByte(120), CByte(215))
         dgvItems.Style.CheckBoxStyle.CheckedBorderColor = Color.FromArgb(CByte(0), CByte(120), CByte(215))
@@ -549,7 +563,7 @@ Partial Class frmFactura
         ' 
         ' btnTreureHistoric
         ' 
-        btnTreureHistoric.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
+        btnTreureHistoric.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         btnTreureHistoric.AutoSize = True
         btnTreureHistoric.Font = New Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point)
         btnTreureHistoric.Image = CType(resources.GetObject("btnTreureHistoric.Image"), Image)
@@ -565,7 +579,7 @@ Partial Class frmFactura
         ' 
         ' btnAfegirHistoric
         ' 
-        btnAfegirHistoric.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
+        btnAfegirHistoric.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         btnAfegirHistoric.AutoSize = True
         btnAfegirHistoric.Font = New Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point)
         btnAfegirHistoric.Image = CType(resources.GetObject("btnAfegirHistoric.Image"), Image)
@@ -581,7 +595,7 @@ Partial Class frmFactura
         ' 
         ' btnGuardar
         ' 
-        btnGuardar.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
+        btnGuardar.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
         btnGuardar.AutoSize = True
         btnGuardar.Font = New Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point)
         btnGuardar.Image = CType(resources.GetObject("btnGuardar.Image"), Image)
@@ -597,7 +611,7 @@ Partial Class frmFactura
         ' 
         ' btnCancelar
         ' 
-        btnCancelar.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
+        btnCancelar.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
         btnCancelar.AutoSize = True
         btnCancelar.Font = New Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point)
         btnCancelar.Image = CType(resources.GetObject("btnCancelar.Image"), Image)
@@ -613,7 +627,7 @@ Partial Class frmFactura
         ' 
         ' btnBorrar
         ' 
-        btnBorrar.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
+        btnBorrar.Anchor = AnchorStyles.Bottom Or AnchorStyles.Left
         btnBorrar.AutoSize = True
         btnBorrar.Font = New Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point)
         btnBorrar.Image = CType(resources.GetObject("btnBorrar.Image"), Image)
@@ -629,7 +643,7 @@ Partial Class frmFactura
         ' 
         ' btnGenerarFactura
         ' 
-        btnGenerarFactura.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
+        btnGenerarFactura.Anchor = AnchorStyles.Bottom
         btnGenerarFactura.AutoSize = True
         btnGenerarFactura.Font = New Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point)
         btnGenerarFactura.Image = CType(resources.GetObject("btnGenerarFactura.Image"), Image)
@@ -642,17 +656,6 @@ Partial Class frmFactura
         btnGenerarFactura.TextoCastellano = "Generar Factura"
         btnGenerarFactura.TextoCatalan = "Generar Factura"
         btnGenerarFactura.UseVisualStyleBackColor = True
-        ' 
-        ' tbxIdioma
-        ' 
-        tbxIdioma.BackColor = SystemColors.GradientActiveCaption
-        tbxIdioma.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point)
-        tbxIdioma.Location = New Point(460, 412)
-        tbxIdioma.Name = "tbxIdioma"
-        tbxIdioma.ReadOnly = True
-        tbxIdioma.Size = New Size(62, 23)
-        tbxIdioma.TabIndex = 25
-        tbxIdioma.Visible = False
         ' 
         ' frmFactura
         ' 

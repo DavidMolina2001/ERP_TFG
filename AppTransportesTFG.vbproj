@@ -34,6 +34,15 @@
   <ItemGroup>
     <Compile Update="Controls\ButtonMultiIdioma.vb" />
     <Compile Update="FormsAuxiliars\frmAltaRapida.vb" />
+    <Compile Update="FormsAuxiliars\frmWaitForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="FormsAuxiliars\frmGeneradorInformes.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="FormsAuxiliars\frmEscollirBD.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="FormsAuxiliars\frmGeneric.vb" />
     <Compile Update="FormsBBDD\frmFactura_Linia.vb" />
     <Compile Update="FormsBBDD\frmFurgoneta_Ruta.vb" />

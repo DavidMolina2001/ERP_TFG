@@ -75,12 +75,18 @@ Public Class frmAltaRapida
         Dim oClase As clsEnvios = Nothing
         Try
 
-            dtEnvios = SQLReader.ReaderDataTable(oConn, Nothing, "SELECT * FROM Envios WHERE (1=0)")
+            dtEnvios = SQLReader.ReaderDataTable(oConn, Nothing, "SELECT * FROM Envios WITH (NOLOCK) WHERE (1=0)")
 
             oClase = New clsEnvios
 
             dg_Envios.DataSource = dtEnvios
 
+            dt = SQLReader.ReaderDataTable(oConn, Nothing, "SELECT IdRuta, Poblaciones FROM Rutas WITH (NOLOCK)")
+            For Each row As DataRow In dt.Rows
+                Dim lstTemp As List(Of String) = JsonConvert.DeserializeObject(Of List(Of String))(row("Poblaciones"))
+                lstPoblaciones.AddRange(lstTemp)
+                dicRutas.Add(Convert.ToInt32(row("IdRuta")), lstTemp)
+            Next
 
 
             For Each columna As Syncfusion.WinForms.DataGrid.GridColumn In dg_Envios.Columns
@@ -90,30 +96,47 @@ Public Class frmAltaRapida
                     columna.Visible = False
                 End If
 
+
+
+
                 Dim nombreTraducido As String = oClase.NomCampMostrar(nombreActual)
 
                 columna.HeaderText = nombreTraducido
 
+
+
             Next
+
+
+            If dg_Envios.Columns("PoblacionDestino") IsNot Nothing Then
+                Dim poblacionColumn As New Syncfusion.WinForms.DataGrid.GridComboBoxColumn()
+                poblacionColumn.MappingName = "PoblacionDestino"
+                poblacionColumn.HeaderText = fnTraductor.RetornaIdiomaSeleccionat("Población Destino", "Població Destí")
+                poblacionColumn.DisplayMember = "NombrePoblacionDestino"
+                poblacionColumn.ValueMember = "NombrePoblacionDestino"
+                poblacionColumn.DataSource = lstPoblaciones
+                poblacionColumn.DropDownStyle = Syncfusion.WinForms.ListView.Enums.DropDownStyle.DropDownList
+
+                Dim columnIndex As Integer = dg_Envios.Columns.IndexOf(dg_Envios.Columns("PoblacionDestino"))
+                dg_Envios.Columns.RemoveAt(columnIndex)
+                dg_Envios.Columns.Insert(columnIndex, poblacionColumn)
+
+            End If
+
+
             dg_Envios.AutoSizeColumnsMode = Syncfusion.WinForms.DataGrid.Enums.AutoSizeColumnsMode.AllCells
 
 
-            dt = SQLReader.ReaderDataTable(oConn, Nothing, "SELECT IdEstado FROM Envios_Estados")
+            dt = SQLReader.ReaderDataTable(oConn, Nothing, "SELECT IdEstado FROM Envios_Estados WITH (NOLOCK)")
             For Each row As DataRow In dt.Rows
                 lstEstados.Add(Convert.ToInt32(row("IdEstado")))
             Next
 
-            dt = SQLReader.ReaderDataTable(oConn, Nothing, "SELECT IdClient FROM Clients")
+            dt = SQLReader.ReaderDataTable(oConn, Nothing, "SELECT IdClient FROM Clients WITH (NOLOCK)")
             For Each row As DataRow In dt.Rows
                 lstClientes.Add(Convert.ToInt32(row("IdClient")))
             Next
 
-            dt = SQLReader.ReaderDataTable(oConn, Nothing, "SELECT IdRuta, Poblaciones FROM Rutas")
-            For Each row As DataRow In dt.Rows
-                Dim lstTemp As List(Of String) = JsonConvert.DeserializeObject(Of List(Of String))(row("Poblaciones"))
-                lstPoblaciones.AddRange(lstTemp)
-                dicRutas.Add(Convert.ToInt32(row("IdRuta")), lstTemp)
-            Next
 
 
 
@@ -163,9 +186,46 @@ Public Class frmAltaRapida
     End Sub
 
     Private Function Guardar() As Boolean
+        Dim oEnvio As clsEnvios = Nothing
+        Dim bRes As Boolean = False
+        Try
+
+            Dim sRepetits As String = String.Empty
+
+            For Each oRow In dtEnvios.Rows
+                oEnvio = New clsEnvios()
+
+                If Not SQLReader.CampoExiste(oConn, Nothing, "SELECT CodigoSeguimiento FROM Envios WITH (NOLOCK) WHERE CodigoSeguimiento = '" & oRow("CodigoSeguimiento") & "'") Then
+                    oEnvio.CopiarDataRowADatos(oRow)
+                    oEnvio.Escriure(True)
+                Else
+                    sRepetits &= oRow("CodigoSeguimiento") & ", "
+                End If
+            Next
+
+            If sRepetits <> String.Empty Then
+                sRepetits = sRepetits.Substring(0, sRepetits.Length - 2)
+                frmMissatge.MostrarAvis(fnTraductor.RetornaIdiomaSeleccionat("Los envíos: " & sRepetits & " no se han añadido ya que ya existen en la base de datos",
+                                                                             "Els enviaments: " & sRepetits & " no s'han afegit ja que ja existeixen a la base de dades"))
 
 
 
+            End If
+
+            bRes = True
+
+        Catch ex As Exception
+            frmMissatge.Mostrar(fnTraductor.RetornaIdiomaSeleccionat("Error al guardar los envíos nuevos",
+                                                                     "Error al guardar els enviaments nous"), ex)
+
+        Finally
+            If oEnvio IsNot Nothing Then
+                oEnvio = Nothing
+            End If
+
+        End Try
+
+        Return bRes
     End Function
 
     Private Sub btnCancelar_Click(sender As Object, e As EventArgs) Handles btnCancelar.Click
@@ -193,6 +253,21 @@ Public Class frmAltaRapida
                 oGenerador.GenerarEnvio(oRow, tbxEnvio.Text)
             Else
                 oRow("CodigoSeguimiento") = tbxEnvio.Text
+                oRow("PoblacionOrigen") = 0
+                oRow("DireccionOrigen") = String.Empty
+                oRow("NombreRemitente") = String.Empty
+                oRow("PoblacionDestino") = 0
+                oRow("NombreDestinatario") = String.Empty
+                oRow("IdEstado") = 0
+                oRow("DireccionDestino") = String.Empty
+                oRow("Peso") = 0.0
+                oRow("Dimensiones") = String.Empty
+                'oRow("CodigoCliente") = 0
+                oRow("Porte") = 0.0
+                oRow("EmailDestinatario") = String.Empty
+                oRow("IdRuta") = 0
+
+
             End If
 
 
@@ -208,7 +283,7 @@ Public Class frmAltaRapida
     Private Sub btnTreureSeleccionat_Click(sender As Object, e As EventArgs) Handles btnTreureSeleccionat.Click
         Try
             If dtEnvios.Rows.Count = 0 Then
-                frmMissatge.MostrarAvis(fnTraductor.RetornaIdiomaSeleccionat("No hay ningun item que borrar",
+                frmMissatge.MostrarAvis(fnTraductor.RetornaIdiomaSeleccionat("No hay ningún item que borrar",
                                                                               "No hi ha cap item que esborrar"))
                 Exit Sub
             End If
@@ -230,7 +305,15 @@ Public Class frmAltaRapida
                 Dim sPoblacion As String = e.DataRow.RowData.Row.ItemArray(3).ToString()
                 If lstPoblaciones.Exists(Function(x) x.Equals(sPoblacion, StringComparison.OrdinalIgnoreCase)) Then
 
-                    Dim b As Boolean = True
+                    For Each kvp As KeyValuePair(Of Integer, List(Of String)) In dicRutas
+                        If kvp.Value.Contains(sPoblacion) Then
+                            dtEnvios.Rows(e.DataRow.Index - 1)(13) = kvp.Key
+                            'e.DataRow.RowData.Row.ItemArray(13) = kvp.Key
+                            dtEnvios.AcceptChanges()
+
+                        End If
+                    Next
+
                 Else
 
                     frmMissatge.MostrarAvis(fnTraductor.RetornaIdiomaSeleccionat("La población entrada no existe en nuestras rutas",

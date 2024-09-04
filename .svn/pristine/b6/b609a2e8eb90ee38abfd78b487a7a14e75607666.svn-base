@@ -1,0 +1,28 @@
+﻿Imports Microsoft.Data
+Public Class clsConstants
+    Public Const VERSIO_MAJOR As Integer = 1
+    Public Const VERSIO_MINOR As Integer = 0
+    Public Const VERSIO_BUILD As Integer = 1
+
+
+
+    Public Shared Property Idioma As String
+    Public Shared Property ConnGlobal As SqlClient.SqlConnection
+    Public Shared Property PathEtiquetas As String
+
+    Public Shared Property LDAP As Boolean
+    Public Shared Property PathFactCAT As String
+
+    Public Shared Property PathFactCAS As String
+
+    Public Shared Property PathExcelEnviosCAT As String
+
+    Public Shared Property PathExcelEnviosCAS As String
+
+    Public Shared Property PathExcelFacturasCAT As String
+
+    Public Shared Property PathExcelFacturasCAS As String
+
+
+
+End Class

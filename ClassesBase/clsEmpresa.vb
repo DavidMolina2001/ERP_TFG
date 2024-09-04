@@ -16,6 +16,14 @@ Public Class clsEmpresa
     Private bLDAP As Boolean
     Private sPathFactura_CA As String
     Private sPathFactura_ES As String
+    Private sPathExcelEnvios_CA As String
+    Private sPathExcelEnvios_ES As String
+    Private sPathExcelFacturas_CA As String
+    Private sPathExcelFacturas_ES As String
+    Private sVersio As String
+    Private oDataUltimaActualitzacio As Object
+    Private sPathGuardadoFacturas As String
+    Private sPathGuardadoInformes As String
 
 #End Region
 
@@ -86,6 +94,79 @@ Public Class clsEmpresa
         End Set
     End Property
 
+    Public Property PathExcelEnvios_CA As String
+        Get
+            Return sPathExcelEnvios_CA
+        End Get
+        Set(value As String)
+            sPathExcelEnvios_CA = value
+        End Set
+    End Property
+
+    Public Property PathExcelEnvios_ES As String
+        Get
+            Return sPathExcelEnvios_ES
+        End Get
+        Set(value As String)
+            sPathExcelEnvios_ES = value
+        End Set
+    End Property
+
+    Public Property PathExcelFacturas_CA As String
+        Get
+            Return sPathExcelFacturas_CA
+        End Get
+        Set(value As String)
+            sPathExcelFacturas_CA = value
+        End Set
+    End Property
+
+    Public Property PathExcelFacturas_ES As String
+        Get
+            Return sPathExcelFacturas_ES
+        End Get
+        Set(value As String)
+            sPathExcelFacturas_ES = value
+        End Set
+    End Property
+
+    Public Property Versio As String
+        Get
+            Return sVersio
+        End Get
+        Set(value As String)
+            sVersio = value
+        End Set
+    End Property
+
+    Public Property DataUltimaActualitzacio As Object
+        Get
+            Return oDataUltimaActualitzacio
+        End Get
+        Set(value As Object)
+            oDataUltimaActualitzacio = value
+        End Set
+    End Property
+
+    Public Property PathGuardadoFacturas As String
+        Get
+            Return sPathGuardadoFacturas
+        End Get
+        Set(value As String)
+            sPathGuardadoFacturas = value
+        End Set
+    End Property
+
+    Public Property PathGuardadoInformes As String
+        Get
+            Return sPathGuardadoInformes
+        End Get
+        Set(value As String)
+            sPathGuardadoInformes = value
+        End Set
+    End Property
+
+
 #End Region
 
 #Region "Metodos"
@@ -96,6 +177,14 @@ Public Class clsEmpresa
         Me.bLDAP = Convert.ToBoolean(reader("LDAP"))
         Me.sPathFactura_CA = Convert.ToString(reader("PathFactura_CA"))
         Me.sPathFactura_ES = Convert.ToString(reader("PathFactura_ES"))
+        Me.sPathExcelEnvios_CA = Convert.ToString(reader("PathExcelEnvios_CA"))
+        Me.sPathExcelEnvios_ES = Convert.ToString(reader("PathExcelEnvios_ES"))
+        Me.sPathExcelFacturas_CA = Convert.ToString(reader("PathExcelFactures_CA"))
+        Me.sPathExcelFacturas_ES = Convert.ToString(reader("PathExcelFactures_ES"))
+        Me.sVersio = Convert.ToString(reader("Versio"))
+        Me.oDataUltimaActualitzacio = reader("DataUltimaActualitzacio")
+        Me.sPathGuardadoFacturas = Convert.ToString(reader("PathGuardadoFacturas"))
+        Me.sPathGuardadoInformes = Convert.ToString(reader("PathGuardadoInformes"))
     End Sub
 
     Public Overrides Sub CopiarDatosADataRow(drw As DataRow)
@@ -105,6 +194,14 @@ Public Class clsEmpresa
         drw("LDAP") = Me.bLDAP
         drw("PathFactura_CA") = Me.sPathFactura_CA
         drw("PathFactura_ES") = Me.sPathFactura_ES
+        drw("PathExcelEnvios_CA") = Me.sPathExcelEnvios_CA
+        drw("PathExcelEnvios_ES") = Me.sPathExcelEnvios_ES
+        drw("PathExcelFactures_CA") = Me.sPathExcelEnvios_CA
+        drw("PathExcelFactures_ES") = Me.sPathExcelEnvios_ES
+        drw("Versio") = Me.sVersio
+        drw("DataUltimaActualitzacio") = Me.oDataUltimaActualitzacio
+        drw("PathGuardadoFacturas") = Me.sPathGuardadoFacturas
+        drw("PathGuardadoInformes") = Me.sPathGuardadoInformes
     End Sub
 
     Public Overrides Function FormulariManteniment() As Type
@@ -130,7 +227,8 @@ Public Class clsEmpresa
     End Function
 
     Public Shared Function ConsultaSelectTots()
-        Return "SELECT IdEmpresa, CodiIdioma, PathEtiquetas, LDAP, PathFactura_CA, PathFactura_ES FROM Empresa"
+        Return "SELECT IdEmpresa, CodiIdioma, PathEtiquetas, LDAP, PathFactura_CA, PathFactura_ES, PathExcelEnvios_CA, PathExcelEnvios_ES, " &
+                "PathExcelFactures_CA, PathExcelFactures_ES, Versio, DataUltimaActualitzacio, PathGuardadoFacturas, PathGuardadoInformes  FROM Empresa WITH (NOLOCK)"
     End Function
 
     Public Overrides Function NomCampMostrar(nombreAtributo As String) As String

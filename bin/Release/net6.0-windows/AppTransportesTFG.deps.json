@@ -9,14 +9,16 @@
       "AppTransportesTFG/1.0.0": {
         "dependencies": {
           "BarcodeLib": "3.0.3",
+          "DocumentFormat.OpenXml": "3.0.2",
           "Independentsoft.Office": "2.0.770",
           "Microsoft.Data.SqlClient": "5.1.5",
+          "Microsoft.Office.Interop.Word": "15.0.4797.1004",
           "Newtonsoft.Json": "13.0.3",
           "Syncfusion.Core.WinForms": "25.1.41",
           "Syncfusion.Grid.Windows": "25.1.41",
           "Syncfusion.Licensing": "25.1.41",
+          "Syncfusion.OfficeChartToImageConverter.WinForms": "25.1.41",
           "Syncfusion.SfDataGrid.WinForms": "25.1.41",
-          "Syncfusion.Shared.Base": "25.1.41",
           "Syncfusion.Tools.Windows": "25.1.41",
           "System.DirectoryServices.AccountManagement": "8.0.0",
           "System.DirectoryServices.Protocols": "8.0.0"
@@ -70,6 +72,28 @@
           "lib/netstandard2.0/BarcodeStandard.dll": {
             "assemblyVersion": "3.0.3.0",
             "fileVersion": "3.0.3.0"
+          }
+        }
+      },
+      "DocumentFormat.OpenXml/3.0.2": {
+        "dependencies": {
+          "DocumentFormat.OpenXml.Framework": "3.0.2"
+        },
+        "runtime": {
+          "lib/netstandard2.0/DocumentFormat.OpenXml.dll": {
+            "assemblyVersion": "3.0.2.0",
+            "fileVersion": "3.0.2.0"
+          }
+        }
+      },
+      "DocumentFormat.OpenXml.Framework/3.0.2": {
+        "dependencies": {
+          "System.IO.Packaging": "8.0.0"
+        },
+        "runtime": {
+          "lib/net6.0/DocumentFormat.OpenXml.Framework.dll": {
+            "assemblyVersion": "3.0.2.0",
+            "fileVersion": "3.0.2.0"
           }
         }
       },
@@ -274,6 +298,14 @@
       },
       "Microsoft.NETCore.Platforms/5.0.0": {},
       "Microsoft.NETCore.Targets/1.1.0": {},
+      "Microsoft.Office.Interop.Word/15.0.4797.1004": {
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Office.Interop.Word.dll": {
+            "assemblyVersion": "15.0.0.0",
+            "fileVersion": "15.0.4797.1003"
+          }
+        }
+      },
       "Microsoft.SqlServer.Server/1.0.0": {
         "runtime": {
           "lib/netstandard2.0/Microsoft.SqlServer.Server.dll": {
@@ -390,6 +422,14 @@
           }
         }
       },
+      "Syncfusion.Compression.Base/25.1.41": {
+        "runtime": {
+          "lib/net6.0-windows7.0/Syncfusion.Compression.Base.dll": {
+            "assemblyVersion": "25.1.41.0",
+            "fileVersion": "25.1.41.0"
+          }
+        }
+      },
       "Syncfusion.Core.WinForms/25.1.41": {
         "dependencies": {
           "Syncfusion.Licensing": "25.1.41",
@@ -442,6 +482,42 @@
       "Syncfusion.Licensing/25.1.41": {
         "runtime": {
           "lib/net6.0/Syncfusion.Licensing.dll": {
+            "assemblyVersion": "25.1.41.0",
+            "fileVersion": "25.1.41.0"
+          }
+        }
+      },
+      "Syncfusion.OfficeChart.Base/25.1.41": {
+        "dependencies": {
+          "Syncfusion.Compression.Base": "25.1.41"
+        },
+        "runtime": {
+          "lib/net6.0-windows7.0/Syncfusion.OfficeChart.Base.dll": {
+            "assemblyVersion": "25.1.41.0",
+            "fileVersion": "25.1.41.0"
+          }
+        }
+      },
+      "Syncfusion.OfficeChartToImageConverter.WinForms/25.1.41": {
+        "dependencies": {
+          "Syncfusion.Compression.Base": "25.1.41",
+          "Syncfusion.Licensing": "25.1.41",
+          "Syncfusion.OfficeChart.Base": "25.1.41",
+          "Syncfusion.SfChart.WPF": "25.1.41"
+        },
+        "runtime": {
+          "lib/net6.0-windows7.0/Syncfusion.OfficeChartToImageConverter.Wpf.dll": {
+            "assemblyVersion": "25.1.41.0",
+            "fileVersion": "25.1.41.0"
+          }
+        }
+      },
+      "Syncfusion.SfChart.WPF/25.1.41": {
+        "dependencies": {
+          "Syncfusion.Licensing": "25.1.41"
+        },
+        "runtime": {
+          "lib/net6.0-windows7.0/Syncfusion.SfChart.WPF.dll": {
             "assemblyVersion": "25.1.41.0",
             "fileVersion": "25.1.41.0"
           }
@@ -660,6 +736,14 @@
           "System.Security.Principal.Windows": "5.0.0"
         }
       },
+      "System.IO.Packaging/8.0.0": {
+        "runtime": {
+          "lib/net6.0/System.IO.Packaging.dll": {
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.0.23.53103"
+          }
+        }
+      },
       "System.Memory/4.5.4": {},
       "System.Memory.Data/1.0.2": {
         "dependencies": {
@@ -801,6 +885,20 @@
       "path": "barcodelib/3.0.3",
       "hashPath": "barcodelib.3.0.3.nupkg.sha512"
     },
+    "DocumentFormat.OpenXml/3.0.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-gqjP/BxKWgwAWwPAN+RpKaMOiidPM07F+mAxiiW184/MnkHnkk12Qo7cRB0wuq4kOZUrUzQ9EUO966hUy/wKBw==",
+      "path": "documentformat.openxml/3.0.2",
+      "hashPath": "documentformat.openxml.3.0.2.nupkg.sha512"
+    },
+    "DocumentFormat.OpenXml.Framework/3.0.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-ILRCJu2dUJDv27ZCQDftD7AZSuBgKg+ZSUF9dg2dk8qcIED7oM42y/cvZIm0mev80nj2QMzpxthX87+AebzHug==",
+      "path": "documentformat.openxml.framework/3.0.2",
+      "hashPath": "documentformat.openxml.framework.3.0.2.nupkg.sha512"
+    },
     "Independentsoft.Office/2.0.770": {
       "type": "package",
       "serviceable": true,
@@ -913,6 +1011,13 @@
       "path": "microsoft.netcore.targets/1.1.0",
       "hashPath": "microsoft.netcore.targets.1.1.0.nupkg.sha512"
     },
+    "Microsoft.Office.Interop.Word/15.0.4797.1004": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-lavTOrMGK/o/t3+gGr7JuVrL8XDdnS0DwPLcYv/StOiysXO4L0C36IXTVtEJo1Mh9Aoxo9a8dgGcPi+faTlv0g==",
+      "path": "microsoft.office.interop.word/15.0.4797.1004",
+      "hashPath": "microsoft.office.interop.word.15.0.4797.1004.nupkg.sha512"
+    },
     "Microsoft.SqlServer.Server/1.0.0": {
       "type": "package",
       "serviceable": true,
@@ -962,6 +1067,13 @@
       "path": "skiasharp.nativeassets.win32/2.88.6",
       "hashPath": "skiasharp.nativeassets.win32.2.88.6.nupkg.sha512"
     },
+    "Syncfusion.Compression.Base/25.1.41": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Jt/s8wKIsiALUe+DxwuLpUZFrFYS971VU3P5G0+5uqCnfB0mIY/6xK8AyAXcQ2dM4fy528T7WrDwoDUwPR+jWw==",
+      "path": "syncfusion.compression.base/25.1.41",
+      "hashPath": "syncfusion.compression.base.25.1.41.nupkg.sha512"
+    },
     "Syncfusion.Core.WinForms/25.1.41": {
       "type": "package",
       "serviceable": true,
@@ -1003,6 +1115,27 @@
       "sha512": "sha512-QSmNLA7W2mnl/hO/a5GQepXMBgXqOIRvEwvwJR1QGdDL3dBLxuowrBazsDQI8iJDzDZMMFR2Qi6FQY6KsSmZBQ==",
       "path": "syncfusion.licensing/25.1.41",
       "hashPath": "syncfusion.licensing.25.1.41.nupkg.sha512"
+    },
+    "Syncfusion.OfficeChart.Base/25.1.41": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-SijWwUsyo8r2BD/fy14sguxZhFLojRFwNjg/gBRvv3s4e+/prIixl4okNDsjpspaMr+u4NndfJFN0ZP1WmNh8g==",
+      "path": "syncfusion.officechart.base/25.1.41",
+      "hashPath": "syncfusion.officechart.base.25.1.41.nupkg.sha512"
+    },
+    "Syncfusion.OfficeChartToImageConverter.WinForms/25.1.41": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-1d/7W3I/vUoyrS9XLvz4TDrGtWgQpemNkm8AeGtTjhDJlsNGhXRPOJ5Iaj0R8MLSBkTyRUju0r5i8lo/FEHYbw==",
+      "path": "syncfusion.officecharttoimageconverter.winforms/25.1.41",
+      "hashPath": "syncfusion.officecharttoimageconverter.winforms.25.1.41.nupkg.sha512"
+    },
+    "Syncfusion.SfChart.WPF/25.1.41": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-u9IFgqixOfXSP1qQV8yC+A7uhDnpUT/BPfon2shFM/zbmnPGrFpViSch50/uSihZD+uepeJx9wC4i2bPrVGLKw==",
+      "path": "syncfusion.sfchart.wpf/25.1.41",
+      "hashPath": "syncfusion.sfchart.wpf.25.1.41.nupkg.sha512"
     },
     "Syncfusion.SfDataGrid.WinForms/25.1.41": {
       "type": "package",
@@ -1115,6 +1248,13 @@
       "sha512": "sha512-SxHB3nuNrpptVk+vZ/F+7OHEpoHUIKKMl02bUmYHQr1r+glbZQxs7pRtsf4ENO29TVm2TH3AEeep2fJcy92oYw==",
       "path": "system.io.filesystem.accesscontrol/5.0.0",
       "hashPath": "system.io.filesystem.accesscontrol.5.0.0.nupkg.sha512"
+    },
+    "System.IO.Packaging/8.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-8g1V4YRpdGAxFcK8v9OjuMdIOJSpF30Zb1JGicwVZhly3I994WFyBdV6mQEo8d3T+URQe55/M0U0eIH0Hts1bg==",
+      "path": "system.io.packaging/8.0.0",
+      "hashPath": "system.io.packaging.8.0.0.nupkg.sha512"
     },
     "System.Memory/4.5.4": {
       "type": "package",

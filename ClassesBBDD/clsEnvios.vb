@@ -11,19 +11,21 @@ Public Class clsEnvios
     Public Shared NOM_CLASSE_ES = "Envíos"
 
     'Public iIdPorte As Integer LA PK NO LA PONEMOS NO HACE FALTA
+    Private sCodigoSeguimiento As String
     Private sDireccionOrigen As String
-    Private sPoblacionDestino As String
-    Private sCodigoPostalDestino As String
-    Private sNombreDestinatario As String
-    Private cEstado As Byte
+    Private sNombreRemitente As String
+    Private oPoblacionOrigen As Object
+    Private sMailRemitente As String
     Private sDireccionDestino As String
+    Private sNombreDestinatario As String
+    Private oPoblacionDestino As Object
+    Private sEmailDestinatario As String
+    Private cIdEstado As Byte
     Private fPeso As Double
     Private sDimensiones As String
-    Private oCodigoCliente As Object
-    Private iPorte As Decimal
-    Private sCodigoSeguimiento As String
-    Private sEmailDestinatario As String
-    Dim iIdRuta As Integer
+    Private iCodigoCliente As Integer
+    Private dPorte As Decimal
+    Private iIdRuta As Integer
 #End Region
 
 
@@ -32,23 +34,34 @@ Public Class clsEnvios
     Public Sub New()
         MyBase.New(NOM_TAULA, NOM_PK)
 
-
+        Me.sCodigoSeguimiento = String.Empty
         Me.sDireccionOrigen = String.Empty
-        Me.sPoblacionDestino = String.Empty
-        Me.sCodigoPostalDestino = String.Empty
-        Me.sNombreDestinatario = String.Empty
-        Me.Estado = 0
+        Me.sNombreRemitente = String.Empty
+        Me.oPoblacionOrigen = 0
+        Me.sMailRemitente = String.Empty
         Me.sDireccionDestino = String.Empty
+        Me.sNombreDestinatario = String.Empty
+        Me.oPoblacionDestino = 0
+        Me.sEmailDestinatario = String.Empty
+        Me.cIdEstado = 0
         Me.fPeso = 0.0
         Me.sDimensiones = String.Empty
-        Me.oCodigoCliente = DBNull.Value
-        Me.iPorte = 0.0
-        Me.sCodigoSeguimiento = String.Empty
+        Me.iCodigoCliente = 0
+        Me.dPorte = 0.0
         Me.iIdRuta = 0
     End Sub
 #End Region
 
 #Region "Propiedades"
+
+    Public Property CodigoSeguimiento As String
+        Get
+            Return sCodigoSeguimiento
+        End Get
+        Set(value As String)
+            sCodigoSeguimiento = value
+        End Set
+    End Property
 
     Public Property DireccionOrigen As String
         Get
@@ -59,21 +72,39 @@ Public Class clsEnvios
         End Set
     End Property
 
-    Public Property PoblacionDestino As String
+    Public Property NombreRemitente As String
         Get
-            Return sPoblacionDestino
+            Return sNombreRemitente
         End Get
         Set(value As String)
-            sPoblacionDestino = value
+            sNombreRemitente = value
         End Set
     End Property
 
-    Public Property CodigoPostalDestino As String
+    Public Property PoblacionOrigen As Object
         Get
-            Return sCodigoPostalDestino
+            Return oPoblacionOrigen
+        End Get
+        Set(value As Object)
+            oPoblacionOrigen = value
+        End Set
+    End Property
+
+    Public Property MailRemitente As String
+        Get
+            Return sMailRemitente
         End Get
         Set(value As String)
-            sCodigoPostalDestino = value
+            sMailRemitente = value
+        End Set
+    End Property
+
+    Public Property DireccionDestino As String
+        Get
+            Return sDireccionDestino
+        End Get
+        Set(value As String)
+            sDireccionDestino = value
         End Set
     End Property
 
@@ -86,21 +117,30 @@ Public Class clsEnvios
         End Set
     End Property
 
-    Public Property Estado As Byte
+    Public Property PoblacionDestino As Object
         Get
-            Return cEstado
+            Return oPoblacionDestino
         End Get
-        Set(value As Byte)
-            cEstado = value
+        Set(value As Object)
+            oPoblacionDestino = value
         End Set
     End Property
 
-    Public Property DireccionDestino As String
+    Public Property EmailDestinatario As String
         Get
-            Return sDireccionDestino
+            Return sEmailDestinatario
         End Get
         Set(value As String)
-            sDireccionDestino = value
+            sEmailDestinatario = value
+        End Set
+    End Property
+
+    Public Property IdEstado As Byte
+        Get
+            Return cIdEstado
+        End Get
+        Set(value As Byte)
+            cIdEstado = value
         End Set
     End Property
 
@@ -122,39 +162,21 @@ Public Class clsEnvios
         End Set
     End Property
 
-    Public Property CodigoCliente As Object
+    Public Property CodigoCliente As Integer
         Get
-            Return oCodigoCliente
+            Return iCodigoCliente
         End Get
-        Set(value As Object)
-            oCodigoCliente = value
+        Set(value As Integer)
+            iCodigoCliente = value
         End Set
     End Property
 
     Public Property Porte As Decimal
         Get
-            Return iPorte
+            Return dPorte
         End Get
         Set(value As Decimal)
-            iPorte = value
-        End Set
-    End Property
-
-    Public Property CodigoSeguimiento As String
-        Get
-            Return sCodigoSeguimiento
-        End Get
-        Set(value As String)
-            sCodigoSeguimiento = value
-        End Set
-    End Property
-
-    Public Property EmailDestinatario As String
-        Get
-            Return sEmailDestinatario
-        End Get
-        Set(value As String)
-            sEmailDestinatario = value
+            dPorte = value
         End Set
     End Property
 
@@ -171,39 +193,58 @@ Public Class clsEnvios
 #Region "Metodos"
     Public Overrides Sub CopiarDatosDesdeDataReader(reader As SqlDataReader)
         Me.sDireccionOrigen = Convert.ToString(reader("DireccionOrigen"))
-        Me.sPoblacionDestino = Convert.ToString(reader("PoblacionDestino"))
-        Me.sCodigoPostalDestino = Convert.ToString(reader("CodigoPostalDestino"))
-        Me.sNombreDestinatario = Convert.ToString(reader("NombreDestinatario"))
-        Me.cEstado = Convert.ToByte(reader("IdEstado"))
+        Me.sNombreRemitente = Convert.ToString(reader("NombreRemitente"))
+        Me.oPoblacionOrigen = reader("PoblacionOrigen")
+        Me.sMailRemitente = Convert.ToString(reader("MailRemitente"))
         Me.sDireccionDestino = Convert.ToString(reader("DireccionDestino"))
+        Me.sNombreDestinatario = Convert.ToString(reader("NombreDestinatario"))
+        Me.oPoblacionDestino = reader("PoblacionDestino")
+        Me.sEmailDestinatario = Convert.ToString(reader("EmailDestinatario"))
+        Me.cIdEstado = Convert.ToByte(reader("IdEstado"))
         Me.fPeso = Convert.ToDouble(reader("Peso"))
         Me.sDimensiones = Convert.ToString(reader("Dimensiones"))
-        Me.oCodigoCliente = reader("CodigoCliente")
-        Me.iPorte = Convert.ToDouble(reader("Porte"))
+        Me.iCodigoCliente = Convert.ToInt32(reader("CodigoCliente"))
+        Me.dPorte = Convert.ToDecimal(reader("Porte"))
         Me.sCodigoSeguimiento = Convert.ToString(reader("CodigoSeguimiento"))
-        Me.sEmailDestinatario = Convert.ToString(reader("EmailDestinatario"))
         Me.iIdRuta = Convert.ToInt32(reader("IdRuta"))
-
-
     End Sub
 
     Public Overrides Sub CopiarDatosADataRow(drw As DataRow)
         drw("DireccionOrigen") = Me.sDireccionOrigen
-        drw("PoblacionDestino") = Me.sPoblacionDestino
-        drw("CodigoPostalDestino") = Me.sCodigoPostalDestino
-        drw("NombreDestinatario") = Me.sNombreDestinatario
-        drw("IdEstado") = Me.cEstado
+        drw("NombreRemitente") = Me.sNombreRemitente
+        drw("PoblacionOrigen") = Me.oPoblacionOrigen
+        drw("MailRemitente") = Me.sMailRemitente
         drw("DireccionDestino") = Me.sDireccionDestino
+        drw("NombreDestinatario") = Me.sNombreDestinatario
+        drw("PoblacionDestino") = Me.oPoblacionDestino
+        drw("EmailDestinatario") = Me.sEmailDestinatario
+        drw("IdEstado") = Me.cIdEstado
         drw("Peso") = Me.fPeso
         drw("Dimensiones") = Me.sDimensiones
-        drw("CodigoCliente") = Me.oCodigoCliente
-        drw("Porte") = Me.iPorte
+        drw("CodigoCliente") = Me.iCodigoCliente
+        drw("Porte") = Me.dPorte
         drw("CodigoSeguimiento") = Me.sCodigoSeguimiento
-        drw("EmailDestinatario") = Me.sEmailDestinatario
         drw("IdRuta") = Me.iIdRuta
-
-
     End Sub
+
+    Public Sub CopiarDataRowADatos(drw As DataRow)
+        Me.sDireccionOrigen = Convert.ToString(drw("DireccionOrigen"))
+        Me.sNombreRemitente = Convert.ToString(drw("NombreRemitente"))
+        Me.oPoblacionOrigen = Convert.ToInt32(drw("PoblacionOrigen"))
+        Me.sMailRemitente = Convert.ToString(drw("MailRemitente"))
+        Me.sDireccionDestino = Convert.ToString(drw("DireccionDestino"))
+        Me.sNombreDestinatario = Convert.ToString(drw("NombreDestinatario"))
+        Me.oPoblacionDestino = Convert.ToInt32(drw("PoblacionDestino"))
+        Me.sEmailDestinatario = Convert.ToString(drw("EmailDestinatario"))
+        Me.cIdEstado = Convert.ToByte(drw("IdEstado"))
+        Me.fPeso = Convert.ToDouble(drw("Peso"))
+        Me.sDimensiones = Convert.ToString(drw("Dimensiones"))
+        Me.iCodigoCliente = Convert.ToInt32(drw("CodigoCliente"))
+        Me.dPorte = Convert.ToDecimal(drw("Porte"))
+        Me.sCodigoSeguimiento = Convert.ToString(drw("CodigoSeguimiento"))
+        Me.iIdRuta = Convert.ToInt32(drw("IdRuta"))
+    End Sub
+
 
     Public Overrides Function FormulariManteniment() As Type
         Return GetType(frmEnvios)
@@ -237,41 +278,95 @@ Public Class clsEnvios
         Return sRes
     End Function
 
-    Public Shared Function ConsultaSelectTots()
-        Return "SELECT Envios.IdEnvio, Envios.CodigoSeguimiento, Envios.DireccionOrigen, Envios.PoblacionDestino, Envios.CodigoPostalDestino, Envios.NombreDestinatario, " &
-                         "Envios.DireccionDestino, Envios.Dimensiones, Envios.Peso, Envios.CodigoCliente, Envios.Porte, Envios_Estados." & fnTraductor.RetornaIdiomaSeleccionat("Nom_ES", "Nom_CA") &
-             " FROM Envios INNER JOIN " &
-            "Envios_Estados ON Envios.IdEstado = Envios_Estados.IdEstado"
-
+    Public Shared Function ConsultaSelectTots() As String
+        Return "SELECT Envios.IdEnvio, Envios.CodigoSeguimiento, Envios.DireccionOrigen, Envios.NombreRemitente, " &
+           "PobOrigen.NomPoblacio AS PoblacionOrigen, Envios.MailRemitente, " &
+           "Envios.DireccionDestino, Envios.NombreDestinatario, " &
+           "PobDestino.NomPoblacio AS PoblacionDestino, Envios.EmailDestinatario, Envios.Dimensiones, Envios.Peso, " &
+           "Envios.CodigoCliente, Envios.Porte, Envios_Estados." & fnTraductor.RetornaIdiomaSeleccionat("Nom_ES", "Nom_CA") &
+           " FROM Envios WITH (NOLOCK) " &
+           " INNER JOIN Envios_Estados ON Envios.IdEstado = Envios_Estados.IdEstado " &
+           " INNER JOIN Poblacions AS PobOrigen ON Envios.PoblacionOrigen = PobOrigen.IdPoblacio " &
+           " INNER JOIN Poblacions AS PobDestino ON Envios.PoblacionDestino = PobDestino.IdPoblacio"
     End Function
+
 
     Public Shared Function ConsultaSelectFecha(ByVal dDate As Date) As String
         Dim formattedDate As String = dDate.ToString("MM/dd/yyyy")
-        Dim sRes As String = "SELECT e.IdEnvio, e.CodigoSeguimiento, e.DireccionOrigen, e.PoblacionDestino, e.CodigoPostalDestino, e.NombreDestinatario, e.DireccionDestino, e.Peso, e.Dimensiones, e.CodigoCliente, e.Porte, es." & fnTraductor.RetornaIdiomaSeleccionat("Nom_ES", "Nom_CA") & ", eh.Observaciones, eh.FechaEstado " &
-                     "FROM dbo.Envios As e " &
-                     "INNER JOIN dbo.Envios_Historico As eh On e.IdEnvio = eh.IdEnvio " &
-                     "INNER JOIN dbo.Envios_Estados As es On e.IdEstado = es.IdEstado " &
-                     "INNER JOIN (Select IdEnvio, MAX(FechaEstado) As MaxFechaEstado " &
-                                 "FROM dbo.Envios_Historico " &
-                                 "GROUP BY IdEnvio) As latest On eh.IdEnvio = latest.IdEnvio And eh.FechaEstado = latest.MaxFechaEstado " &
-                     "WHERE Convert(Date, eh.FechaEstado) = '" & formattedDate & "'"
+        Return "SELECT e.IdEnvio, e.CodigoSeguimiento, e.DireccionOrigen, e.NombreRemitente, e.PoblacionOrigen, e.MailRemitente, " &
+           "e.DireccionDestino, e.NombreDestinatario, e.PoblacionDestino, e.EmailDestinatario, e.Dimensiones, e.Peso, e.CodigoCliente, e.Porte, " &
+           "es." & fnTraductor.RetornaIdiomaSeleccionat("Nom_ES", "Nom_CA") & ", eh.Observaciones, eh.FechaEstado " &
+           "FROM Envios As e WITH (NOLOCK) " &
+           "INNER JOIN Envios_Historico As eh WITH (NOLOCK) On e.IdEnvio = eh.IdEnvio " &
+           "INNER JOIN Envios_Estados As es WITH (NOLOCK) On e.IdEstado = es.IdEstado " &
+           "INNER JOIN (Select IdEnvio, MAX(FechaEstado) As MaxFechaEstado " &
+           "FROM Envios_Historico WITH (NOLOCK) GROUP BY IdEnvio) As latest On eh.IdEnvio = latest.IdEnvio And eh.FechaEstado = latest.MaxFechaEstado " &
+           "WHERE Convert(Date, eh.FechaEstado) = '" & formattedDate & "'"
+    End Function
 
-        Return sRes
+    Public Shared Function ConsultaSelect_EntreDosFechas(ByVal dDateInicio As Date, ByVal dDateFinal As Date) As String
+        Dim formattedDateInicio As String = dDateInicio.ToString("yyyy/MM/dd")
+        Dim formattedDateFinal As String = dDateFinal.ToString("yyyy/MM/dd")
+        Return "Select        e.IdEnvio, e.CodigoSeguimiento, e.DireccionOrigen, e.NombreRemitente, e.MailRemitente, e.DireccionDestino, e.NombreDestinatario, " &
+    " e.EmailDestinatario, e.Dimensiones, e.Peso, e.CodigoCliente, e.Porte, es." & fnTraductor.RetornaIdiomaSeleccionat("Nom_ES", "Nom_CA") & ", 
+        eh.Observaciones, eh.FechaEstado, Poblacions_1.NomPoblacio As PoblacioOrigen, dbo.Poblacions.NomPoblacio AS PoblacioDesti, latest.MaxFechaEstado 
+        From dbo.Envios AS e WITH (NOLOCK) INNER Join
+        dbo.Envios_Historico AS eh WITH (NOLOCK) ON e.IdEnvio = eh.IdEnvio INNER Join
+        dbo.Envios_Estados AS es WITH (NOLOCK) ON e.IdEstado = es.IdEstado INNER Join
+            (Select IdEnvio, MAX(FechaEstado) As MaxFechaEstado
+            From dbo.Envios_Historico WITH (NOLOCK)
+            Group By IdEnvio) AS latest ON eh.IdEnvio = latest.IdEnvio And eh.FechaEstado = latest.MaxFechaEstado INNER Join
+        dbo.Poblacions AS Poblacions_1 ON e.PoblacionOrigen = Poblacions_1.IdPoblacio INNER Join
+        dbo.Poblacions ON e.PoblacionDestino = dbo.Poblacions.IdPoblacio " &
+           "WHERE Convert(Date, eh.FechaEstado) >= '" & formattedDateInicio & "' AND Convert(Date, eh.FechaEstado) <= '" & formattedDateFinal & "'"
     End Function
 
 
 
 
-    Public Shared Function ConsultaSelectSegunCliente(IdCliente) As String
-        Dim sRes As String
 
-        sRes = "SELECT        dbo.Envios.CodigoSeguimiento, dbo.Envios.DireccionDestino, dbo.Envios.PoblacionDestino, dbo.Envios.CodigoPostalDestino, dbo.Envios.NombreDestinatario, dbo.Envios.Peso, dbo.Envios.Dimensiones, 
-                                         dbo.Envios.EmailDestinatario, " & fnTraductor.RetornaIdiomaSeleccionat("Envios_Estados.Nom_ES", "Envios_Estados.Nom_CA") &
-                " FROM            dbo.Envios INNER JOIN
-                                         dbo.Envios_Estados ON dbo.Envios.IdEstado = dbo.Envios_Estados.IdEstado"
-        Return sRes
+    'Public Shared Function ConsultaSelect_EntreDosFechas(ByVal dDateInicio As Date, ByVal dDateFinal As Date) As String
+    '    Dim formattedDateInicio As String = dDateInicio.ToString("yyyy/MM/dd")
+    '    Dim formattedDateFinal As String = dDateFinal.ToString("yyyy/MM/dd")
+    '    Return "SELECT e.IdEnvio, e.CodigoSeguimiento, e.DireccionOrigen, e.NombreRemitente, " &
+    '       "pDestino.NomPoblacio AS PoblacionDestino, e.MailRemitente, " &
+    '       "e.DireccionDestino, e.NombreDestinatario, " &
+    '       "pOrigen.NomPoblacio AS PoblacionOrigen, e.EmailDestinatario, e.Dimensiones, e.Peso, e.CodigoCliente, e.Porte, " &
+    '       "es." & fnTraductor.RetornaIdiomaSeleccionat("Nom_ES", "Nom_CA") & " AS EstadoEnvio, eh.Observaciones, eh.FechaEstado, " &
+    '       "pDestino.CodPostal AS CodPostalDestino, pOrigen.CodPostal AS CodPostalOrigen " &
+    '       "FROM Envios e WITH (NOLOCK) " &
+    '       "INNER JOIN Envios_Historico eh WITH (NOLOCK) ON e.IdEnvio = eh.IdEnvio " &
+    '       "INNER JOIN Envios_Estados es WITH (NOLOCK) ON e.IdEstado = es.IdEstado " &
+    '       "INNER JOIN (SELECT IdEnvio, MAX(FechaEstado) AS MaxFechaEstado FROM Envios_Historico WITH (NOLOCK) GROUP BY IdEnvio) AS latest ON eh.IdEnvio = latest.IdEnvio AND eh.FechaEstado = latest.MaxFechaEstado " &
+    '       "INNER JOIN Poblacions pDestino WITH (NOLOCK) ON e.PoblacionDestino = pDestino.NomPoblacio " &
+    '       "INNER JOIN Poblacions pOrigen WITH (NOLOCK) ON e.PoblacionOrigen = pOrigen.NomPoblacio " &
+    '       "WHERE Convert(Date, eh.FechaEstado) >= '" & formattedDateInicio & "' AND Convert(Date, eh.FechaEstado) <= '" & formattedDateFinal & "'"
+    'End Function
+
+
+
+    Public Shared Function ConsultaSelect_EntreDosFechas_Estados(ByVal dDateInicio As Date, ByVal dDateFinal As Date) As String
+        Dim formattedDateInicio As String = dDateInicio.ToString("yyyy/MM/dd")
+        Dim formattedDateFinal As String = dDateFinal.ToString("yyyy/MM/dd")
+        Return "SELECT e.IdEnvio, e.CodigoSeguimiento, e.DireccionOrigen, e.NombreRemitente, e.PoblacionOrigen, e.MailRemitente, " &
+           "e.DireccionDestino, e.NombreDestinatario, e.PoblacionDestino, e.EmailDestinatario, e.Dimensiones, e.Peso, e.CodigoCliente, e.Porte, " &
+           "es." & fnTraductor.RetornaIdiomaSeleccionat("Nom_ES", "Nom_CA") & ", eh.Observaciones, eh.FechaEstado " &
+           "FROM Envios As e WITH (NOLOCK) " &
+           "INNER JOIN Envios_Historico As eh WITH (NOLOCK) On e.IdEnvio = eh.IdEnvio " &
+           "INNER JOIN Envios_Estados As es WITH (NOLOCK) On e.IdEstado = es.IdEstado " &
+           "WHERE Convert(Date, eh.FechaEstado) >= '" & formattedDateInicio & "' AND Convert(Date, eh.FechaEstado) <= '" & formattedDateFinal & "' " &
+           "AND es.IdEstado = 6"
     End Function
 
+    Public Shared Function ConsultaSelectSegunCliente(ByVal IdCliente As Integer) As String
+        Return "SELECT Envios.CodigoSeguimiento, Envios.DireccionDestino, Envios.NombreDestinatario, " &
+           "PobDestino.NomPoblacio AS PoblacionDestino, Envios.EmailDestinatario, Envios.Dimensiones, Envios.Peso, " &
+           fnTraductor.RetornaIdiomaSeleccionat("Envios_Estados.Nom_ES", "Envios_Estados.Nom_CA") & " " &
+           "FROM Envios WITH (NOLOCK) " &
+           "INNER JOIN Envios_Estados ON Envios.IdEstado = Envios_Estados.IdEstado " &
+           "INNER JOIN Poblacions AS PobDestino ON Envios.PoblacionDestino = PobDestino.IdPoblacio " &
+           "WHERE Envios.CodigoCliente = " & IdCliente
+    End Function
 
 
 
@@ -283,16 +378,22 @@ Public Class clsEnvios
                 nombreColumna = fnTraductor.RetornaIdiomaSeleccionat("Id Envio", "Id Enviament")
             Case "DireccionOrigen"
                 nombreColumna = fnTraductor.RetornaIdiomaSeleccionat("Dirección Origen", "Direcció Origen")
+            Case "NombreRemitente"
+                nombreColumna = fnTraductor.RetornaIdiomaSeleccionat("Nombre Remitente", "Nom Remitent")
+            Case "PoblacionOrigen"
+                nombreColumna = fnTraductor.RetornaIdiomaSeleccionat("Población Origen", "Població Origen")
+            Case "MailRemitente"
+                nombreColumna = fnTraductor.RetornaIdiomaSeleccionat("Email Remitente", "Email Remitent")
             Case "PoblacionDestino"
-                nombreColumna = fnTraductor.RetornaIdiomaSeleccionat("Población Destino", "Població Destinació")
+                nombreColumna = fnTraductor.RetornaIdiomaSeleccionat("Población Destino", "Població Destí")
             Case "CodigoPostalDestino"
-                nombreColumna = fnTraductor.RetornaIdiomaSeleccionat("Código Postal Destino", "Codi Postal Destinació")
+                nombreColumna = fnTraductor.RetornaIdiomaSeleccionat("Código Postal Destino", "Codi Postal Destí")
             Case "NombreDestinatario"
                 nombreColumna = fnTraductor.RetornaIdiomaSeleccionat("Nombre Destinatario", "Nom Destinatari")
             Case "IdEstado"
                 nombreColumna = fnTraductor.RetornaIdiomaSeleccionat("Estado", "Estat")
             Case "DireccionDestino"
-                nombreColumna = fnTraductor.RetornaIdiomaSeleccionat("Dirección Destino", "Direcció Destinació")
+                nombreColumna = fnTraductor.RetornaIdiomaSeleccionat("Dirección Destino", "Direcció Destí")
             Case "Peso"
                 nombreColumna = fnTraductor.RetornaIdiomaSeleccionat("Peso", "Pes")
             Case "Dimensiones"
@@ -309,16 +410,15 @@ Public Class clsEnvios
                 nombreColumna = fnTraductor.RetornaIdiomaSeleccionat("Email Destinatario", "Email Destinatari")
             Case "FechaEstado"
                 nombreColumna = fnTraductor.RetornaIdiomaSeleccionat("Fecha Estado", "Data Estat")
-
             Case "IdRuta"
                 nombreColumna = fnTraductor.RetornaIdiomaSeleccionat("Ruta", "Ruta")
-
             Case Else
                 nombreColumna = nombreAtributo
         End Select
 
         Return nombreColumna
     End Function
+
 
 
 #End Region

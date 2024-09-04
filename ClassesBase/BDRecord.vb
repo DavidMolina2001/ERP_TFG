@@ -68,44 +68,47 @@ Public MustInherit Class BDRecord
 
     Public Sub Escriure(ByVal bEsAlta As Boolean) Implements IRecord.Escriure
         Try
-            Using connection As New SqlConnection(clsConstants.ConnGlobal.ConnectionString)
-                connection.Open()
 
-                Dim dataSet As New DataSet()
-                Dim adapter As New SqlDataAdapter()
+            Dim dataSet As New DataSet()
+            Dim adapter As New SqlDataAdapter()
 
-                Dim selectQuery As String = "SELECT * FROM " & NOM_TAULA & " WHERE " & NOM_PK & " = @Id"
-                adapter.SelectCommand = New SqlCommand(selectQuery, connection)
+            Dim selectQuery As String = "SELECT * FROM " & NOM_TAULA & " WHERE " & NOM_PK & " = @Id"
+            adapter.SelectCommand = New SqlCommand(selectQuery, clsConstants.ConnGlobal)
 
-                If Id Is Nothing Then
-                    Id = 0
-                End If
+            If Id Is Nothing Then
+                Id = 0
+            End If
 
-                adapter.SelectCommand.Parameters.AddWithValue("@Id", Id)
+            adapter.SelectCommand.Parameters.AddWithValue("@Id", Id)
 
-                adapter.Fill(dataSet, "Tabla")
+            adapter.Fill(dataSet, "Tabla")
 
-                Dim row As DataRow
+            Dim row As DataRow
 
-                If dataSet.Tables("Tabla").Rows.Count = 0 Then
-                    row = dataSet.Tables("Tabla").NewRow()
-                    dataSet.Tables("Tabla").Rows.Add(row)
-                Else
-                    row = dataSet.Tables("Tabla").Rows(0)
-                End If
+            If dataSet.Tables("Tabla").Rows.Count = 0 Then
+                row = dataSet.Tables("Tabla").NewRow()
+                dataSet.Tables("Tabla").Rows.Add(row)
+            Else
+                row = dataSet.Tables("Tabla").Rows(0)
+            End If
 
 
-                If bEsAlta Then
-                    Dim ultimoId As Integer = ObtenerUltimoIdDisponible(connection)
-                    row(NOM_PK) = ultimoId
-                End If
+            If bEsAlta Then
+                Dim ultimoId As Integer = ObtenerUltimoIdDisponible(clsConstants.ConnGlobal)
+                row(NOM_PK) = ultimoId
+            End If
 
-                CopiarDatosADataRow(row)
+            CopiarDatosADataRow(row)
 
-                adapter.UpdateCommand = New SqlCommandBuilder(adapter).GetUpdateCommand()
-                adapter.Update(dataSet, "Tabla")
+            adapter.UpdateCommand = New SqlCommandBuilder(adapter).GetUpdateCommand()
+            adapter.Update(dataSet, "Tabla")
 
-            End Using
+            If bEsAlta Then
+                Me.Id = ObtenerUltimoIdDisponible(clsConstants.ConnGlobal) - 1
+
+            End If
+
+
         Catch ex As Exception
             frmMissatge.Mostrar(fnTraductor.RetornaIdiomaSeleccionat("Error al escribir la clase en la base de datos.",
                                                                       "Error al escriure la classe a la base de dades."), ex)
@@ -117,27 +120,25 @@ Public MustInherit Class BDRecord
         Dim bEsborrat As Boolean = False
 
         Try
-            Using connection As New SqlConnection(clsConstants.ConnGlobal.ConnectionString)
-                connection.Open()
 
-                Dim deleteQuery As String = "DELETE FROM " & NOM_TAULA & " WHERE " & NOM_PK & " = @Id"
-                Dim command As New SqlCommand(deleteQuery, connection)
 
-                If Id Is Nothing Then
-                    Return False
-                End If
+            Dim deleteQuery As String = "DELETE FROM " & NOM_TAULA & " WHERE " & NOM_PK & " = @Id"
+            Dim command As New SqlCommand(deleteQuery, clsConstants.ConnGlobal)
 
-                command.Parameters.AddWithValue("@Id", Id)
+            If Id Is Nothing Then
+                Return False
+            End If
 
-                Dim rowsAffected As Integer = command.ExecuteNonQuery()
+            command.Parameters.AddWithValue("@Id", Id)
 
-                If rowsAffected > 0 Then
-                    bEsborrat = True
-                Else
-                    bEsborrat = False
-                End If
+            Dim rowsAffected As Integer = command.ExecuteNonQuery()
 
-            End Using
+            If rowsAffected > 0 Then
+                bEsborrat = True
+            Else
+                bEsborrat = False
+            End If
+
         Catch ex As Exception
             frmMissatge.Mostrar(fnTraductor.RetornaIdiomaSeleccionat("Error al borrar la clase en la base de datos.",
                                                                       "Error al esborrar la classe a la base de dades."), ex)

@@ -16,7 +16,7 @@ Imports System.Reflection
 <Assembly: System.Reflection.AssemblyCompanyAttribute("AppTransportesTFG"),  _
  Assembly: System.Reflection.AssemblyConfigurationAttribute("Release"),  _
  Assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0"),  _
- Assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+55fbc12cec2248317c1c31d86b273e204559e7d2"),  _
+ Assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0cee1da901aae4a23657daa6eee6f1b178686424"),  _
  Assembly: System.Reflection.AssemblyProductAttribute("AppTransportesTFG"),  _
  Assembly: System.Reflection.AssemblyTitleAttribute("AppTransportesTFG"),  _
  Assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0"),  _

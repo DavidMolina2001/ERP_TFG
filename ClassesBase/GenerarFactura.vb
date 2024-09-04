@@ -7,19 +7,12 @@ Imports Independentsoft.Office.Word
 Public Class GenerarFactura
 
     Public Shared Function GenerarFactura(ByRef dicDatos As Dictionary(Of String, String), ByRef dtLinias As System.Data.DataTable, sCodiIdioma As String)
-        Dim outputPath As String = "C:\Users\david\Downloads\Factura-" & dicDatos("IDFACTURA") & "-" & DateTime.Now.ToString("dd-MM-yyyy--HH-mm") & ".docx"
-
+        Dim outputPath As String = clsConstants.PathGuardadoFacturas & "\Factura-" & dicDatos("IDFACTURA") & "-" & DateTime.Now.ToString("dd-MM-yyyy--HH-mm") & ".docx"
+        Dim wordDoc As WordprocessingDocument = Nothing
         Try
 
-            'dicDatos.Add("IDFACTURA", oDades.Id)
-            'dicDatos.Add("NUMFACTURA", tbxNumFactura.Text)
-            'dicDatos.Add("DEMISION", dtpEmision.Value.ToString("dd-MM-yyyy"))
-            'dicDatos.Add("DVENCIMIENTO", dtpVencimiento.Value.ToString("dd-MM-yyyy"))
-            'dicDatos.Add("NCLIENTE", tbxNombreCliente.Text)
-            'dicDatos.Add("DIRCLIENTE", tbxDirCliente.Text)
-            'dicDatos.Add("NIFCLIENTE", tbxNifCliente.Text)
-            'dicDatos.Add("MAILCLIENTE", tbxMailCliente.Text)
-            'dicDatos.Add("OBS", tbxObservaciones.Text)
+            frmWaitForm.ShowWaitForm(String.Empty)
+
             Dim templatePath As String
 
             If sCodiIdioma.StartsWith("C") Then
@@ -30,33 +23,28 @@ Public Class GenerarFactura
 
             End If
 
-
-
             Dim fechaReemplazo As String = DateTime.Now.ToString("dd/MM/yyyy")
 
             File.Copy(templatePath, outputPath, True)
 
-            Using wordDoc As WordprocessingDocument = WordprocessingDocument.Open(outputPath, True)
-                Dim docPart As MainDocumentPart = wordDoc.MainDocumentPart
-                Dim body As DocumentFormat.OpenXml.Wordprocessing.Body = docPart.Document.Body
+            wordDoc = WordprocessingDocument.Open(outputPath, True)
+            Dim docPart As MainDocumentPart = wordDoc.MainDocumentPart
+            Dim body As DocumentFormat.OpenXml.Wordprocessing.Body = docPart.Document.Body
 
-                Dim iTotalEnvios As Decimal = 0.0
-                Dim iTotalEnviosImpuesto As Decimal = 0.0
+            Dim iTotalEnvios As Decimal = 0.0
+            Dim iTotalEnviosImpuesto As Decimal = 0.0
 
-                RellenarLinias(docPart, dtLinias, iTotalEnvios, iTotalEnviosImpuesto)
+            RellenarLinias(docPart, dtLinias, iTotalEnvios, iTotalEnviosImpuesto)
 
-                RellenarDatos(body, dicDatos, iTotalEnvios, iTotalEnviosImpuesto)
+            RellenarDatos(body, dicDatos, iTotalEnvios, iTotalEnviosImpuesto)
 
+            docPart.Document.Save()
 
-                docPart.Document.Save()
+            wordDoc.Save()
 
-                wordDoc.Dispose()
-            End Using
+            wordDoc.Dispose()
 
-
-
-
-
+            frmWaitForm.CloseWaitForm()
 
         Catch ex As Exception
             Throw New Exception("Error: GenerarFactura", ex)
@@ -166,8 +154,7 @@ Public Class GenerarFactura
             End If
 
             If textElement.Text.Contains("«TOTALT»") Then
-                textElement.Text = (iTotalEnviosImpuesto + 2.45).ToString & "€"
-
+                textElement.Text = (System.Math.Round(iTotalEnviosImpuesto + 2.45, 2)).ToString & "€"
 
             End If
 
