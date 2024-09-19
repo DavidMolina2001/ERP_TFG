@@ -531,7 +531,7 @@ Partial Class frmEnvios
         GroupBox1.Size = New Size(525, 236)
         GroupBox1.TabIndex = 7
         GroupBox1.TabStop = False
-        GroupBox1.Text = "Datos Origen"
+        GroupBox1.Text = "Dades Origen"
         ' 
         ' btnImportarDirClientOrigen
         ' 

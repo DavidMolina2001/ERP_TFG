@@ -3,59 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\david\\source\\repos\\AppTransportesTFG\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{FEA04EB1-8011-41E0-907E-85C714A7F118}|AppTransportesTFG.vbproj|c:\\users\\david\\source\\repos\\apptransportestfg\\formsauxiliars\\frmgeneradorinformes.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{FEA04EB1-8011-41E0-907E-85C714A7F118}|AppTransportesTFG.vbproj|solutionrelative:formsauxiliars\\frmgeneradorinformes.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FEA04EB1-8011-41E0-907E-85C714A7F118}|AppTransportesTFG.vbproj|c:\\users\\david\\source\\repos\\apptransportestfg\\formsauxiliars\\frmgeneradorinformes.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}|Form",
-      "RelativeMoniker": "D:0:0:{FEA04EB1-8011-41E0-907E-85C714A7F118}|AppTransportesTFG.vbproj|solutionrelative:formsauxiliars\\frmgeneradorinformes.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FEA04EB1-8011-41E0-907E-85C714A7F118}|AppTransportesTFG.vbproj|c:\\users\\david\\source\\repos\\apptransportestfg\\formsbbdd\\frmfactura.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{FEA04EB1-8011-41E0-907E-85C714A7F118}|AppTransportesTFG.vbproj|solutionrelative:formsbbdd\\frmfactura.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FEA04EB1-8011-41E0-907E-85C714A7F118}|AppTransportesTFG.vbproj|c:\\users\\david\\source\\repos\\apptransportestfg\\formsbbdd\\frmfactura.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}|Form",
-      "RelativeMoniker": "D:0:0:{FEA04EB1-8011-41E0-907E-85C714A7F118}|AppTransportesTFG.vbproj|solutionrelative:formsbbdd\\frmfactura.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FEA04EB1-8011-41E0-907E-85C714A7F118}|AppTransportesTFG.vbproj|c:\\users\\david\\source\\repos\\apptransportestfg\\formsbbdd\\frmenvios.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{FEA04EB1-8011-41E0-907E-85C714A7F118}|AppTransportesTFG.vbproj|solutionrelative:formsbbdd\\frmenvios.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FEA04EB1-8011-41E0-907E-85C714A7F118}|AppTransportesTFG.vbproj|c:\\users\\david\\source\\repos\\apptransportestfg\\formsbbdd\\frmenvios.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}|Form",
-      "RelativeMoniker": "D:0:0:{FEA04EB1-8011-41E0-907E-85C714A7F118}|AppTransportesTFG.vbproj|solutionrelative:formsbbdd\\frmenvios.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}|Form"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{FEA04EB1-8011-41E0-907E-85C714A7F118}|AppTransportesTFG.vbproj|c:\\users\\david\\source\\repos\\apptransportestfg\\frmmain.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}|Form",
       "RelativeMoniker": "D:0:0:{FEA04EB1-8011-41E0-907E-85C714A7F118}|AppTransportesTFG.vbproj|solutionrelative:frmmain.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FEA04EB1-8011-41E0-907E-85C714A7F118}|AppTransportesTFG.vbproj|c:\\users\\david\\source\\repos\\apptransportestfg\\classesbase\\calculadortarifas.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{FEA04EB1-8011-41E0-907E-85C714A7F118}|AppTransportesTFG.vbproj|solutionrelative:classesbase\\calculadortarifas.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A50FCCDE-557F-4D70-9300-98F9674D6C32}|..\\Update\\Update.vbproj|c:\\users\\david\\source\\repos\\update\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FEA04EB1-8011-41E0-907E-85C714A7F118}|AppTransportesTFG.vbproj|c:\\users\\david\\source\\repos\\apptransportestfg\\classesbase\\clsconstants.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{FEA04EB1-8011-41E0-907E-85C714A7F118}|AppTransportesTFG.vbproj|solutionrelative:classesbase\\clsconstants.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FEA04EB1-8011-41E0-907E-85C714A7F118}|AppTransportesTFG.vbproj|c:\\users\\david\\source\\repos\\apptransportestfg\\classesbase\\clsseguretat.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{FEA04EB1-8011-41E0-907E-85C714A7F118}|AppTransportesTFG.vbproj|solutionrelative:classesbase\\clsseguretat.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FEA04EB1-8011-41E0-907E-85C714A7F118}|AppTransportesTFG.vbproj|c:\\users\\david\\source\\repos\\apptransportestfg\\classesbase\\ldap.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{FEA04EB1-8011-41E0-907E-85C714A7F118}|AppTransportesTFG.vbproj|solutionrelative:classesbase\\ldap.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{FEA04EB1-8011-41E0-907E-85C714A7F118}|AppTransportesTFG.vbproj|c:\\users\\david\\source\\repos\\apptransportestfg\\frmmain.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{FEA04EB1-8011-41E0-907E-85C714A7F118}|AppTransportesTFG.vbproj|solutionrelative:frmmain.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FEA04EB1-8011-41E0-907E-85C714A7F118}|AppTransportesTFG.vbproj|c:\\users\\david\\source\\repos\\apptransportestfg\\formsauxiliars\\frmgeneric.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{FEA04EB1-8011-41E0-907E-85C714A7F118}|AppTransportesTFG.vbproj|solutionrelative:formsauxiliars\\frmgeneric.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
   "DocumentGroupContainers": [
@@ -64,8 +17,8 @@
       "VerticalTabListWidth": 256,
       "DocumentGroups": [
         {
-          "DockedWidth": 398,
-          "SelectedChildIndex": 9,
+          "DockedWidth": 699,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -74,175 +27,33 @@
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "frmGeneradorInformes.vb [Dise\u00F1o]",
-              "DocumentMoniker": "C:\\Users\\david\\source\\repos\\AppTransportesTFG\\FormsAuxiliars\\frmGeneradorInformes.vb",
-              "RelativeDocumentMoniker": "FormsAuxiliars\\frmGeneradorInformes.vb",
-              "ToolTip": "C:\\Users\\david\\source\\repos\\AppTransportesTFG\\FormsAuxiliars\\frmGeneradorInformes.vb [Dise\u00F1o]",
-              "RelativeToolTip": "FormsAuxiliars\\frmGeneradorInformes.vb [Dise\u00F1o]",
+              "Title": "frmMain.vb",
+              "DocumentMoniker": "C:\\Users\\david\\source\\repos\\AppTransportesTFG\\frmMain.vb",
+              "RelativeDocumentMoniker": "frmMain.vb",
+              "ToolTip": "C:\\Users\\david\\source\\repos\\AppTransportesTFG\\frmMain.vb",
+              "RelativeToolTip": "frmMain.vb",
+              "ViewState": "AQIAAD8BAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-09-04T17:28:34.551Z",
-              "EditorCaption": " [Dise\u00F1o]"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "frmFactura.vb [Dise\u00F1o]",
-              "DocumentMoniker": "C:\\Users\\david\\source\\repos\\AppTransportesTFG\\FormsBBDD\\frmFactura.vb",
-              "RelativeDocumentMoniker": "FormsBBDD\\frmFactura.vb",
-              "ToolTip": "C:\\Users\\david\\source\\repos\\AppTransportesTFG\\FormsBBDD\\frmFactura.vb [Dise\u00F1o]",
-              "RelativeToolTip": "FormsBBDD\\frmFactura.vb [Dise\u00F1o]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-09-04T17:17:42.232Z",
-              "EditorCaption": " [Dise\u00F1o]"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "frmFactura.vb",
-              "DocumentMoniker": "C:\\Users\\david\\source\\repos\\AppTransportesTFG\\FormsBBDD\\frmFactura.vb",
-              "RelativeDocumentMoniker": "FormsBBDD\\frmFactura.vb",
-              "ToolTip": "C:\\Users\\david\\source\\repos\\AppTransportesTFG\\FormsBBDD\\frmFactura.vb",
-              "RelativeToolTip": "FormsBBDD\\frmFactura.vb",
-              "ViewState": "AQIAAKUBAAAAAAAAAAAewMMBAAAIAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-09-04T15:59:42.691Z",
+              "WhenOpened": "2024-09-17T16:06:20.048Z",
               "EditorCaption": ""
-            },
+            }
+          ]
+        },
+        {
+          "DockedWidth": 803,
+          "SelectedChildIndex": 0,
+          "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "clsConstants.vb",
-              "DocumentMoniker": "C:\\Users\\david\\source\\repos\\AppTransportesTFG\\ClassesBase\\clsConstants.vb",
-              "RelativeDocumentMoniker": "ClassesBase\\clsConstants.vb",
-              "ToolTip": "C:\\Users\\david\\source\\repos\\AppTransportesTFG\\ClassesBase\\clsConstants.vb",
-              "RelativeToolTip": "ClassesBase\\clsConstants.vb",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAAsAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-09-02T16:41:12.635Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "Program.vb",
-              "DocumentMoniker": "C:\\Users\\david\\source\\repos\\Update\\Program.vb",
-              "RelativeDocumentMoniker": "..\\Update\\Program.vb",
-              "ToolTip": "C:\\Users\\david\\source\\repos\\Update\\Program.vb",
-              "RelativeToolTip": "..\\Update\\Program.vb",
-              "ViewState": "AQIAACgAAAAAAAAAAAAgwEgAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-09-02T16:36:24.475Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "clsSeguretat.vb",
-              "DocumentMoniker": "C:\\Users\\david\\source\\repos\\AppTransportesTFG\\ClassesBase\\clsSeguretat.vb",
-              "RelativeDocumentMoniker": "ClassesBase\\clsSeguretat.vb",
-              "ToolTip": "C:\\Users\\david\\source\\repos\\AppTransportesTFG\\ClassesBase\\clsSeguretat.vb",
-              "RelativeToolTip": "ClassesBase\\clsSeguretat.vb",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-09-02T16:19:08.154Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "LDAP.vb",
-              "DocumentMoniker": "C:\\Users\\david\\source\\repos\\AppTransportesTFG\\ClassesBase\\LDAP.vb",
-              "RelativeDocumentMoniker": "ClassesBase\\LDAP.vb",
-              "ToolTip": "C:\\Users\\david\\source\\repos\\AppTransportesTFG\\ClassesBase\\LDAP.vb",
-              "RelativeToolTip": "ClassesBase\\LDAP.vb",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-09-02T16:19:03.33Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 0,
               "Title": "frmMain.vb [Dise\u00F1o]",
               "DocumentMoniker": "C:\\Users\\david\\source\\repos\\AppTransportesTFG\\frmMain.vb",
               "RelativeDocumentMoniker": "frmMain.vb",
               "ToolTip": "C:\\Users\\david\\source\\repos\\AppTransportesTFG\\frmMain.vb [Dise\u00F1o]",
               "RelativeToolTip": "frmMain.vb [Dise\u00F1o]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-23T14:18:25.154Z",
+              "WhenOpened": "2024-09-17T16:06:12.159Z",
               "EditorCaption": " [Dise\u00F1o]"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "frmGeneradorInformes.vb",
-              "DocumentMoniker": "C:\\Users\\david\\source\\repos\\AppTransportesTFG\\FormsAuxiliars\\frmGeneradorInformes.vb",
-              "RelativeDocumentMoniker": "FormsAuxiliars\\frmGeneradorInformes.vb",
-              "ToolTip": "C:\\Users\\david\\source\\repos\\AppTransportesTFG\\FormsAuxiliars\\frmGeneradorInformes.vb",
-              "RelativeToolTip": "FormsAuxiliars\\frmGeneradorInformes.vb",
-              "ViewState": "AQIAAEAAAAAAAAAAAAAvwLUBAAAEAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-22T17:13:19.983Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "CalculadorTarifas.vb",
-              "DocumentMoniker": "C:\\Users\\david\\source\\repos\\AppTransportesTFG\\ClassesBase\\CalculadorTarifas.vb",
-              "RelativeDocumentMoniker": "ClassesBase\\CalculadorTarifas.vb",
-              "ToolTip": "C:\\Users\\david\\source\\repos\\AppTransportesTFG\\ClassesBase\\CalculadorTarifas.vb",
-              "RelativeToolTip": "ClassesBase\\CalculadorTarifas.vb",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABIAAAAEAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-09-04T15:59:42.712Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "frmEnvios.vb [Dise\u00F1o]",
-              "DocumentMoniker": "C:\\Users\\david\\source\\repos\\AppTransportesTFG\\FormsBBDD\\frmEnvios.vb",
-              "RelativeDocumentMoniker": "FormsBBDD\\frmEnvios.vb",
-              "ToolTip": "C:\\Users\\david\\source\\repos\\AppTransportesTFG\\FormsBBDD\\frmEnvios.vb [Dise\u00F1o]",
-              "RelativeToolTip": "FormsBBDD\\frmEnvios.vb [Dise\u00F1o]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-09-04T16:34:12.027Z",
-              "EditorCaption": " [Dise\u00F1o]"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "frmMain.vb",
-              "DocumentMoniker": "C:\\Users\\david\\source\\repos\\AppTransportesTFG\\frmMain.vb",
-              "RelativeDocumentMoniker": "frmMain.vb",
-              "ToolTip": "C:\\Users\\david\\source\\repos\\AppTransportesTFG\\frmMain.vb",
-              "RelativeToolTip": "frmMain.vb",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAK8BAAAEAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-22T18:22:10.463Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "frmEnvios.vb",
-              "DocumentMoniker": "C:\\Users\\david\\source\\repos\\AppTransportesTFG\\FormsBBDD\\frmEnvios.vb",
-              "RelativeDocumentMoniker": "FormsBBDD\\frmEnvios.vb",
-              "ToolTip": "C:\\Users\\david\\source\\repos\\AppTransportesTFG\\FormsBBDD\\frmEnvios.vb",
-              "RelativeToolTip": "FormsBBDD\\frmEnvios.vb",
-              "ViewState": "AQIAAG4BAAAAAAAAAAAUwJcBAAAZAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-22T18:05:46.229Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "frmGeneric.vb",
-              "DocumentMoniker": "C:\\Users\\david\\source\\repos\\AppTransportesTFG\\FormsAuxiliars\\frmGeneric.vb",
-              "RelativeDocumentMoniker": "FormsAuxiliars\\frmGeneric.vb",
-              "ToolTip": "C:\\Users\\david\\source\\repos\\AppTransportesTFG\\FormsAuxiliars\\frmGeneric.vb",
-              "RelativeToolTip": "FormsAuxiliars\\frmGeneric.vb",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAACkAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-22T18:05:34.455Z"
             }
           ]
         }

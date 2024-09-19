@@ -42,16 +42,13 @@ Public Class frmEnvios
 
     Public Function TryLoad() As Boolean
 
-        Dim bTryload As Boolean 'Variable que indica si ha cargao bien el frm.
+        Dim bTryload As Boolean
 
         Try
 
             ActualitzarIdiomaControls(Me, clsConstants.Idioma)
 
-
-
-            Inicialitzacions() 'Inicialitzacions del formulari abans de carregar res.
-
+            Inicialitzacions()
 
             If bEsAlta Then
 
@@ -70,7 +67,6 @@ Public Class frmEnvios
 
                 tbiCodiClient.Enabled = False
                 btnNouClient.Enabled = False
-
 
             End If
 
@@ -117,6 +113,26 @@ Public Class frmEnvios
 
     End Sub
 
+    Private Sub CopiarDadesAControls()
+        tbxCodigoSeguimiento.Text = oDades.CodigoSeguimiento
+
+        tbxDireccioOrigen.Text = oDades.DireccionOrigen
+        tbxNombreRemitente.Text = oDades.NombreRemitente
+        tbiPoblacioOrigen._Valor = oDades.PoblacionOrigen
+        tbxMailRemitente.Text = oDades.MailRemitente
+
+        tbxDireccionDestino.Text = oDades.DireccionDestino
+        tbxNombreDestinatario.Text = oDades.NombreDestinatario
+        tbiPoblacioDesti._Valor = oDades.PoblacionDestino
+        tbxMailDestinatari.Text = oDades.EmailDestinatario
+
+        cmbxEstat.SelectedIndex = oDades.IdEstado
+        tbxPeso.Text = oDades.Peso.ToString()
+        tbxDimensiones.Text = oDades.Dimensiones
+        tbiCodiClient._Valor = If(IsDBNull(oDades.CodigoCliente), String.Empty, oDades.CodigoCliente.ToString())
+        tbxPorte.Text = oDades.Porte.ToString()
+
+    End Sub
 
     Private Sub CopiarControlsADades()
         oDades.CodigoSeguimiento = tbxCodigoSeguimiento.Text
@@ -138,28 +154,6 @@ Public Class frmEnvios
         oDades.CodigoCliente = If(tbiCodiClient._Valor = String.Empty, DBNull.Value, tbiCodiClient._Valor)
         oDades.Porte = Convert.ToDecimal(tbxPorte.Text)
         oDades.EmailDestinatario = tbxMailDestinatari.Text
-        'oDades.IdRuta = tbiRuta._Valor
-    End Sub
-
-    Private Sub CopiarDadesAControls()
-        tbxCodigoSeguimiento.Text = oDades.CodigoSeguimiento
-
-        tbxDireccioOrigen.Text = oDades.DireccionOrigen
-        tbxNombreRemitente.Text = oDades.NombreRemitente
-        tbiPoblacioOrigen._Valor = oDades.PoblacionOrigen
-        tbxMailRemitente.Text = oDades.MailRemitente
-
-        tbxDireccionDestino.Text = oDades.DireccionDestino
-        tbxNombreDestinatario.Text = oDades.NombreDestinatario
-        tbiPoblacioDesti._Valor = oDades.PoblacionDestino
-        tbxMailDestinatari.Text = oDades.EmailDestinatario
-
-        cmbxEstat.SelectedIndex = oDades.IdEstado
-        tbxPeso.Text = oDades.Peso.ToString()
-        tbxDimensiones.Text = oDades.Dimensiones
-        tbiCodiClient._Valor = If(IsDBNull(oDades.CodigoCliente), String.Empty, oDades.CodigoCliente.ToString())
-        tbxPorte.Text = oDades.Porte.ToString()
-
     End Sub
 
 

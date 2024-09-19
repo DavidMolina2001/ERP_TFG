@@ -45,7 +45,6 @@ Public Class SQLReader
         Return dt
     End Function
 
-
     Public Shared Function ReaderDictionary(oConn As SqlClient.SqlConnection, oTrans As SqlClient.SqlTransaction, sConsulta As String) As Dictionary(Of Integer, Object)
         Dim dict As New Dictionary(Of Integer, Object)
         Dim reader As SqlClient.SqlDataReader = Nothing
@@ -81,7 +80,6 @@ Public Class SQLReader
 
         Return dict
     End Function
-
 
     Public Shared Function ObtenirUnCamp(oConn As SqlConnection, oTrans As SqlTransaction, sConsulta As String) As Object
         Dim valor As Object = Nothing
@@ -147,7 +145,6 @@ Public Class SQLReader
 
         Return campos
     End Function
-
 
     Public Shared Sub EjecutarComando(comandoSQL As String, Optional transaccion As SqlTransaction = Nothing)
         Try

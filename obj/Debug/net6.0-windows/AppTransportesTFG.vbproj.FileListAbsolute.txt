@@ -123,3 +123,4 @@ C:\Users\david\source\repos\AppTransportesTFG\obj\Debug\net6.0-windows\AppTransp
 C:\Users\david\source\repos\AppTransportesTFG\obj\Debug\net6.0-windows\ref\AppTransportesTFG.dll
 C:\Users\david\source\repos\AppTransportesTFG\obj\Debug\net6.0-windows\AppTransportesTFG.frmEscollirBD.resources
 C:\Users\david\source\repos\AppTransportesTFG\obj\Debug\net6.0-windows\AppTransportesTFG.frmWaitForm.resources
+C:\Users\david\source\repos\AppTransportesTFG\obj\Debug\net6.0-windows\AppTransportesTFG.sourcelink.json

@@ -110,7 +110,6 @@ Public Class LDAP
         Catch ex As Exception
             bLogin = False
         End Try
-
         Return bLogin
     End Function
 
